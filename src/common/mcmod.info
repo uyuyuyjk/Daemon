@@ -1,0 +1,24 @@
+[{
+  "modid": "ModDaemon",
+  "name": "Daemon",
+  "description": "Mod desc.",
+  "logoFile": "",
+  "authorList" : [ "tcooc" ],
+  "dependencies": ["mod_MinecraftForge"]
+}]
+/*
+        modid;
+        name
+        description
+        url
+        updateUrl
+        logoFile
+        version
+        credits
+        parent
+        authorList []
+        requiredMods
+        dependencies
+        dependants
+        useDependencyInformation
+*/
