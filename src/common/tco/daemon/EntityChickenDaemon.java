@@ -1,6 +1,8 @@
 package tco.daemon;
 
-import net.minecraft.src.*;
+import net.minecraft.src.EntityChicken;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.World;
 
 public class EntityChickenDaemon extends EntityChicken {
 
@@ -16,6 +18,7 @@ public class EntityChickenDaemon extends EntityChicken {
 		explosionChain = chain;
 	}
 
+	@Override
 	public void onLivingUpdate() {
 		if (!worldObj.isRemote && isEntityAlive()
 				&& (isCollidedVertically || isCollidedHorizontally || this.inWater)) {
@@ -30,19 +33,23 @@ public class EntityChickenDaemon extends EntityChicken {
 		super.onLivingUpdate();
 	}
 
+	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 	}
 
+	@Override
 	protected int getDropItemId() {
 		return 0;
 	}
 
+	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound) {
 		super.readEntityFromNBT(tagCompound);
 		explosionSize = tagCompound.getFloat("ExplosionSize");
 		explosionChain = tagCompound.getInteger("ExplosionChain");
 	}
 
+	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setFloat("ExplosionSize", explosionSize);

@@ -1,6 +1,7 @@
 package tco.daemon;
 
-import net.minecraft.src.*;
+import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.Item;
 
 public class ItemDaemon extends Item {
 

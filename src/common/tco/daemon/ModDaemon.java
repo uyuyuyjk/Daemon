@@ -1,33 +1,34 @@
 package tco.daemon;
 
-import java.util.logging.Level;
-
-import net.minecraft.src.*;
 import net.minecraft.src.Block;
+import net.minecraft.src.CraftingManager;
 import net.minecraft.src.Item;
-
-import net.minecraftforge.common.*;
-
-import cpw.mods.fml.common.*;
-import cpw.mods.fml.common.Mod.*;
-import cpw.mods.fml.common.event.*;
-import cpw.mods.fml.common.network.*;
-import cpw.mods.fml.common.registry.*;
+import net.minecraft.src.ItemStack;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Mod.PostInit;
+import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod( modid = "ModDaemon", name="Daemon", version="0.1")
 @NetworkMod(channels = { "ModDaemon" },
 	clientSideRequired = true,	serverSideRequired = false,
 	packetHandler = PacketHandler.class)
-public class Daemon {
+public class ModDaemon {
 	@Instance
-	public static Daemon instance;
-	@SidedProxy(clientSide = "tco.daemon.ProxyClient", serverSide = "tco.daemon.ProxyCommon")
+	public static ModDaemon instance;
+	@SidedProxy(clientSide = "tco.daemon.client.ProxyClient", serverSide = "tco.daemon.ProxyCommon")
 	public static ProxyCommon proxy;
 	
-	//configuration  options
-	private int daemonBlockId = 143;
-	private int daggerSacrificeId = 5433;
-
 	//content
 	public BlockDaemon blockDaemon;
 	
@@ -35,16 +36,7 @@ public class Daemon {
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
-		Configuration cfg = new Configuration(event.getSuggestedConfigurationFile());
-		try{
-			cfg.load();
-			daemonBlockId = cfg.getOrCreateBlockIdProperty("BlockDaemon", daemonBlockId).getInt(daemonBlockId);
-			daggerSacrificeId = cfg.getOrCreateIntProperty("daggerSacrifice", Configuration.CATEGORY_ITEM, daggerSacrificeId).getInt(daggerSacrificeId);
-		}catch(Exception e){
-			FMLLog.log(Level.SEVERE, e, "Failed to load Daemon mod configs.");
-		}finally{
-			cfg.save();
-		}
+		ReferenceConfigs.loadConfigs(event);
 	}
 
 	@Init
@@ -65,7 +57,7 @@ public class Daemon {
 	}
 	
 	private void loadBlocks(){
-		blockDaemon = new BlockDaemon(daemonBlockId);
+		blockDaemon = new BlockDaemon(ReferenceConfigs.daemonBlockId);
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemon.class);
 		
 		GameRegistry.registerTileEntity(TileEntityFeeder.class, "tileEntityFeeder");
@@ -73,13 +65,16 @@ public class Daemon {
 	}
 	
 	private void loadItems(){
-		LanguageRegistry.instance().addStringLocalization("feeder.name", "Feeder");
-		LanguageRegistry.instance().addStringLocalization("hungerChest.name", "Hunger Chest");
+		//TODO serious localization
+		LanguageRegistry.instance().addStringLocalization("container.matrix", "Matrix");
+		LanguageRegistry.instance().addStringLocalization("container.feeder", "Feeder");
+		LanguageRegistry.instance().addStringLocalization("container.hungerChest", "Hunger Chest");
 
-		daggerSacrifice = new ItemDagger(daggerSacrificeId);
+		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId);
 		LanguageRegistry.instance().addStringLocalization("item.daggerSacrifice.name", "Sacrificial Dagger");
 		
 		new ItemBirdCannon(23432);
+		LanguageRegistry.instance().addStringLocalization("item.birdcannon.name", "Infernal Cannon");
 	}
 	
 	private void registerEntities(){

@@ -2,15 +2,18 @@ package tco.daemon;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.FMLLog;
-
-import net.minecraft.src.*;
-import net.minecraft.client.*;
+import net.minecraft.src.BlockContainer;
+import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.EntityItem;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IInventory;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.TileEntity;
+import net.minecraft.src.World;
 
 public class BlockDaemon extends BlockContainer {
-	
-	public static final int MATRIX = 0, FEEDER = 1,
-			CHEST = 2;
 
 	protected BlockDaemon(int id) {
 		super(id, Material.wood);
@@ -30,20 +33,11 @@ public class BlockDaemon extends BlockContainer {
 		if (tileEntity == null || player.isSneaking()) {
 			return false;
 		}
-		if(player.getCurrentEquippedItem() != null
-				&& player.getCurrentEquippedItem().getItem() instanceof ItemDaemon){
-			player.openGui(Daemon.instance, MATRIX, world, x, y, z);
-		}else{
-			switch (world.getBlockMetadata(x, y, z)) {
-			case FEEDER:
-				player.openGui(Daemon.instance, FEEDER, world, x, y, z);
-				break;
-			case CHEST:
-				player.openGui(Daemon.instance, CHEST, world, x, y, z);
-				break;
-			default:
-				return false;
-			}
+		if (player.getCurrentEquippedItem() != null
+				&& player.getCurrentEquippedItem().getItem() instanceof ItemDaemon) {
+			ModDaemon.proxy.openGui(ReferenceGui.MATRIX, player, world, x, y, z);
+		} else {
+			ModDaemon.proxy.openGui(world.getBlockMetadata(x, y, z), player, world, x, y, z);
 		}
 		return true;
 	}
@@ -102,15 +96,15 @@ public class BlockDaemon extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		switch (metadata) {
-		case FEEDER:
+		case ReferenceGui.FEEDER:
 			return new TileEntityFeeder();
-		case CHEST:
+		case ReferenceGui.CHEST:
 			return new TileEntityHungerChest();
 		default:
 			return null;
 		}
 	}
-
+		
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		// crafting = 43

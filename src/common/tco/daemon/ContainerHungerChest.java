@@ -5,17 +5,25 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
 import net.minecraftforge.common.ForgeDirection;
 
-public class ContainerFeeder extends ContainerDaemon {
+public class ContainerHungerChest extends ContainerDaemon {
 
-	public ContainerFeeder(InventoryPlayer inventoryPlayer,
-			TileEntityFeeder tileEntity) {
+    private int inventoryRows = 3;
+    
+	public ContainerHungerChest(InventoryPlayer inventoryPlayer,
+			TileEntityHungerChest tileEntity) {
 		super(tileEntity);
 		
-		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.UP), 76, 37));
+		int start = tileEntity.getStartInventorySide(ForgeDirection.UP);
+		
+		for (int i = 0; i < inventoryRows; i++) {
+			for (int j = 0; j < 9; j++) {
+				addSlotToContainer(new Slot(tileEntity, start + j + i * 9, 8 + j * 18, 18 + i * 18));
+			}
+		}
 
 		bindPlayerInventory(inventoryPlayer);
 	}
-
+	
 	@Override
 	public ItemStack transferStackInSlot(int slot) {
 		ItemStack stack = null;
@@ -25,26 +33,12 @@ public class ContainerFeeder extends ContainerDaemon {
 			ItemStack stackInSlot = slotObject.getStack();
 			stack = stackInSlot.copy();
 
-			if (slot == 0) {
-				/*
-				 * mergeItemStack(ItemStack, int, int2, boolean)
-				 * 
-				 * @param ItemStack item to merge into inventory
-				 * 
-				 * @param int minimum slot to attempt fill
-				 * 
-				 * @param int2 maximum slot to attempt fill
-				 * 
-				 * @param boolean fill backwards
-				 * 
-				 * @return true if stacks merged successfully
-				 */
-				if (!mergeItemStack(stackInSlot, 1,
+			if (slot < inventoryRows * 9) {
+				if (!mergeItemStack(stackInSlot, inventoryRows * 9,
 						inventorySlots.size(), true)) {
 					return null;
 				}
-			} else if (!mergeItemStack(stackInSlot, 0, 1,
-					false)) {
+			} else if (!mergeItemStack(stackInSlot, 0, inventoryRows * 9, false)) {
 				return null;
 			}
 

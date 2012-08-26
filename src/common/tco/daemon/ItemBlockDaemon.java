@@ -1,6 +1,7 @@
 package tco.daemon;
 
-import net.minecraft.src.*;
+import net.minecraft.src.ItemBlock;
+import net.minecraft.src.ItemStack;
 
 public class ItemBlockDaemon extends ItemBlock {
 

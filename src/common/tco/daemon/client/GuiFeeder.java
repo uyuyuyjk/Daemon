@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.client;
 
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.InventoryPlayer;
@@ -6,16 +6,19 @@ import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-public class GuiMatrix extends GuiContainer {
+import tco.daemon.ContainerFeeder;
+import tco.daemon.TileEntityFeeder;
 
-	public GuiMatrix(InventoryPlayer inventoryPlayer,
-			TileEntityDaemon tileEntity) {
-		super(new ContainerMatrix(inventoryPlayer, tileEntity));
+public class GuiFeeder extends GuiContainer {
+
+	public GuiFeeder(InventoryPlayer inventoryPlayer,
+			TileEntityFeeder tileEntity) {
+		super(new ContainerFeeder(inventoryPlayer, tileEntity));
 	}
 
 	@Override
 	protected void drawGuiContainerForegroundLayer() {
-		fontRenderer.drawString("Matrix", 8, 6, 4210752);
+		fontRenderer.drawString(StatCollector.translateToLocal("container.feeder"), 8, 6, 4210752);
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 
@@ -23,7 +26,7 @@ public class GuiMatrix extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
 			int par3) {
 		int texture = mc.renderEngine
-				.getTexture("/tco/daemon/sprites/matrix.png");
+				.getTexture("/tco/daemon/sprites/feeder.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(texture);
 		int x = (width - xSize) / 2;

@@ -1,6 +1,15 @@
 package tco.daemon;
 
-import net.minecraft.src.*;
+import net.minecraft.src.Enchantment;
+import net.minecraft.src.EnchantmentHelper;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EnumAction;
+import net.minecraft.src.Item;
+import net.minecraft.src.ItemBow;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.MathHelper;
+import net.minecraft.src.World;
 
 public class ItemBirdCannon extends ItemBow {
 	
@@ -10,6 +19,7 @@ public class ItemBirdCannon extends ItemBow {
 		super(id);
 		setTextureFile("/tco/daemon/sprites/daemonitems.png");
 		this.setIconCoord(1, 5);
+		setItemName("birdcannon");
 	}
 
 	@Override
@@ -45,7 +55,7 @@ public class ItemBirdCannon extends ItemBow {
 				player.inventory.consumeInventoryItem(AMMO);
 			}
 			
-			if (!world.isRemote) {
+			if (!world.isRemote) {//TODO handling
 				world.spawnEntityInWorld(projectile);
 			}
 		}

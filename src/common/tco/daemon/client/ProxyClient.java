@@ -1,10 +1,7 @@
-package tco.daemon;
+package tco.daemon.client;
 
-import java.util.Random;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.src.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import tco.daemon.ProxyCommon;
 
 public class ProxyClient extends ProxyCommon {
 	@Override
