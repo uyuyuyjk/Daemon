@@ -9,13 +9,22 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 
-public abstract class TileEntityDaemon extends TileEntity implements IInventory, ISidedInventory {
+public class TileEntityDaemon extends TileEntity implements IInventory, ISidedInventory {
 
 	public static final int MATRIX_SIZE = 16;
 	
 	protected ItemStack[] matrix = new ItemStack[MATRIX_SIZE];
 			
 	protected ItemStack[] inv;
+	
+	@Override
+    public void updateEntity() {
+    	applyMatrix();
+    }
+	
+	public void applyMatrix(){
+		//TODO effects
+	}
 	
 	@Override
 	public int getSizeInventory() {
@@ -168,6 +177,11 @@ public abstract class TileEntityDaemon extends TileEntity implements IInventory,
 		default:
 			return inv.length;
 		}
+	}
+
+	@Override
+	public String getInvName() {
+		return "container.matrix";
 	}
 
 }

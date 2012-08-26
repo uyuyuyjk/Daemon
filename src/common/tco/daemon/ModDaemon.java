@@ -1,5 +1,7 @@
 package tco.daemon;
 
+import java.util.Properties;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.Item;
@@ -32,11 +34,20 @@ public class ModDaemon {
 	//content
 	public BlockDaemon blockDaemon;
 	
-	public Item daggerSacrifice;
-	
+	public Item daggerSacrifice,
+		birdCannnon;
+
+	public Item orbMold,
+		orbGlass,
+		orbObsidian,
+		orbBlaze,
+		orbWolf,
+		orbUnstable;
+
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
 		ReferenceConfigs.loadConfigs(event);
+		ReferenceConfigs.loadLocalizationProps();
 	}
 
 	@Init
@@ -45,7 +56,7 @@ public class ModDaemon {
 		loadItems();
 		registerEntities();
 		addRecipes();
-		
+				
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		
 		proxy.registerRenderInformation();
@@ -60,30 +71,53 @@ public class ModDaemon {
 		blockDaemon = new BlockDaemon(ReferenceConfigs.daemonBlockId);
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemon.class);
 		
+		GameRegistry.registerTileEntity(TileEntityDaemon.class, "tileEntityDaemon");
 		GameRegistry.registerTileEntity(TileEntityFeeder.class, "tileEntityFeeder");
 		GameRegistry.registerTileEntity(TileEntityHungerChest.class, "tileEntityHungerChest");
+		
 	}
 	
 	private void loadItems(){
-		//TODO serious localization
-		LanguageRegistry.instance().addStringLocalization("container.matrix", "Matrix");
-		LanguageRegistry.instance().addStringLocalization("container.feeder", "Feeder");
-		LanguageRegistry.instance().addStringLocalization("container.hungerChest", "Hunger Chest");
-
-		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId);
-		LanguageRegistry.instance().addStringLocalization("item.daggerSacrifice.name", "Sacrificial Dagger");
+		orbMold = new ItemDaemon(ReferenceConfigs.orbMoldId)
+			.setIconCoord(5, 1).setItemName("orbMold");
+			orbMold.setContainerItem(orbMold);
+		orbGlass = new ItemDaemon(ReferenceConfigs.orbGlassId)
+			.setIconCoord(0, 1).setItemName("orbGlass");;
+		orbObsidian = new ItemDaemon(ReferenceConfigs.orbObsidianId)
+			.setIconCoord(1, 1).setItemName("orbObsidian");
+		orbBlaze = new ItemDaemon(ReferenceConfigs.orbBlazeId)
+			.setIconCoord(2, 1).setItemName("orbBlaze");
+		orbWolf = new ItemWolfOrb(ReferenceConfigs.orbWolfId)
+			.setIconCoord(3, 1).setItemName("orbWolf");
+		orbUnstable = new ItemUnstableOrb(ReferenceConfigs.orbUnstableId)
+			.setIconCoord(4, 1).setItemName("orbUnstable");
 		
-		new ItemBirdCannon(23432);
-		LanguageRegistry.instance().addStringLocalization("item.birdcannon.name", "Infernal Cannon");
+		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId)
+			.setIconCoord(0, 0).setItemName("daggerSacrifice");;
+		
+		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnonId)
+			.setIconCoord(1, 0).setItemName("birdCannon");
 	}
 	
 	private void registerEntities(){
 		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "Creeper Chicken" , EntityRegistry.findGlobalUniqueEntityId(), this, 16, 5, true);
+		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , EntityRegistry.findGlobalUniqueEntityId(), this, 255, 5, true);
 	}
 	
 	private void addRecipes(){
-		CraftingManager.getInstance().addRecipe(new ItemStack(blockDaemon, 1, 1), new Object[]{"x", 'x', Block.dirt});
-		CraftingManager.getInstance().addRecipe(new ItemStack(blockDaemon, 1, 2), new Object[]{"xx", 'x', Block.dirt});
+		CraftingManager cm = CraftingManager.getInstance();
+		cm.addRecipe(new ItemStack(blockDaemon, 1, 0), new Object[]{"x", 'x', Block.dirt});
+		cm.addRecipe(new ItemStack(blockDaemon, 1, 1), new Object[]{"xx", 'x', Block.dirt});
+		cm.addRecipe(new ItemStack(blockDaemon, 1, 2), new Object[]{"xxx", 'x', Block.dirt});
+		
+		cm.addRecipe(new ItemStack(orbMold), new Object[]{" X","XX", 'X', Item.ingotGold});
+
+		Object[] orbPattern = new Object[]{"MXM","XOX","MXM", 'M', orbMold, 'O', Item.enderPearl, 'X', Block.glass};
+		cm.addRecipe(new ItemStack(orbGlass), orbPattern);
+		orbPattern[8] = Block.obsidian;
+		cm.addRecipe(new ItemStack(orbObsidian), orbPattern);
+		orbPattern[8] = Item.blazePowder;
+		cm.addRecipe(new ItemStack(orbBlaze), orbPattern);
 	}
 
 }

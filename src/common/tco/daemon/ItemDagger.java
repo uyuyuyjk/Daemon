@@ -6,7 +6,6 @@ public class ItemDagger extends ItemDaemon {
 		super(id);
 		setMaxStackSize(1);
 		setFull3D();
-		setItemName("daggerSacrifice");
 	}
 
 }

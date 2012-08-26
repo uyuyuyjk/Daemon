@@ -18,8 +18,6 @@ public class ItemBirdCannon extends ItemBow {
 	protected ItemBirdCannon(int id) {
 		super(id);
 		setTextureFile("/tco/daemon/sprites/daemonitems.png");
-		this.setIconCoord(1, 5);
-		setItemName("birdcannon");
 	}
 
 	@Override

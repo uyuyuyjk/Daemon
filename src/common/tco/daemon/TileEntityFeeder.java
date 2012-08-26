@@ -23,6 +23,8 @@ public class TileEntityFeeder extends TileEntityDaemon {
 	
 	@Override
 	public void updateEntity() {
+		super.updateEntity();
+		
 		cooldown++;
 
 		if(cooldown > maxCooldown){
@@ -37,6 +39,10 @@ public class TileEntityFeeder extends TileEntityDaemon {
 				}
 			}
 		}
+	}
+	
+	public void applyMatrix(){
+		//TODO effects
 	}
 
 	private List<EntityAnimal> getEntitiesOfTypeInRange(Class type){

@@ -21,7 +21,8 @@ public class EntityChickenDaemon extends EntityChicken {
 	@Override
 	public void onLivingUpdate() {
 		if (!worldObj.isRemote && isEntityAlive()
-				&& (isCollidedVertically || isCollidedHorizontally || this.inWater)) {
+				&& (isCollidedVertically || isCollidedHorizontally
+						|| handleLavaMovement() || handleWaterMovement())) {
 			if (explosionChain > 1) {
 				worldObj.createExplosion(this, posX, posY, posZ, explosionSize);
 				explosionChain--;
@@ -32,7 +33,7 @@ public class EntityChickenDaemon extends EntityChicken {
 		}
 		super.onLivingUpdate();
 	}
-
+	
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 	}

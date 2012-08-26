@@ -17,13 +17,12 @@ public class BlockDaemon extends BlockContainer {
 
 	protected BlockDaemon(int id) {
 		super(id, Material.wood);
-		//setTextureFile("/tco/daemon/sprites/blocks.png");
+		setTextureFile("/tco/daemon/sprites/blocks.png");
 		setHardness(2.0F);
 		setResistance(5.0F);
 		setStepSound(soundWoodFootstep);
 		setBlockName("blockDaemon");
 		setTickRandomly(true);
-		setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	@Override
@@ -96,6 +95,8 @@ public class BlockDaemon extends BlockContainer {
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		switch (metadata) {
+		case ReferenceGui.MATRIX:
+			return new TileEntityDaemon();
 		case ReferenceGui.FEEDER:
 			return new TileEntityFeeder();
 		case ReferenceGui.CHEST:
