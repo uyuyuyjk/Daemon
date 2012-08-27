@@ -4,8 +4,10 @@ import java.util.Properties;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.CraftingManager;
+import net.minecraft.src.EnumRarity;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -56,9 +58,12 @@ public class ModDaemon {
 		loadItems();
 		registerEntities();
 		addRecipes();
-				
-		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		
+		//GameRegistry.registerCraftingHandler(new MoldCraftingHandler());
+		
+		
+		NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		MinecraftForge.EVENT_BUS.register(proxy);
 		proxy.registerRenderInformation();
 	}
 	
@@ -78,18 +83,18 @@ public class ModDaemon {
 	}
 	
 	private void loadItems(){
-		orbMold = new ItemDaemon(ReferenceConfigs.orbMoldId)
+		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
 			.setIconCoord(5, 1).setItemName("orbMold");
 			orbMold.setContainerItem(orbMold);
-		orbGlass = new ItemDaemon(ReferenceConfigs.orbGlassId)
+		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId).setRarity(EnumRarity.uncommon)
 			.setIconCoord(0, 1).setItemName("orbGlass");;
-		orbObsidian = new ItemDaemon(ReferenceConfigs.orbObsidianId)
+		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId).setRarity(EnumRarity.rare)
 			.setIconCoord(1, 1).setItemName("orbObsidian");
-		orbBlaze = new ItemDaemon(ReferenceConfigs.orbBlazeId)
+		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId).setRarity(EnumRarity.rare)
 			.setIconCoord(2, 1).setItemName("orbBlaze");
-		orbWolf = new ItemWolfOrb(ReferenceConfigs.orbWolfId)
+		orbWolf = new ItemWolfOrb(ReferenceConfigs.orbWolfId).setRarity(EnumRarity.rare)
 			.setIconCoord(3, 1).setItemName("orbWolf");
-		orbUnstable = new ItemUnstableOrb(ReferenceConfigs.orbUnstableId)
+		orbUnstable = new ItemUnstableOrb(ReferenceConfigs.orbUnstableId).setRarity(EnumRarity.rare)
 			.setIconCoord(4, 1).setItemName("orbUnstable");
 		
 		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId)
@@ -100,8 +105,10 @@ public class ModDaemon {
 	}
 	
 	private void registerEntities(){
-		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "Creeper Chicken" , EntityRegistry.findGlobalUniqueEntityId(), this, 16, 5, true);
-		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , EntityRegistry.findGlobalUniqueEntityId(), this, 255, 5, true);
+		int chickenId = 1;
+		int wolfId = 2;
+		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "Creeper Chicken" , chickenId, this, 16, 5, true);
+		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , wolfId, this, 200, 5, true);
 	}
 	
 	private void addRecipes(){

@@ -1,5 +1,6 @@
 package tco.daemon;
 
+import java.util.List;
 import java.util.Random;
 
 import net.minecraft.src.BlockContainer;
@@ -22,6 +23,7 @@ public class BlockDaemon extends BlockContainer {
 		setResistance(5.0F);
 		setStepSound(soundWoodFootstep);
 		setBlockName("blockDaemon");
+		setCreativeTab(CreativeTabs.tabMisc);
 		setTickRandomly(true);
 	}
 
@@ -156,4 +158,9 @@ public class BlockDaemon extends BlockContainer {
 		}
 	}
 
+	public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
+		for(int i = 0; createNewTileEntity(null, i) != null; i++){
+			list.add(new ItemStack(id, 1, i));
+		}
+	}
 }

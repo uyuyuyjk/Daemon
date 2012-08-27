@@ -8,9 +8,7 @@ public class ItemBlockDaemon extends ItemBlock {
 
 	public ItemBlockDaemon(int id) {
 		super(id);
-        setMaxDamage(0);
-		setHasSubtypes(true);
-		setTabToDisplayOn(CreativeTabs.tabBlock);
+		//setHasSubtypes(true);
 	}
 	
 	@Override
@@ -28,7 +26,7 @@ public class ItemBlockDaemon extends ItemBlock {
 		case 2:
 			return "hungerChest";
 		default:
-			return "";
+			return "##Error: Unknown BlockDaemon item##";
 		}
 	}
 

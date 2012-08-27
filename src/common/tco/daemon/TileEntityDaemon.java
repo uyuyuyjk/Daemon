@@ -17,9 +17,18 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 			
 	protected ItemStack[] inv;
 	
+	private int ticksSinceLastCalc;
+	
+	public TileEntityDaemon(){
+		inv = new ItemStack[0];
+	}
+	
 	@Override
     public void updateEntity() {
-    	applyMatrix();
+		ticksSinceLastCalc = (ticksSinceLastCalc + 1) % 20;
+		if(ticksSinceLastCalc == 0){
+	    	applyMatrix();
+		}
     }
 	
 	public void applyMatrix(){
@@ -120,13 +129,13 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 			}
 		}
 
-		tagList = tagCompound.getTagList("Inventory");
-		for (int i = 0; i < tagList.tagCount(); i++) {
-			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
-			byte slot = tag.getByte("Slot");
-			if (slot >= 0 && slot < inv.length) {
-				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
-			}
+			tagList = tagCompound.getTagList("Inventory");
+			for (int i = 0; i < tagList.tagCount(); i++) {
+				NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
+				byte slot = tag.getByte("Slot");
+				if (slot >= 0 && slot < inv.length) {
+					inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+				}
 		}
 	}
 
@@ -146,17 +155,17 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 		}
 		tagCompound.setTag("SpecialInventory", itemList);
 		
-		itemList = new NBTTagList();
-		for (int i = 0; i < inv.length; i++) {
-			ItemStack stack = inv[i];
-			if (stack != null) {
-				NBTTagCompound tag = new NBTTagCompound();
-				tag.setByte("Slot", (byte) i);
-				stack.writeToNBT(tag);
-				itemList.appendTag(tag);
+			itemList = new NBTTagList();
+			for (int i = 0; i < inv.length; i++) {
+				ItemStack stack = inv[i];
+				if (stack != null) {
+					NBTTagCompound tag = new NBTTagCompound();
+					tag.setByte("Slot", (byte) i);
+					stack.writeToNBT(tag);
+					itemList.appendTag(tag);
+				}
 			}
-		}
-		tagCompound.setTag("Inventory", itemList);
+			tagCompound.setTag("Inventory", itemList);
 	}
 
 	@Override

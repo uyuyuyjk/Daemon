@@ -136,7 +136,7 @@ public class EntityWolfCreation extends EntityWolf {
 	 */
 	@Override
 	public boolean isAIEnabled() {
-		return !isMounted();
+		return false;
 	}
 
 	/**
