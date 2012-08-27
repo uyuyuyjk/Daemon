@@ -1,5 +1,6 @@
 package tco.daemon;
 
+import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Enchantment;
 import net.minecraft.src.EnchantmentHelper;
 import net.minecraft.src.Entity;
@@ -11,13 +12,16 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
 
+//extend ItemBow in order to make it enchantable
 public class ItemBirdCannon extends ItemBow {
 	
 	public static final int AMMO = Item.egg.shiftedIndex;
 
 	protected ItemBirdCannon(int id) {
 		super(id);
-		setTextureFile("/tco/daemon/sprites/daemonitems.png");
+        setMaxStackSize(1);
+        setMaxDamage(128);
+		setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 	}
 
 	@Override

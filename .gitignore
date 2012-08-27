@@ -14,12 +14,13 @@ LICENSE.txt
 /runtime/*
 /temp/*
 
+/src/common/*
 /src/minecraft/*
 /src/minecraft_server/*
-/src/common/*
 !/src/common/tco/
 !/src/common/mcmod.info
 !/src/common/logo_Daemon.png
+!/src/minecraft/tco/
 
 *.bat
 *.sh
