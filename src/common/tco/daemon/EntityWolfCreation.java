@@ -2,7 +2,17 @@ package tco.daemon;
 
 import java.util.Random;
 
-import net.minecraft.src.*;
+import cpw.mods.fml.common.FMLLog;
+
+import net.minecraft.src.EntityClientPlayerMP;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EntityPlayerMP;
+import net.minecraft.src.EntityPlayerSP;
+import net.minecraft.src.EntityWolf;
+import net.minecraft.src.NBTTagCompound;
+import net.minecraft.src.Packet10Flying;
+import net.minecraft.src.Packet11PlayerPosition;
+import net.minecraft.src.World;
 
 /**
  * A wolf that can be ridden on
@@ -27,6 +37,7 @@ public class EntityWolfCreation extends EntityWolf {
 		setFlying(false);
 		// how high the entity can step when walking/sprinting (in blocks)
 		stepHeight = 1.0f;
+		yOffset = 0.6f;
 	}
 
 	/**
@@ -39,7 +50,7 @@ public class EntityWolfCreation extends EntityWolf {
 	 */
 	@Override
 	public boolean interact(EntityPlayer player) {
-		if (owner != null && owner.equals(player.username)) {
+		if (!worldObj.isRemote && owner != null && owner.equals(player.username)) {
 			if (riddenByEntity == null || riddenByEntity == player) {
 				player.mountEntity(this);
 				return true;
@@ -52,20 +63,21 @@ public class EntityWolfCreation extends EntityWolf {
 	 * Update method for entity. Uses player input to control the entity
 	 */
 	@Override
-	public void onLivingUpdate() {
+	public void onUpdate() {
+		
 		if (flyToggleTimer > 0) {
 			flyToggleTimer--;
 		}
 
 		if (getAge() > 20 * 10) {
-			if (riddenByEntity != null) {
+			if (riddenByEntity == null) {
 				//riddenByEntity.mountEntity(this);
 			}
 			// setDead();
 		}
 
 		if (isMounted() && worldObj.isRemote) {
-			EntityPlayerSP player = (EntityPlayerSP) riddenByEntity;
+			EntityClientPlayerMP player = (EntityClientPlayerMP) riddenByEntity;
 			// align player and entity rotations
 			rotationYaw = player.rotationYaw;
 			prevRotationYaw = rotationYaw;
@@ -81,7 +93,8 @@ public class EntityWolfCreation extends EntityWolf {
 					if (flyToggleTimer == 0) {
 						flyToggleTimer = 7;
 					} else {
-						setFlying(true); // fly if player taps forward twice in
+						setFlying(true); // fly if player taps forward twice
+											// in
 											// 7/20 seconds
 						flyToggleTimer = 0;
 					}
@@ -98,10 +111,15 @@ public class EntityWolfCreation extends EntityWolf {
 			if (player.movementInput.jump) {
 				jump(0.6);
 			}
-
 		}
-
-		super.onLivingUpdate();
+		
+		super.onUpdate();
+	}
+	
+	public void updateRiderPosition() {
+		if (riddenByEntity != null) {
+			riddenByEntity.setPosition(posX, posY + getMountedYOffset() + riddenByEntity.getYOffset(), posZ);
+		}
 	}
 
 	/**
@@ -136,7 +154,7 @@ public class EntityWolfCreation extends EntityWolf {
 	 */
 	@Override
 	public boolean isAIEnabled() {
-		return false;
+		return !isMounted();
 	}
 
 	/**
@@ -181,15 +199,18 @@ public class EntityWolfCreation extends EntityWolf {
 		}
 	}
 
+	@Override
 	public void setOwner(String str) {
 		owner = str;
 	}
 
+	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setString("PlayerOwner", owner);
 	}
 
+	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound) {
 		super.readEntityFromNBT(tagCompound);
 		setOwner(tagCompound.getString("PlayerOwner"));

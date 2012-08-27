@@ -1,14 +1,22 @@
 package tco.daemon;
 
-import java.util.List;
 import java.util.Random;
-import net.minecraft.src.*;
-	
+
+import net.minecraft.src.Block;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityList;
+import net.minecraft.src.EntityLiving;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EntityVillager;
+import net.minecraft.src.Facing;
+import net.minecraft.src.ItemStack;
+import net.minecraft.src.World;
+
 /**
  * An Item that spawns one WolfCreation
  */
 public class ItemWolfOrb extends ItemDaemon {
-	
+
 	private Random rand = new Random();
 
 	protected ItemWolfOrb(int id) {
@@ -17,34 +25,35 @@ public class ItemWolfOrb extends ItemDaemon {
 
 	/**
 	 * Spawns a WolfCreation and mounts the player on it
+	 * 
 	 * @return this method did something
 	 */
-	public boolean onItemUseFirst(ItemStack par1ItemStack,
-			EntityPlayer player, World world, int x, int y,
-			int z, int i) {
-		
-		// create and place entity
-		EntityWolfCreation e = new EntityWolfCreation(world);
-		e.setOwner(player.username);
-		e.setPosition(x, y + 1, z);
-
+	public boolean tryPlaceIntoWorld(ItemStack itemStack, EntityPlayer player,
+			World world, int x, int y, int z, int facing, float par8,
+			float par9, float par10) {
 		if (!world.isRemote) {
-			world.spawnEntityInWorld(e);
-			//player.mountEntity(e);
+			x += Facing.offsetsXForSide[facing] + 0.5;
+			y += Facing.offsetsYForSide[facing] + 0.5;
+			z += Facing.offsetsZForSide[facing] + 0.5;
+
+			EntityWolfCreation wolf = new EntityWolfCreation(world);
+			wolf.setOwner(player.username);
+			wolf.setLocationAndAngles(x, y, z, world.rand.nextFloat() * 360.0F,
+					0.0F);
+			world.spawnEntityInWorld(wolf);
+			wolf.playLivingSound();
 		}
 
-		//particle fx
-		for (int count = 0; count < 128; count++) {
-			world.spawnParticle("portal",
-					x + (rand.nextDouble() - 0.5d),
-					y + 2 * rand.nextDouble(),
-					z + (rand.nextDouble() - 0.5d),
-					(rand.nextDouble() - 0.5d) * 2.0d,
-					rand.nextDouble(),
+		// particle fx
+		for (int count = 0; count < 16; count++) {
+			world.spawnParticle("portal", x + (rand.nextDouble() - 0.5d), y + 2
+					* rand.nextDouble(), z + (rand.nextDouble() - 0.5d),
+					(rand.nextDouble() - 0.5d) * 2.0d, rand.nextDouble(),
 					(rand.nextDouble() - 0.5d) * 2.0d);
 		}
-		//sound fx
-		world.playSoundAtEntity(e, "mob.endermen.portal", 1.0F, 1.0F);
+		// sound fx
+		world.playSoundAtEntity(player, "mob.endermen.portal", 1.0F, 1.0F);
 		return true;
 	}
+
 }

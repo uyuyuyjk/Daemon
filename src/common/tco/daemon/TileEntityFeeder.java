@@ -41,6 +41,7 @@ public class TileEntityFeeder extends TileEntityDaemon {
 		}
 	}
 	
+	@Override
 	public void applyMatrix(){
 		//TODO effects
 	}

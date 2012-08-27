@@ -2,7 +2,6 @@ package tco.daemon;
 
 import java.util.List;
 
-import net.minecraft.src.EnumRarity;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
@@ -19,6 +18,7 @@ public class ItemOrb extends ItemDaemon {
 		}
 	}
 	
+	@Override
 	public void addInformation(ItemStack itemStack, List list) {
 		checkTagCompound(itemStack);
 		
@@ -49,6 +49,7 @@ public class ItemOrb extends ItemDaemon {
 		de.writetoNBT(tagCompound);
 	}
 	
+	@Override
 	public boolean getShareTag() {
 		return true;
 	}

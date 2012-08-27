@@ -1,13 +1,6 @@
 package tco.daemon;
 
-import java.util.List;
-
 import net.minecraft.src.Entity;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagString;
-import net.minecraft.src.World;
 
 public class ItemDagger extends ItemDaemon {
 
@@ -17,6 +10,7 @@ public class ItemDagger extends ItemDaemon {
 		setFull3D();
 	}
 				
+	@Override
 	public int getDamageVsEntity(Entity entity){
 		return 2;
 	}

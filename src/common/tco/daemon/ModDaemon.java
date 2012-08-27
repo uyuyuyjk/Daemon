@@ -1,13 +1,14 @@
 package tco.daemon;
 
-import java.util.Properties;
-
 import net.minecraft.src.Block;
 import net.minecraft.src.CraftingManager;
+import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumRarity;
 import net.minecraft.src.Item;
+import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -21,9 +22,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod( modid = "ModDaemon", name="Daemon", version="0.1")
+@Mod( modid = "ModDaemon", name="Daemon", version=ReferenceConfigs.VERSION)
 @NetworkMod(channels = { "ModDaemon" },
 	clientSideRequired = true,	serverSideRequired = false,
 	packetHandler = PacketHandler.class)
@@ -34,7 +34,9 @@ public class ModDaemon {
 	public static ProxyCommon proxy;
 	
 	//content
-	public BlockDaemon blockDaemon;
+	public Block blockDaemon,
+		blockBrazier;
+	public Item itemBrazier;
 	
 	public Item daggerSacrifice,
 		birdCannnon;
@@ -73,8 +75,11 @@ public class ModDaemon {
 	}
 	
 	private void loadBlocks(){
-		blockDaemon = new BlockDaemon(ReferenceConfigs.daemonBlockId);
+		blockDaemon = new BlockDaemon(ReferenceConfigs.blockDaemonId).setBlockName("blockDaemon");
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemon.class);
+		
+		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazierId).setBlockName("blockDaemonBrazier");
+		GameRegistry.registerBlock(blockBrazier);
 		
 		GameRegistry.registerTileEntity(TileEntityDaemon.class, "tileEntityDaemon");
 		GameRegistry.registerTileEntity(TileEntityFeeder.class, "tileEntityFeeder");
@@ -83,6 +88,9 @@ public class ModDaemon {
 	}
 	
 	private void loadItems(){
+		itemBrazier = new ItemReed(ReferenceConfigs.itemBrazierId, blockBrazier).setItemName("itemBrazier")
+				.setTabToDisplayOn(CreativeTabs.tabMisc);
+		
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
 			.setIconCoord(5, 1).setItemName("orbMold");
 			orbMold.setContainerItem(orbMold);
@@ -105,9 +113,9 @@ public class ModDaemon {
 	}
 	
 	private void registerEntities(){
-		int chickenId = 1;
+		int chickenId = EntityRegistry.findGlobalUniqueEntityId();
 		int wolfId = 2;
-		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "Creeper Chicken" , chickenId, this, 16, 5, true);
+		EntityRegistry.registerGlobalEntityID(EntityChickenDaemon.class, "Creeper Chicken" , chickenId, 16, 5);
 		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , wolfId, this, 200, 5, true);
 	}
 	

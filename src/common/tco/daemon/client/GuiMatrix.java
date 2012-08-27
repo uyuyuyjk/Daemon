@@ -7,6 +7,7 @@ import net.minecraft.src.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import tco.daemon.ContainerMatrix;
+import tco.daemon.ReferenceConfigs;
 import tco.daemon.TileEntityDaemon;
 
 public class GuiMatrix extends GuiContainer {
@@ -26,7 +27,7 @@ public class GuiMatrix extends GuiContainer {
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2,
 			int par3) {
 		int texture = mc.renderEngine
-				.getTexture("/tco/daemon/sprites/matrix.png");
+				.getTexture(ReferenceConfigs.GUI_MATRIX);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.renderEngine.bindTexture(texture);
 		int x = (width - xSize) / 2;

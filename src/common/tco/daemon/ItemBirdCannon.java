@@ -23,7 +23,6 @@ public class ItemBirdCannon extends ItemBow {
 	@Override
 	public void onPlayerStoppedUsing(ItemStack itemStack, World world,
 			EntityPlayer player, int useDuration) {
-		
 		//TODO more enchants
         int enchPower = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, itemStack); //speed
         int enchPunch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, itemStack); //chain
@@ -53,7 +52,7 @@ public class ItemBirdCannon extends ItemBow {
 				player.inventory.consumeInventoryItem(AMMO);
 			}
 			
-			if (!world.isRemote) {//TODO handling
+			if (!world.isRemote) {
 				world.spawnEntityInWorld(projectile);
 			}
 		}

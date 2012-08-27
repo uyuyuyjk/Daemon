@@ -11,7 +11,7 @@ public class ContainerFeeder extends ContainerDaemon {
 			TileEntityFeeder tileEntity) {
 		super(tileEntity);
 		
-		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.UP), 76, 37));
+		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.UP), 77, 38));
 
 		bindPlayerInventory(inventoryPlayer);
 	}

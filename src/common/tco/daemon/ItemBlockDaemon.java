@@ -1,6 +1,5 @@
 package tco.daemon;
 
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 
@@ -8,7 +7,6 @@ public class ItemBlockDaemon extends ItemBlock {
 
 	public ItemBlockDaemon(int id) {
 		super(id);
-		//setHasSubtypes(true);
 	}
 	
 	@Override
@@ -18,16 +16,7 @@ public class ItemBlockDaemon extends ItemBlock {
 		
 	@Override
 	public String getItemNameIS(ItemStack stack){
-		switch(stack.getItemDamage()){
-		case 0:
-			return "matrix";
-		case 1:
-			return "feeder";
-		case 2:
-			return "hungerChest";
-		default:
-			return "##Error: Unknown BlockDaemon item##";
-		}
+		return ReferenceGui.values()[stack.getItemDamage()].getName();
 	}
 
 }

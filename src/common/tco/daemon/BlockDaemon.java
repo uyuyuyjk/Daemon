@@ -17,12 +17,11 @@ import net.minecraft.src.World;
 public class BlockDaemon extends BlockContainer {
 
 	protected BlockDaemon(int id) {
-		super(id, Material.wood);
-		setTextureFile("/tco/daemon/sprites/blocks.png");
+		super(id, Material.iron);
+		setTextureFile(ReferenceConfigs.TEXTURE_BLOCKS);
 		setHardness(2.0F);
 		setResistance(5.0F);
 		setStepSound(soundWoodFootstep);
-		setBlockName("blockDaemon");
 		setCreativeTab(CreativeTabs.tabMisc);
 		setTickRandomly(true);
 	}
@@ -36,7 +35,7 @@ public class BlockDaemon extends BlockContainer {
 		}
 		if (player.getCurrentEquippedItem() != null
 				&& player.getCurrentEquippedItem().getItem() instanceof ItemDaemon) {
-			ModDaemon.proxy.openGui(ReferenceGui.MATRIX, player, world, x, y, z);
+			ModDaemon.proxy.openGui(ReferenceGui.MATRIX.ordinal(), player, world, x, y, z);
 		} else {
 			ModDaemon.proxy.openGui(world.getBlockMetadata(x, y, z), player, world, x, y, z);
 		}
@@ -96,16 +95,7 @@ public class BlockDaemon extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		switch (metadata) {
-		case ReferenceGui.MATRIX:
-			return new TileEntityDaemon();
-		case ReferenceGui.FEEDER:
-			return new TileEntityFeeder();
-		case ReferenceGui.CHEST:
-			return new TileEntityHungerChest();
-		default:
-			return null;
-		}
+		return ReferenceGui.values()[metadata].getTileEntity();
 	}
 		
 	@Override
@@ -158,8 +148,10 @@ public class BlockDaemon extends BlockContainer {
 		}
 	}
 
+	@Override
 	public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
-		for(int i = 0; createNewTileEntity(null, i) != null; i++){
+		int values = ReferenceGui.values().length;
+		for(int i = 0; i < values; i++){
 			list.add(new ItemStack(id, 1, i));
 		}
 	}

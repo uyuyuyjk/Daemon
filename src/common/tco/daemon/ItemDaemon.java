@@ -12,7 +12,7 @@ public class ItemDaemon extends Item {
 	protected ItemDaemon(int id) {
 		super(id);
 		rarity = EnumRarity.common;
-		setTextureFile("/tco/daemon/sprites/daemonitems.png");
+		setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 		setTabToDisplayOn(CreativeTabs.tabMisc);
 	}
 	
@@ -21,6 +21,7 @@ public class ItemDaemon extends Item {
 		return this;
 	}
 	
+	@Override
 	public EnumRarity getRarity(ItemStack itemStack) {
 		if(itemStack.isItemEnchanted() && rarity != EnumRarity.epic){
 			return EnumRarity.rare;

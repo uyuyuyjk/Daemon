@@ -1,8 +1,6 @@
 package tco.daemon;
 
-import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.NBTTagList;
 
 public class DaemonEnergy {
 	public int death, decay, disease;

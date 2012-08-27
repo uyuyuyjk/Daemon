@@ -1,18 +1,28 @@
 package tco.daemon;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import net.minecraft.src.Item;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ReferenceConfigs {
-	public static int daemonBlockId = 143;
+	public static final String VERSION = "0.1";
+	
+	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
+			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
+			GUI_MATRIX = "/tco/daemon/sprites/matrix.png",
+			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
+			GUI_HUNGER_CHEST = "/gui/container.png";
+			
+	
+	public static int blockDaemonId = 143,
+			blockBrazierId = 144;
+	
+	public static int itemBrazierId = 5432;
 
 	public static int daggerSacrificeId = 5433,
 			birdCannnonId = 5434;
@@ -29,8 +39,13 @@ public class ReferenceConfigs {
 				event.getSuggestedConfigurationFile());
 		try {
 			cfg.load();
-			daemonBlockId = cfg.getOrCreateBlockIdProperty("BlockDaemon",
-					daemonBlockId).getInt();
+			blockDaemonId = cfg.getOrCreateBlockIdProperty("blockDaemon",
+					blockDaemonId).getInt();
+			blockBrazierId = cfg.getOrCreateBlockIdProperty("blockBrazier",
+					blockBrazierId).getInt();
+			
+			itemBrazierId = cfg.getOrCreateIntProperty("itemBrazier",
+					Configuration.CATEGORY_ITEM, itemBrazierId).getInt();
 
 			daggerSacrificeId = cfg.getOrCreateIntProperty("daggerSacrifice",
 					Configuration.CATEGORY_ITEM, daggerSacrificeId).getInt();
