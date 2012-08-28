@@ -22,18 +22,22 @@ public class BlockBrazier extends Block {
 
 	public void addCollidingBlockToList(World world, int x, int y, int z,
 			AxisAlignedBB aabb, List list, Entity entity) {
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 0.3125F, 1.0F);
 		super.addCollidingBlockToList(world, x, y, z, aabb, list, entity);
 		float var8 = 0.125F;
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, var8, 1.0F, 1.0F);
+		setBlockBounds(0.0F, 0.0F, 0.0F, var8, 1.0F, 1.0F);
 		super.addCollidingBlockToList(world, x, y, z, aabb, list, entity);
-		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var8);
+		setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, var8);
 		super.addCollidingBlockToList(world, x, y, z, aabb, list, entity);
-		this.setBlockBounds(1.0F - var8, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		setBlockBounds(1.0F - var8, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 		super.addCollidingBlockToList(world, x, y, z, aabb, list, entity);
-		this.setBlockBounds(0.0F, 0.0F, 1.0F - var8, 1.0F, 1.0F, 1.0F);
+		setBlockBounds(0.0F, 0.0F, 1.0F - var8, 1.0F, 1.0F, 1.0F);
 		super.addCollidingBlockToList(world, x, y, z, aabb, list, entity);
-		this.setBlockBoundsForItemRender();
+		setBlockBoundsForItemRender();
+	}
+	
+	public void setBlockBoundsForItemRender() {
+		setBlockBounds(0, 0, 0, 1, 1, 1);
 	}
 
 	public boolean isOpaqueCube() {
@@ -56,6 +60,6 @@ public class BlockBrazier extends Block {
 
 	@Override
     public int idDropped(int id, Random rand, int par3){
-		return ModDaemon.instance.itemBrazier.shiftedIndex;
+		return ModDaemon.instance.daemonBrazier.shiftedIndex;
 	}
 }

@@ -32,9 +32,9 @@ public class ItemBirdCannon extends ItemBow {
         int enchPunch = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, itemStack); //chain
         int enchFlame = EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, itemStack); //size
         //free infinity enchantment for creative
-   		boolean enchInfinity = player.capabilities.isCreativeMode
-   				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemStack) > 0;
-   		
+		boolean enchInfinity = player.capabilities.isCreativeMode
+				|| EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, itemStack) > 0;
+
 		if (enchInfinity || player.inventory.hasItem(AMMO)) {
 			int usedDuration = getMaxItemUseDuration(itemStack) - useDuration;
 			float multiplier = usedDuration / 20.0F;
@@ -42,22 +42,23 @@ public class ItemBirdCannon extends ItemBow {
 
 			if (multiplier > 1.0) {
 				multiplier = 1.0f;
-			}else if(multiplier < 0.5) {
-				return;
 			}
+			if (multiplier > 0.5) {
+				itemStack.damageItem(1, player);
+				
+				world.playSoundAtEntity(player, "mob.chickenhurt", 1.0F, 1.0F
+						/ (itemRand.nextFloat() * 0.4F + 1.2F) + multiplier
+						* 0.5F);
 
-			Entity projectile = createChickenBomb(world, player, multiplier, enchPower, enchPunch, enchFlame);
+				if (!(enchInfinity)) {
+					player.inventory.consumeInventoryItem(AMMO);
+				}
 
-			itemStack.damageItem(1, player);
-			world.playSoundAtEntity(player, "mob.chickenhurt", 1.0F,
-					1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + multiplier * 0.5F);
-
-			if(!(enchInfinity)){
-				player.inventory.consumeInventoryItem(AMMO);
-			}
-			
-			if (!world.isRemote) {
-				world.spawnEntityInWorld(projectile);
+				if (!world.isRemote) {
+				Entity projectile = createChickenBomb(world, player,
+						multiplier, enchPower, enchPunch, enchFlame);
+					world.spawnEntityInWorld(projectile);
+				}
 			}
 		}
 	}

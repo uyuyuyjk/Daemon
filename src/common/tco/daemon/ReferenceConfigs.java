@@ -22,7 +22,7 @@ public class ReferenceConfigs {
 	public static int blockDaemonId = 143,
 			blockBrazierId = 144;
 	
-	public static int itemBrazierId = 5432;
+	public static int daemonBrazierId = 5432;
 
 	public static int daggerSacrificeId = 5433,
 			birdCannnonId = 5434;
@@ -44,8 +44,8 @@ public class ReferenceConfigs {
 			blockBrazierId = cfg.getOrCreateBlockIdProperty("blockBrazier",
 					blockBrazierId).getInt();
 			
-			itemBrazierId = cfg.getOrCreateIntProperty("itemBrazier",
-					Configuration.CATEGORY_ITEM, itemBrazierId).getInt();
+			daemonBrazierId = cfg.getOrCreateIntProperty("daemonBrazier",
+					Configuration.CATEGORY_ITEM, daemonBrazierId).getInt();
 
 			daggerSacrificeId = cfg.getOrCreateIntProperty("daggerSacrifice",
 					Configuration.CATEGORY_ITEM, daggerSacrificeId).getInt();

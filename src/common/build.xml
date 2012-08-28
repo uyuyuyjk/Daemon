@@ -1,0 +1,47 @@
+<project name="Daemon" basedir="../../" default="main">
+
+	<property name="daemon.version" value="0.1" />
+
+	<property name="src.dir" value="src" />
+	<property name="mcp.dir" value="./" />
+	<property name="build.dir" value="${mcp.dir}/reobf" />
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile">
+
+		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
+			<arg line="/c recompile.bat" />
+		</exec>
+		<exec dir="${mcp.dir}" executable="sh" osfamily="unix">
+			<arg value="recompile.sh" />
+		</exec>
+
+		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
+			<arg line="/c reobfuscate.bat" />
+		</exec>
+		<exec dir="${mcp.dir}" executable="sh" osfamily="unix">
+			<arg value="reobfuscate.sh" />
+		</exec>
+
+	</target>
+
+	<target name="package" depends="compile">
+		<copy file="${src.dir}/common/mcmod.info" todir="${build.dir}" />
+		<copy todir="${build.dir}/minecraft/tco/daemon/sprites">
+			<fileset dir="${src.dir}/common/tco/daemon/sprites">
+				<exclude name="*.xcf" />
+			</fileset>
+		</copy>
+		<copy todir="${build.dir}/minecraft/tco/daemon/lang">
+			<fileset dir="${src.dir}/common/tco/daemon/lang" />
+		</copy>
+
+		<jar destfile="${build.dir}/Daemon-${daemon.version}.jar" basedir="${build.dir}" />
+	</target>
+
+	<target name="main" depends="clean, package" />
+
+</project>

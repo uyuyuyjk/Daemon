@@ -36,7 +36,7 @@ public class ModDaemon {
 	//content
 	public Block blockDaemon,
 		blockBrazier;
-	public Item itemBrazier;
+	public Item daemonBrazier;
 	
 	public Item daggerSacrifice,
 		birdCannnon;
@@ -88,8 +88,9 @@ public class ModDaemon {
 	}
 	
 	private void loadItems(){
-		itemBrazier = new ItemReed(ReferenceConfigs.itemBrazierId, blockBrazier).setItemName("itemBrazier")
+		daemonBrazier = (Item) new ItemReed(ReferenceConfigs.daemonBrazierId, blockBrazier).setItemName("daemonBrazier")
 				.setTabToDisplayOn(CreativeTabs.tabMisc);
+		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 		
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
 			.setIconCoord(5, 1).setItemName("orbMold");
@@ -115,7 +116,7 @@ public class ModDaemon {
 	private void registerEntities(){
 		int chickenId = EntityRegistry.findGlobalUniqueEntityId();
 		int wolfId = 2;
-		EntityRegistry.registerGlobalEntityID(EntityChickenDaemon.class, "Creeper Chicken" , chickenId, 16, 5);
+		EntityRegistry.registerGlobalEntityID(EntityChickenDaemon.class, "CreeperChicken" , chickenId, 16, 5);
 		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , wolfId, this, 200, 5, true);
 	}
 	

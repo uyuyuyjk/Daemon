@@ -4,21 +4,5 @@
   "description": "Mod desc.",
   "logoFile": "",
   "authorList" : [ "tcooc" ],
-  "dependencies": ["mod_MinecraftForge"]
+  "dependencies": [""]
 }]
-/*
-        modid;
-        name
-        description
-        url
-        updateUrl
-        logoFile
-        version
-        credits
-        parent
-        authorList []
-        requiredMods
-        dependencies
-        dependants
-        useDependencyInformation
-*/

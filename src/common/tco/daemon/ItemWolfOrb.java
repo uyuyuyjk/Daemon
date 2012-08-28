@@ -21,6 +21,7 @@ public class ItemWolfOrb extends ItemDaemon {
 
 	protected ItemWolfOrb(int id) {
 		super(id);
+		setMaxStackSize(1);
 	}
 
 	/**

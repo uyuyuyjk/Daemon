@@ -11,6 +11,7 @@ public class EntityChickenDaemon extends EntityChicken {
 
 	public EntityChickenDaemon(World world) {
 		super(world);
+		setProjectileStats(1.5f, 1);
 	}
 	
 	public void setProjectileStats(float size, int chain){
@@ -54,7 +55,7 @@ public class EntityChickenDaemon extends EntityChicken {
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setFloat("ExplosionSize", explosionSize);
-		tagCompound.setFloat("ExplosionChain", explosionChain);
+		tagCompound.setInteger("ExplosionChain", explosionChain);
 	}
 
 }

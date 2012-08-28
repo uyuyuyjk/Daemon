@@ -18,8 +18,8 @@ LICENSE.txt
 /src/minecraft/*
 /src/minecraft_server/*
 !/src/common/tco/
+!/src/common/build.xml
 !/src/common/mcmod.info
-!/src/common/logo_Daemon.png
 !/src/minecraft/tco/
 
 *.bat
