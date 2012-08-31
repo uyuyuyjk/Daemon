@@ -26,9 +26,9 @@ public class RenderBrazier implements ISimpleBlockRenderingHandler {
 				renderer.blockAccess, x, y, z));
 		float var6 = 1.0F;
 		int var7 = block.colorMultiplier(renderer.blockAccess, x, y, z);
-		float var8 = (float) (var7 >> 16 & 255) / 255.0F;
-		float var9 = (float) (var7 >> 8 & 255) / 255.0F;
-		float var10 = (float) (var7 & 255) / 255.0F;
+		float var8 = (var7 >> 16 & 255) / 255.0F;
+		float var9 = (var7 >> 8 & 255) / 255.0F;
+		float var10 = (var7 & 255) / 255.0F;
 		float var12;
 
 		if (EntityRenderer.anaglyphEnable) {
@@ -43,19 +43,19 @@ public class RenderBrazier implements ISimpleBlockRenderingHandler {
 		var5.setColorOpaque_F(var6 * var8, var6 * var9, var6 * var10);
 		short var16 = 154;
 		var12 = 0.125F;
-		renderer.renderSouthFace(block, (double) ((float) x - 1.0F + var12),
-				(double) y, (double) z, var16);
-		renderer.renderNorthFace(block, (double) ((float) x + 1.0F - var12),
-				(double) y, (double) z, var16);
-		renderer.renderWestFace(block, (double) x, (double) y,
-				(double) ((float) z - 1.0F + var12), var16);
-		renderer.renderEastFace(block, (double) x, (double) y,
-				(double) ((float) z + 1.0F - var12), var16);
+		renderer.renderSouthFace(block, (x - 1.0F + var12),
+				y, z, var16);
+		renderer.renderNorthFace(block, (x + 1.0F - var12),
+				y, z, var16);
+		renderer.renderWestFace(block, x, y,
+				(z - 1.0F + var12), var16);
+		renderer.renderEastFace(block, x, y,
+				(z + 1.0F - var12), var16);
 		short var17 = 139;
-		renderer.renderTopFace(block, (double) x,
-				(double) ((float) y - 1.0F + 0.25F), (double) z, var17);
-		renderer.renderBottomFace(block, (double) x,
-				(double) ((float) y + 1.0F - 0.75F), (double) z, var17);
+		renderer.renderTopFace(block, x,
+				(y - 1.0F + 0.25F), z, var17);
+		renderer.renderBottomFace(block, x,
+				(y + 1.0F - 0.75F), z, var17);
 		int var14 = renderer.blockAccess.getBlockMetadata(x, y, z);
 
 		if (var14 > 0) {
@@ -67,9 +67,9 @@ public class RenderBrazier implements ISimpleBlockRenderingHandler {
 
 			renderer.renderTopFace(
 					block,
-					(double) x,
-					(double) ((float) y - 1.0F + (6.0F + (float) var14 * 3.0F) / 16.0F),
-					(double) z, var15);
+					x,
+					(y - 1.0F + (6.0F + var14 * 3.0F) / 16.0F),
+					z, var15);
 		}
 
 		return true;

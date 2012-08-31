@@ -2,12 +2,7 @@ package tco.daemon;
 
 import java.util.Random;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.Entity;
-import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityVillager;
 import net.minecraft.src.Facing;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
@@ -29,6 +24,7 @@ public class ItemWolfOrb extends ItemDaemon {
 	 * 
 	 * @return this method did something
 	 */
+	@Override
 	public boolean tryPlaceIntoWorld(ItemStack itemStack, EntityPlayer player,
 			World world, int x, int y, int z, int facing, float par8,
 			float par9, float par10) {

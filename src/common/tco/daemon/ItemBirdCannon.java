@@ -1,6 +1,5 @@
 package tco.daemon;
 
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Enchantment;
 import net.minecraft.src.EnchantmentHelper;
 import net.minecraft.src.Entity;

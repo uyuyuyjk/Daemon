@@ -1,16 +1,16 @@
 package tco.daemon;
 
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
 import net.minecraftforge.common.ForgeDirection;
 
-public class ContainerMatrix extends ContainerDaemon {
-
-	public ContainerMatrix(InventoryPlayer inventoryPlayer,
-			TileEntityDaemon tileEntity) {
-		super(tileEntity);
-
+public class ContainerMatrixPortable extends ContainerDaemon {
+    
+	public ContainerMatrixPortable(InventoryPlayer inventoryPlayer) {
+		super(new TileEntityMatrixPortable());
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				addSlotToContainer(new Slot(tileEntity, 4 * i + j, 71 + 16 * j
@@ -20,7 +20,22 @@ public class ContainerMatrix extends ContainerDaemon {
 		
 		bindPlayerInventory(inventoryPlayer);
 	}
-	
+		
+	@Override
+	public void onCraftMatrixChanged(IInventory inventory) {
+		tileEntity.updateMatrix();
+	}
+
+	@Override
+	public void onCraftGuiClosed(EntityPlayer player) {
+		super.onCraftGuiClosed(player);
+		if (player.worldObj.isRemote) return;
+		for (int i = 0; i < tileEntity.getSizeInventory(); ++i) {
+			ItemStack stack = tileEntity.getStackInSlotOnClosing(i);
+			if (stack != null) player.dropPlayerItem(stack);
+		}
+	}
+		
 	@Override
 	public ItemStack transferStackInSlot(int slot) {
 		ItemStack stack = null;
@@ -62,6 +77,11 @@ public class ContainerMatrix extends ContainerDaemon {
 		}
 
 		return stack;
+	}
+
+	@Override
+	public boolean canInteractWith(EntityPlayer player) {
+		return true;
 	}
 
 }

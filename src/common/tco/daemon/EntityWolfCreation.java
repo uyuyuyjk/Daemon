@@ -2,16 +2,10 @@ package tco.daemon;
 
 import java.util.Random;
 
-import cpw.mods.fml.common.FMLLog;
-
 import net.minecraft.src.EntityClientPlayerMP;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityPlayerMP;
-import net.minecraft.src.EntityPlayerSP;
 import net.minecraft.src.EntityWolf;
 import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.Packet10Flying;
-import net.minecraft.src.Packet11PlayerPosition;
 import net.minecraft.src.World;
 
 /**
@@ -116,6 +110,7 @@ public class EntityWolfCreation extends EntityWolf {
 		super.onUpdate();
 	}
 	
+	@Override
 	public void updateRiderPosition() {
 		if (riddenByEntity != null) {
 			riddenByEntity.setPosition(posX, posY + getMountedYOffset() + riddenByEntity.getYOffset(), posZ);

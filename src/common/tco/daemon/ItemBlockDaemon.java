@@ -7,6 +7,7 @@ public class ItemBlockDaemon extends ItemBlock {
 
 	public ItemBlockDaemon(int id) {
 		super(id);
+		setHasSubtypes(true);
 	}
 	
 	@Override

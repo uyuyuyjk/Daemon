@@ -11,6 +11,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ReferenceConfigs {
 	public static final String VERSION = "0.1";
+	public static final boolean DEBUG = true;
 	
 	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
 			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
@@ -25,7 +26,8 @@ public class ReferenceConfigs {
 	public static int daemonBrazierId = 5432;
 
 	public static int daggerSacrificeId = 5433,
-			birdCannnonId = 5434;
+			daggerRitualId = 5434,
+			birdCannnonId = 5435;
 
 	public static int orbMoldId = 5633,
 			orbGlassId = 5634,
@@ -49,6 +51,8 @@ public class ReferenceConfigs {
 
 			daggerSacrificeId = cfg.getOrCreateIntProperty("daggerSacrifice",
 					Configuration.CATEGORY_ITEM, daggerSacrificeId).getInt();
+			daggerRitualId = cfg.getOrCreateIntProperty("daggerRitual",
+					Configuration.CATEGORY_ITEM, daggerRitualId).getInt();
 			birdCannnonId = cfg.getOrCreateIntProperty("birdCannnon",
 					Configuration.CATEGORY_ITEM, birdCannnonId).getInt();
 

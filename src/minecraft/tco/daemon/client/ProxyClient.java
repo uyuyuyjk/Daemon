@@ -1,11 +1,8 @@
 package tco.daemon.client;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.World;
 import net.minecraftforge.client.MinecraftForgeClient;
-import tco.daemon.ModDaemon;
 import tco.daemon.ProxyCommon;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ProxyClient extends ProxyCommon {
 		

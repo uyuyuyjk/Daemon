@@ -5,7 +5,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.Slot;
 
-public class ContainerDaemon extends Container {
+public abstract class ContainerDaemon extends Container {
 
 	protected TileEntityDaemon tileEntity;
 	

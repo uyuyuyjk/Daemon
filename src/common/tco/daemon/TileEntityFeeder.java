@@ -41,11 +41,6 @@ public class TileEntityFeeder extends TileEntityDaemon {
 		}
 	}
 	
-	@Override
-	public void applyMatrix(){
-		//TODO effects
-	}
-
 	private List<EntityAnimal> getEntitiesOfTypeInRange(Class type){
 		List<EntityAnimal> entityList = this.worldObj.getEntitiesWithinAABB(
 				type,

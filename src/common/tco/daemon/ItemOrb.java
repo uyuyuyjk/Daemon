@@ -3,28 +3,46 @@ package tco.daemon;
 import java.util.List;
 
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.NBTTagCompound;
 
 public class ItemOrb extends ItemDaemon {
+	public static final int MAX_COND_FACTOR = 100;
 	
-	protected ItemOrb(int id) {
+	private int conductivity;
+	
+	protected ItemOrb(int id, int cond) {
 		super(id);
+		conductivity = cond;
 		setMaxStackSize(1);
 	}
 	
-	public void checkTagCompound(ItemStack itemStack){
-		if(!itemStack.hasTagCompound()){
-			itemStack.setTagCompound(new NBTTagCompound());
+	public void chargeOrb(ItemStack stack){
+		DaemonEnergy de = DaemonEnergy.getDaemonEnergy(stack);
+		de.maxEnergy += conductivity;
+		if(de.maxEnergy > MAX_COND_FACTOR * conductivity){
+			de.maxEnergy = MAX_COND_FACTOR * conductivity;
 		}
+		DaemonEnergy.setDaemonEnergy(stack, de);
+	}
+	
+	public ItemStack mergeOrbs(ItemStack stack1, ItemStack stack2){
+		DaemonEnergy de1 = DaemonEnergy.getDaemonEnergy(stack1);
+		DaemonEnergy de2 = DaemonEnergy.getDaemonEnergy(stack2);
+		ItemOrb orb2 = (ItemOrb)stack2.getItem();
+		if(orb2.conductivity > conductivity){
+			return mergeOrbs(stack2, stack1);
+		}
+		de1.maxEnergy += de2.maxEnergy;
+		if(de1.maxEnergy > MAX_COND_FACTOR * conductivity){
+			de1.maxEnergy = MAX_COND_FACTOR * conductivity;
+		}
+		DaemonEnergy.setDaemonEnergy(stack1, de1);
+		return stack1;
 	}
 	
 	@Override
 	public void addInformation(ItemStack itemStack, List list) {
-		checkTagCompound(itemStack);
-		
-		NBTTagCompound tagCompound = itemStack.getTagCompound();
-		
-		DaemonEnergy de = DaemonEnergy.readFromNBT(tagCompound);
+				
+		DaemonEnergy de = DaemonEnergy.getDaemonEnergy(itemStack);
 
 		if(de.maxEnergy == 0){
 			list.add("Dormant");
@@ -35,18 +53,6 @@ public class ItemOrb extends ItemDaemon {
 		list.add("Death: " + de.death);
 		list.add("Decay: " + de.decay);
 		list.add("Disease: " + de.disease);
-	}
-	
-	public DaemonEnergy getDaemonEnergy(ItemStack itemStack){
-		checkTagCompound(itemStack);
-		NBTTagCompound tagCompound = itemStack.getTagCompound();
-		return DaemonEnergy.readFromNBT(tagCompound);
-	}
-	
-	public void setDaemonEnergy(ItemStack itemStack, DaemonEnergy de){
-		checkTagCompound(itemStack);
-		NBTTagCompound tagCompound = itemStack.getTagCompound();
-		de.writetoNBT(tagCompound);
 	}
 	
 	@Override

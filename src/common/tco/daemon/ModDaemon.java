@@ -8,7 +8,6 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -40,6 +39,8 @@ public class ModDaemon {
 	
 	public Item daggerSacrifice,
 		birdCannnon;
+	
+	public Item daggerRitual;
 
 	public Item orbMold,
 		orbGlass,
@@ -88,18 +89,18 @@ public class ModDaemon {
 	}
 	
 	private void loadItems(){
-		daemonBrazier = (Item) new ItemReed(ReferenceConfigs.daemonBrazierId, blockBrazier).setItemName("daemonBrazier")
+		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazierId, blockBrazier).setItemName("daemonBrazier")
 				.setTabToDisplayOn(CreativeTabs.tabMisc);
 		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 		
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
 			.setIconCoord(5, 1).setItemName("orbMold");
 			orbMold.setContainerItem(orbMold);
-		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId).setRarity(EnumRarity.uncommon)
+		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId, 50).setRarity(EnumRarity.uncommon)
 			.setIconCoord(0, 1).setItemName("orbGlass");;
-		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId).setRarity(EnumRarity.rare)
+		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId, 200).setRarity(EnumRarity.rare)
 			.setIconCoord(1, 1).setItemName("orbObsidian");
-		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId).setRarity(EnumRarity.rare)
+		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId, 1000).setRarity(EnumRarity.rare)
 			.setIconCoord(2, 1).setItemName("orbBlaze");
 		orbWolf = new ItemWolfOrb(ReferenceConfigs.orbWolfId).setRarity(EnumRarity.rare)
 			.setIconCoord(3, 1).setItemName("orbWolf");
@@ -107,7 +108,9 @@ public class ModDaemon {
 			.setIconCoord(4, 1).setItemName("orbUnstable");
 		
 		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId)
-			.setIconCoord(0, 0).setItemName("daggerSacrifice");;
+			.setIconCoord(0, 0).setItemName("daggerSacrifice");
+		daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitualId).setRarity(EnumRarity.rare)
+			.setIconCoord(0, 0).setItemName("daggerRitual");
 		
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnonId)
 			.setIconCoord(1, 0).setItemName("birdCannon");
@@ -122,18 +125,36 @@ public class ModDaemon {
 	
 	private void addRecipes(){
 		CraftingManager cm = CraftingManager.getInstance();
-		cm.addRecipe(new ItemStack(blockDaemon, 1, 0), new Object[]{"x", 'x', Block.dirt});
+		//matrix recipes
+		{
+			Object[] matrixPattern = new Object[] { " R ", " C ", "XXX", 'C',
+					Block.workbench, 'X', Block.stoneSingleSlab, 'R', null };
+			Object[] matrixVariables = new Object[] { Item.rottenFlesh,
+					Item.bone, Item.spiderEye };
+			for (Object var : matrixVariables) {
+				matrixPattern[8] = var;
+				cm.addRecipe(new ItemStack(blockDaemon, 1, 0), matrixPattern);
+			}
+		}
+		
 		cm.addRecipe(new ItemStack(blockDaemon, 1, 1), new Object[]{"xx", 'x', Block.dirt});
 		cm.addRecipe(new ItemStack(blockDaemon, 1, 2), new Object[]{"xxx", 'x', Block.dirt});
 		
 		cm.addRecipe(new ItemStack(orbMold), new Object[]{" X","XX", 'X', Item.ingotGold});
-
-		Object[] orbPattern = new Object[]{"MXM","XOX","MXM", 'M', orbMold, 'O', Item.enderPearl, 'X', Block.glass};
-		cm.addRecipe(new ItemStack(orbGlass), orbPattern);
-		orbPattern[8] = Block.obsidian;
-		cm.addRecipe(new ItemStack(orbObsidian), orbPattern);
-		orbPattern[8] = Item.blazePowder;
-		cm.addRecipe(new ItemStack(orbBlaze), orbPattern);
+		
+		//orb recipes
+		{
+			Object[] orbPattern = new Object[] { "MXM", "XOX", "MXM", 'M',
+					orbMold, 'O', Item.enderPearl, 'X', null };
+			ItemStack[] orbResults = new ItemStack[] { new ItemStack(orbGlass),
+					new ItemStack(orbObsidian), new ItemStack(orbBlaze) };
+			Object[] orbVariables = new Object[] { Block.glass, Block.obsidian,
+					Item.blazePowder };
+			for (int i = 0; i < orbResults.length; i++) {
+				orbPattern[8] = orbVariables[i];
+				cm.addRecipe(orbResults[i], orbPattern);
+			}
+		}
 	}
 
 }

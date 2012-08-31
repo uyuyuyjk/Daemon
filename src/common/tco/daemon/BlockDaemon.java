@@ -17,11 +17,11 @@ import net.minecraft.src.World;
 public class BlockDaemon extends BlockContainer {
 
 	protected BlockDaemon(int id) {
-		super(id, Material.iron);
+		super(id, Material.rock);
 		setTextureFile(ReferenceConfigs.TEXTURE_BLOCKS);
 		setHardness(2.0F);
 		setResistance(5.0F);
-		setStepSound(soundWoodFootstep);
+		setStepSound(soundStoneFootstep);
 		setCreativeTab(CreativeTabs.tabMisc);
 		setTickRandomly(true);
 	}
@@ -35,9 +35,9 @@ public class BlockDaemon extends BlockContainer {
 		}
 		if (player.getCurrentEquippedItem() != null
 				&& player.getCurrentEquippedItem().getItem() instanceof ItemDaemon) {
-			ModDaemon.proxy.openGui(ReferenceGui.MATRIX.ordinal(), player, world, x, y, z);
+			player.openGui(ModDaemon.instance, ReferenceGui.MATRIX.ordinal(), world, x, y, z);
 		} else {
-			ModDaemon.proxy.openGui(world.getBlockMetadata(x, y, z), player, world, x, y, z);
+			player.openGui(ModDaemon.instance, world.getBlockMetadata(x, y, z), world, x, y, z);
 		}
 		return true;
 	}
@@ -128,7 +128,7 @@ public class BlockDaemon extends BlockContainer {
 	
 	@Override
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			double vx = 0, vy = 0, vz = 0;
 			float fx = rand.nextFloat() - 0.5f;
 			float fz = rand.nextFloat() - 0.5f;

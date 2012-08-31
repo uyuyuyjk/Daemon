@@ -1,5 +1,6 @@
 package tco.daemon;
 
+import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 public class DaemonEnergy {
@@ -20,7 +21,11 @@ public class DaemonEnergy {
 	public int getTotal(){
 		return death + decay + disease;
 	}
-		
+	
+	//
+	//NBT methods
+	//
+	
 	public void writetoNBT(NBTTagCompound tag){
 		writetoNBT(this, tag);
 	}
@@ -43,6 +48,28 @@ public class DaemonEnergy {
 		energyList.setInteger("Disease", de.disease);
 		energyList.setInteger("Max", de.maxEnergy);
 		tag.setTag("DaemonEnergy", energyList);
+	}
+	
+	//
+	//ItemStack methods
+	//
+	
+	public static void checkTagCompound(ItemStack itemStack){
+		if(!itemStack.hasTagCompound()){
+			itemStack.setTagCompound(new NBTTagCompound());
+		}
+	}
+	
+	public static DaemonEnergy getDaemonEnergy(ItemStack itemStack){
+		checkTagCompound(itemStack);
+		NBTTagCompound tagCompound = itemStack.getTagCompound();
+		return DaemonEnergy.readFromNBT(tagCompound);
+	}
+	
+	public static void setDaemonEnergy(ItemStack itemStack, DaemonEnergy de){
+		checkTagCompound(itemStack);
+		NBTTagCompound tagCompound = itemStack.getTagCompound();
+		de.writetoNBT(tagCompound);
 	}
 
 }
