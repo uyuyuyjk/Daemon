@@ -1,6 +1,12 @@
 package tco.daemon;
 
 import java.io.InputStream;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -10,29 +16,43 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ReferenceConfigs {
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	private static @interface ConfigId {
+		public boolean block() default false;
+	}
+
 	public static final String VERSION = "0.1";
-	public static final boolean DEBUG = true;
 	
 	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
 			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
 			GUI_MATRIX = "/tco/daemon/sprites/matrix.png",
 			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
 			GUI_HUNGER_CHEST = "/gui/container.png";
-			
 	
-	public static int blockDaemonId = 143,
-			blockBrazierId = 144;
+	public static @ConfigId(block=true) int blockDaemonId = 143,
+			blockBrazierId = 144,
+			blockAltarId = 145;//TODO use
 	
-	public static int daemonBrazierId = 5432;
+	public static @ConfigId int daemonBrazierId = 5432;
 
-	public static int daggerSacrificeId = 5433,
-			daggerRitualId = 5434,
-			birdCannnonId = 5435;
+	public static @ConfigId int daggerSacrificeId = 5433,
+			daggerSoulsId = 5437,
+			daggerRitualId = 5435,
+			birdCannnonId = 5436,
+			amuletUnlife = 5437;//TODO use
+	
+	public static @ConfigId int staffId = 5438,
+			staffUndeathId = 5439;//TODO use
+	
+	public static @ConfigId int arrowUnstableId = 5443;
 
-	public static int orbMoldId = 5633,
+	public static @ConfigId int glassShardId = 5632;
+	public static @ConfigId int orbMoldId = 5633,
 			orbGlassId = 5634,
 			orbObsidianId = 5635,
 			orbBlazeId = 5636,
+			orbFamiliarId = 5639,//TODO use
 			orbWolfId = 5637,
 			orbUnstableId = 5638;
 
@@ -41,33 +61,21 @@ public class ReferenceConfigs {
 				event.getSuggestedConfigurationFile());
 		try {
 			cfg.load();
-			blockDaemonId = cfg.getOrCreateBlockIdProperty("blockDaemon",
-					blockDaemonId).getInt();
-			blockBrazierId = cfg.getOrCreateBlockIdProperty("blockBrazier",
-					blockBrazierId).getInt();
 			
-			daemonBrazierId = cfg.getOrCreateIntProperty("daemonBrazier",
-					Configuration.CATEGORY_ITEM, daemonBrazierId).getInt();
-
-			daggerSacrificeId = cfg.getOrCreateIntProperty("daggerSacrifice",
-					Configuration.CATEGORY_ITEM, daggerSacrificeId).getInt();
-			daggerRitualId = cfg.getOrCreateIntProperty("daggerRitual",
-					Configuration.CATEGORY_ITEM, daggerRitualId).getInt();
-			birdCannnonId = cfg.getOrCreateIntProperty("birdCannnon",
-					Configuration.CATEGORY_ITEM, birdCannnonId).getInt();
-
-			orbMoldId = cfg.getOrCreateIntProperty("orbMold",
-					Configuration.CATEGORY_ITEM, orbMoldId).getInt();
-			orbGlassId = cfg.getOrCreateIntProperty("orbGlass",
-					Configuration.CATEGORY_ITEM, orbGlassId).getInt();
-			orbObsidianId = cfg.getOrCreateIntProperty("orbObsidian",
-					Configuration.CATEGORY_ITEM, orbObsidianId).getInt();
-			orbBlazeId = cfg.getOrCreateIntProperty("orbBlaze",
-					Configuration.CATEGORY_ITEM, orbBlazeId).getInt();
-			orbWolfId = cfg.getOrCreateIntProperty("orbWolf",
-					Configuration.CATEGORY_ITEM, orbWolfId).getInt();
-			orbUnstableId = cfg.getOrCreateIntProperty("orbUnstable",
-					Configuration.CATEGORY_ITEM, orbUnstableId).getInt();
+			Field[] fields = ReferenceConfigs.class.getFields();
+			for(Field field : fields){
+				ConfigId annotation = field.getAnnotation(ConfigId.class);
+				if(annotation == null)
+					continue;
+				int id = field.getInt(null);
+				if(annotation.block()){
+					id = cfg.getOrCreateBlockIdProperty(field.getName(), id).getInt();
+				}else{
+					id = cfg.getOrCreateIntProperty(field.getName(), Configuration.CATEGORY_ITEM, id).getInt();
+				}
+				field.setInt(null, id);
+			}
+			
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE, e, "Failed to load Daemon mod configs.");
 		} finally {

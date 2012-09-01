@@ -1,13 +1,40 @@
+/******************************************
+ * Copyright (c) 2012 tcooc
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * The Software shall be used for Good, not Evil.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *  SOFTWARE.
+ ******************************************/
 package tco.daemon;
+
+import java.util.logging.Level;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumRarity;
+import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -37,11 +64,13 @@ public class ModDaemon {
 		blockBrazier;
 	public Item daemonBrazier;
 	
-	public Item daggerSacrifice,
-		birdCannnon;
+	public Item birdCannnon;
 	
-	public Item daggerRitual;
+	public Item staff;
+	public Item daggerSacrifice, daggerSouls, daggerRitual;
+	public Item arrowUnstable;
 
+	public Item glassShard;
 	public Item orbMold,
 		orbGlass,
 		orbObsidian,
@@ -62,8 +91,7 @@ public class ModDaemon {
 		registerEntities();
 		addRecipes();
 		
-		//GameRegistry.registerCraftingHandler(new MoldCraftingHandler());
-		
+		GameRegistry.registerCraftingHandler(new CraftingHandlerDaemon());
 		
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
 		MinecraftForge.EVENT_BUS.register(proxy);
@@ -93,6 +121,8 @@ public class ModDaemon {
 				.setTabToDisplayOn(CreativeTabs.tabMisc);
 		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 		
+		glassShard = new ItemGlassShard(ReferenceConfigs.glassShardId)
+			.setIconCoord(6, 1);
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
 			.setIconCoord(5, 1).setItemName("orbMold");
 			orbMold.setContainerItem(orbMold);
@@ -107,24 +137,34 @@ public class ModDaemon {
 		orbUnstable = new ItemUnstableOrb(ReferenceConfigs.orbUnstableId).setRarity(EnumRarity.rare)
 			.setIconCoord(4, 1).setItemName("orbUnstable");
 		
-		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId)
+		arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstableId)
+			.setIconCoord(0, 1).setItemName("arrowUnstable");
+				
+		staff = new ItemStaff(ReferenceConfigs.staffId, EnumToolMaterial.WOOD)
+			.setIconCoord(3, 0).setItemName("staff");
+		
+		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId, EnumToolMaterial.STONE)
 			.setIconCoord(0, 0).setItemName("daggerSacrifice");
-		daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitualId).setRarity(EnumRarity.rare)
-			.setIconCoord(0, 0).setItemName("daggerRitual");
+		daggerSouls = new ItemDagger(ReferenceConfigs.daggerSoulsId, EnumToolMaterial.IRON)
+			.setRarity(EnumRarity.rare).setMaxDamage(0).setIconCoord(1, 0).setItemName("daggerSouls");
+		daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitualId, EnumToolMaterial.EMERALD)
+			.setRarity(EnumRarity.rare).setIconCoord(2, 0).setItemName("daggerRitual");
 		
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnonId)
-			.setIconCoord(1, 0).setItemName("birdCannon");
+			.setIconCoord(0, 4).setItemName("birdCannon");
 	}
 	
 	private void registerEntities(){
-		int chickenId = EntityRegistry.findGlobalUniqueEntityId();
-		int wolfId = 2;
-		EntityRegistry.registerGlobalEntityID(EntityChickenDaemon.class, "CreeperChicken" , chickenId, 16, 5);
-		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , wolfId, this, 200, 5, true);
+		int chickenId = 1, wolfId = 2, arrowId = 3;
+		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "CreeperChicken" , chickenId, this, 32, 5, true);
+		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , wolfId, this, 32, 5, true);
+		EntityRegistry.registerModEntity(EntityUnstableArrow.class, "Unstable Arrow" , arrowId, this, 32, 5, true);
 	}
 	
 	private void addRecipes(){
 		CraftingManager cm = CraftingManager.getInstance();
+		
+		cm.addRecipe(new ItemStack(staff), new Object[]{"x", "x" , "x", 'x', Item.stick});
 		//matrix recipes
 		{
 			Object[] matrixPattern = new Object[] { " R ", " C ", "XXX", 'C',
@@ -155,6 +195,8 @@ public class ModDaemon {
 				cm.addRecipe(orbResults[i], orbPattern);
 			}
 		}
+		
+		GameRegistry.addSmelting(orbGlass.shiftedIndex, new ItemStack(glassShard, 1), 1);
 	}
 
 }

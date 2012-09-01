@@ -2,13 +2,15 @@ package tco.daemon;
 
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 
 public class ItemDaggerRitual extends ItemDagger {
 
-	protected ItemDaggerRitual(int id) {
-		super(id);
+	protected ItemDaggerRitual(int id,EnumToolMaterial mat) {
+		super(id, mat);
+		setMaxDamage(0);
 	}
 
 	@Override
@@ -16,11 +18,6 @@ public class ItemDaggerRitual extends ItemDagger {
 		player.openGui(ModDaemon.instance, ReferenceGui.PORTABLE_MATRIX, world, 
 				(int)player.posX, (int)player.posY, (int)player.posZ);
 		return itemStack;
-	}
-	
-	@Override
-	public int getDamageVsEntity(Entity entity){
-		return 4;
 	}
 	
 }

@@ -34,7 +34,7 @@ public class BlockDaemon extends BlockContainer {
 			return false;
 		}
 		if (player.getCurrentEquippedItem() != null
-				&& player.getCurrentEquippedItem().getItem() instanceof ItemDaemon) {
+				&& player.getCurrentEquippedItem().getItem() instanceof ItemStaff) {
 			player.openGui(ModDaemon.instance, ReferenceGui.MATRIX.ordinal(), world, x, y, z);
 		} else {
 			player.openGui(ModDaemon.instance, world.getBlockMetadata(x, y, z), world, x, y, z);
