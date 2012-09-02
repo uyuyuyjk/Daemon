@@ -2,6 +2,8 @@
   "modid": "ModDaemon",
   "name": "Daemon",
   "description": "Mod desc.",
+  "version": "@VERSION@",
+  "mcversion": "",
   "logoFile": "",
   "authorList" : [ "tcooc" ],
   "dependencies": [""]
