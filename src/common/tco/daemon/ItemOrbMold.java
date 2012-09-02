@@ -8,6 +8,7 @@ public class ItemOrbMold extends ItemDaemon {
 		super(id);
 	}
 	
+	@Override
 	public boolean doesContainerItemLeaveCraftingGrid(ItemStack stack){
 		return false;
 	}

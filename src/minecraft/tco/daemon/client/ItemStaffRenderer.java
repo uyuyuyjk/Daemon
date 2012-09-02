@@ -1,14 +1,14 @@
 package tco.daemon.client;
 
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.RenderBlocks;
 import net.minecraft.src.Tessellator;
 import net.minecraftforge.client.IItemRenderer;
+
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class ItemStaffRenderer implements IItemRenderer {
 

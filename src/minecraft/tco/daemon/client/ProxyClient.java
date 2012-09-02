@@ -1,8 +1,12 @@
 package tco.daemon.client;
 
 import net.minecraftforge.client.MinecraftForgeClient;
+import tco.daemon.EntityGateway;
 import tco.daemon.ModDaemon;
 import tco.daemon.ProxyCommon;
+import tco.daemon.render.ModelGateway;
+import tco.daemon.render.RenderBrazier;
+import tco.daemon.render.RenderGateway;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ProxyClient extends ProxyCommon {
@@ -18,5 +22,7 @@ public class ProxyClient extends ProxyCommon {
 		
 		renderBrazierId = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(renderBrazierId, new RenderBrazier());
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityGateway.class, new RenderGateway(new ModelGateway()));
 	}
 }

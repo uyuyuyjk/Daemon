@@ -2,7 +2,11 @@ package tco.daemon;
 
 import java.lang.reflect.Field;
 
-import net.minecraft.src.*;
+import net.minecraft.src.DamageSource;
+import net.minecraft.src.EntityArrow;
+import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EntityPlayerMP;
+import net.minecraft.src.World;
 
 public class EntityUnstableArrow extends EntityArrow {
 
@@ -15,12 +19,20 @@ public class EntityUnstableArrow extends EntityArrow {
 	}
 	
 	//this is terrible, i know
+	@Override
 	public void onUpdate(){
 		super.onUpdate();
 		try {
 			boolean inGround = false;
-			Field field = EntityArrow.class.getDeclaredField("inGround");
-			field.setAccessible(true);
+			Field[] fields = EntityArrow.class.getDeclaredFields();
+			Field field = null;
+			for(Field f : fields){
+				if(!f.isAccessible() && f.getType().equals(boolean.class)){
+					f.setAccessible(true);
+					field = f;
+					break;
+				}
+			}
 			if(field.getBoolean(this)){
 				for (int i = 0; i < 32; ++i) {
 					this.worldObj.spawnParticle("portal", this.posX, this.posY
@@ -46,8 +58,6 @@ public class EntityUnstableArrow extends EntityArrow {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 		}
 	}

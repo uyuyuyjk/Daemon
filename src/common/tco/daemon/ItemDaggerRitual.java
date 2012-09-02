@@ -1,6 +1,5 @@
 package tco.daemon;
 
-import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.ItemStack;

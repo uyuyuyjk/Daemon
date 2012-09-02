@@ -10,11 +10,11 @@ import net.minecraft.src.World;
 /**
  * An Item that spawns one WolfCreation
  */
-public class ItemWolfOrb extends ItemDaemon {
+public class ItemOrbWolf extends ItemDaemon {
 
 	private Random rand = new Random();
 
-	protected ItemWolfOrb(int id) {
+	protected ItemOrbWolf(int id) {
 		super(id);
 		setMaxStackSize(1);
 	}

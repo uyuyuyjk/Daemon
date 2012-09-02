@@ -1,7 +1,6 @@
 package tco.daemon;
 
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
@@ -20,12 +19,7 @@ public class ContainerMatrixPortable extends ContainerDaemon {
 		
 		bindPlayerInventory(inventoryPlayer);
 	}
-		
-	@Override
-	public void onCraftMatrixChanged(IInventory inventory) {
-		tileEntity.updateMatrix();
-	}
-
+	
 	@Override
 	public void onCraftGuiClosed(EntityPlayer player) {
 		super.onCraftGuiClosed(player);

@@ -1,4 +1,4 @@
-package tco.daemon.client;
+package tco.daemon.render;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityRenderer;

@@ -1,11 +1,8 @@
 package tco.daemon;
 
 import java.io.InputStream;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -26,6 +23,7 @@ public class ReferenceConfigs {
 	
 	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
 			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
+			TEXTURE_GATEWAY = "/tco/daemon/sprites/gateway.png",
 			GUI_MATRIX = "/tco/daemon/sprites/matrix.png",
 			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
 			GUI_HUNGER_CHEST = "/gui/container.png";
@@ -47,7 +45,10 @@ public class ReferenceConfigs {
 	
 	public static @ConfigId int arrowUnstableId = 5443;
 
-	public static @ConfigId int glassShardId = 5632;
+	public static @ConfigId int shardGlassId = 5632,
+			shardDarkId = 5631,
+			shardUnstableId = 5630,
+			shardStableId = 5629;
 	public static @ConfigId int orbMoldId = 5633,
 			orbGlassId = 5634,
 			orbObsidianId = 5635,

@@ -102,49 +102,29 @@ public class BlockDaemon extends BlockContainer {
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		// crafting = 43
 		switch (side) {
-		case 0: // bottom
-			return 2 * 16 + 5;
 		case 1: // top
-			switch (metadata) {
-			case 1:
-				return 16 + 9;
-			case 2:
-				return 16 + 8;
-			default:
-				return 3 * 16;
-			}
+			return 0;
 		case 2: // f:2 -z north
-			return 2 * 16 + 3;
 		case 3: // f:0 +z south
-			return 2 * 16 + 3;
 		case 4: // f:1 -x west
-			return 2 * 16 + 3;
 		case 5: // f:3 +x east
-			return 2 * 16 + 3;
-		default:
-			return 3 * 16;
+			return 1;
 		}
+		
+		return 0;  // 0 = bottom
 	}
 	
 	@Override
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		for (int i = 0; i < 2; i++) {
-			double vx = 0, vy = 0, vz = 0;
 			float fx = rand.nextFloat() - 0.5f;
 			float fz = rand.nextFloat() - 0.5f;
-
-			vx = rand.nextFloat() - 0.5;
-			vy = rand.nextFloat() * 0.5;
-			vz = rand.nextFloat() - 0.5;
 			
-			vx = rand.nextFloat() * fx;
-			vz = rand.nextFloat() * fz;
-
-			double dx = x + 0.5 + 2 * fx;
+			double dx = x + 0.5 + fx;
 			double dy = y + 2 * rand.nextFloat();
-			double dz = z + 0.5 + 2 * fz;
+			double dz = z + 0.5 + fz;
 
-			world.spawnParticle("reddust", dx, dy, dz, vx, vy, vz);
+			world.spawnParticle("reddust", dx, dy, dz, 0, 0, 0);
 		}
 	}
 

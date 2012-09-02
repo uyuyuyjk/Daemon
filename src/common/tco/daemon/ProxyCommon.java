@@ -1,13 +1,10 @@
 package tco.daemon;
 
-import net.minecraft.src.Enchantment;
-import net.minecraft.src.EnchantmentHelper;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityArrow;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.Item;
-import net.minecraft.src.ItemBow;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -29,9 +26,9 @@ public class ProxyCommon implements IGuiHandler{
 			ItemStack stack = inventory.getStackInSlot(i);
 			if(stack == null) continue;
 			Item item = stack.getItem();
-			if(item instanceof ItemGlassShard){
+			if(item instanceof ItemShardGlass){
 				int damage = stack.getItemDamage();
-				if(damage < ItemGlassShard.DAMAGE_CHARGED){
+				if(damage < ItemShardGlass.DAMAGE_CHARGED){
 					stack.setItemDamage(damage + 1);
 					return;
 				}

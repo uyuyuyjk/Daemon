@@ -17,6 +17,7 @@ public class ItemDagger extends ItemDaemon {
 		setFull3D();
 	}
 	
+	@Override
 	public boolean hitEntity(ItemStack itemStack, EntityLiving entity, EntityLiving entity2) {
 		itemStack.damageItem(1, entity2);
 		return true;

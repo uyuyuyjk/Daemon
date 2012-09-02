@@ -1,7 +1,5 @@
 package tco.daemon;
 
-import java.util.List;
-
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EnumRarity;
@@ -20,6 +18,7 @@ public class ItemStaff extends ItemDaemon {
 		setRarity(EnumRarity.common);
 	}
 	
+	@Override
 	public boolean hitEntity(ItemStack itemStack, EntityLiving entity, EntityLiving entity2) {
 		itemStack.damageItem(1, entity2);
 		return true;

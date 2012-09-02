@@ -5,9 +5,9 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 
-public class ItemUnstableOrb extends ItemDaemon {
+public class ItemOrbUnstable extends ItemDaemon {
 
-	protected ItemUnstableOrb(int id) {
+	protected ItemOrbUnstable(int id) {
 		super(id);
 		setMaxStackSize(1);
 	}
