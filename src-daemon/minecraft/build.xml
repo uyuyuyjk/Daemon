@@ -3,35 +3,34 @@
 	<property name="version" value="0.1" />
 
 	<property name="mcp.dir" value="./" />
-	<property name="src.dir" value="${mcp.dir}/src" />
-	<property name="temp.dir" value="${mcp.dir}/tempdaemon" />
+	<property name="src.dir" value="${mcp}/src" />
+	<property name="daemon.dir" value="${mcp.dir}/src-daemon" />
 	<property name="build.dir" value="${mcp.dir}/reobf" />
 	<property name="forge.dir" value="${mcp.dir}/forge" />
 
-	<target name="install">
-		<copy todir="${temp.dir}">
-			<fileset dir="${src.dir}" />
-		</copy>
-		<delete dir="${src.dir}" />
-		
+	<target name="install">		
 		<exec dir="${forge.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c install.cmd" />
 		</exec>
 		<exec dir="${forge.dir}" executable="sh" osfamily="unix">
 			<arg value="install.sh" />
 		</exec>
-		
-		<copy todir="${src.dir}">
-			<fileset dir="${temp.dir}" />
+	</target>
+	
+	<target name="update-src">
+		<delete dir="${daemon.dir}" />
+		<copy todir="${daemon.dir}/minecraft/tco">
+			<fileset dir="${src.dir}/minecraft/tco" />
 		</copy>
-		<delete dir="${temp.dir}" />
+		<copy file="${src.dir}/minecraft/tco/build.xml" todir="${daemon.dir}/minecraft/tco" />
+		<copy file="${src.dir}/minecraft/tco/mcmod.info" todir="${daemon.dir}/minecraft/tco" />
 	</target>
 	
 	<target name="clean">
 		<delete dir="${build.dir}" />
 	</target>
 
-	<target name="compile" depends="clean">
+	<target name="compile">
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c recompile.bat" />
 		</exec>
@@ -40,7 +39,7 @@
 		</exec>
 	</target>
 	
-	<target name="reobfuscate">
+	<target name="reobfuscate" depends="clean">
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c reobfuscate.bat" />
 		</exec>

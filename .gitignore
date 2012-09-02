@@ -8,19 +8,12 @@ LICENSE.txt
 /forge/*
 /jars/*
 /lib/*
+/src/*
 /logs/*
 /modsrc/*
 /reobf/*
 /runtime/*
 /temp/*
-
-/src/common/*
-/src/minecraft/*
-/src/minecraft_server/*
-!/src/common/tco/
-!/src/minecraft/tco/
-!/src/common/mcmod.info
-!/src/common/build.xml
 
 *.bat
 *.sh
