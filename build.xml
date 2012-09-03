@@ -1,20 +1,24 @@
-<project name="Daemon" basedir="../../" default="main">
+<project name="Daemon" basedir="./" default="main">
 
 	<property name="version" value="0.1" />
 
 	<property name="mcp.dir" value="./" />
-	<property name="src.dir" value="${mcp}/src" />
+	<property name="src.dir" value="${mcp.dir}/src" />
 	<property name="daemon.dir" value="${mcp.dir}/src-daemon" />
 	<property name="build.dir" value="${mcp.dir}/reobf" />
 	<property name="forge.dir" value="${mcp.dir}/forge" />
 
-	<target name="install">		
+	<target name="install">
 		<exec dir="${forge.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c install.cmd" />
 		</exec>
 		<exec dir="${forge.dir}" executable="sh" osfamily="unix">
 			<arg value="install.sh" />
 		</exec>
+		
+		<copy todir="${src.dir}">
+			<fileset dir="${daemon.dir}" />
+		</copy>
 	</target>
 	
 	<target name="update-src">
@@ -22,8 +26,6 @@
 		<copy todir="${daemon.dir}/minecraft/tco">
 			<fileset dir="${src.dir}/minecraft/tco" />
 		</copy>
-		<copy file="${src.dir}/minecraft/tco/build.xml" todir="${daemon.dir}/minecraft/tco" />
-		<copy file="${src.dir}/minecraft/tco/mcmod.info" todir="${daemon.dir}/minecraft/tco" />
 	</target>
 	
 	<target name="clean">
@@ -49,7 +51,7 @@
 	</target>
 
 	<target name="package" depends="compile, reobfuscate">
-		<copy file="${src.dir}/common/mcmod.info" todir="${build.dir}">
+		<copy file="mcmod.info" todir="${build.dir}">
 			<filterset>
 				<filter token="VERSION" value="${version}" />
 			</filterset>
@@ -66,6 +68,6 @@
 		<jar destfile="${build.dir}/Daemon-${version}.jar" basedir="${build.dir}" />
 	</target>
 
-	<target name="main" depends="package" />
+	<target name="main" depends="update-src, package" />
 
 </project>
