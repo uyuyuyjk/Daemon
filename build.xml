@@ -1,14 +1,21 @@
 <project name="Daemon" basedir="./" default="main">
 
 	<property name="version" value="0.1" />
-
+	<property name="mcp.version" value="72" />
+	<property name="forge.version" value="4.0.0.234" />
+	
 	<property name="mcp.dir" value="./" />
 	<property name="src.dir" value="${mcp.dir}/src" />
 	<property name="daemon.dir" value="${mcp.dir}/src-daemon" />
 	<property name="build.dir" value="${mcp.dir}/reobf" />
 	<property name="forge.dir" value="${mcp.dir}/forge" />
 
-	<target name="install">
+	<target name="unzip">
+		<unzip src="${mcp.dir}/mcp${mcp.version}.zip" dest="${mcp.dir}" />
+		<unzip src="${mcp.dir}/minecraftforge-src-${forge.version}.zip" dest="${mcp.dir}" />
+	</target>
+
+	<target name="install" depends="unzip">
 		<exec dir="${forge.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c install.cmd" />
 		</exec>

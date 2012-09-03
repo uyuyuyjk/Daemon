@@ -64,6 +64,8 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 			break;
 		case CRAFTMATRIX:
 			break;
+		default:
+			break;
 		}
 		applyMatrixEnergy(energy, instability);
 	}
