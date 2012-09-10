@@ -1,5 +1,6 @@
 package tco.daemon;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.src.Container;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.EntityPlayer;
@@ -16,15 +17,60 @@ import net.minecraftforge.common.ISidedInventory;
 public class TileEntityDaemon extends TileEntity implements IInventory, ISidedInventory {
 
 	public static class InventoryCraftingDaemon extends InventoryCrafting{
+		TileEntityDaemon tileEntity;
 
-		public InventoryCraftingDaemon() {
+		public InventoryCraftingDaemon(TileEntityDaemon te) {
 			super(new Container(){
 				@Override
-				public boolean canInteractWith(EntityPlayer var1) {
+				public boolean canInteractWith(EntityPlayer player) {
 					return false;
 				}}, 3, 3);
+			tileEntity = te;
 		}
 		
+		//0<i<9 gets the corresponding slot of the tileEntity
+		public int getDaemonSlot(int craftingSlot){
+			if(craftingSlot < 3) return craftingSlot;
+			if(craftingSlot < 6) return craftingSlot + DaemonMatrix.MATRIX_DIM - 3;
+			return craftingSlot + 2 * (DaemonMatrix.MATRIX_DIM - 3);
+		}
+		
+		//inverse of getDaemonSlot, unpredictable with wrong inputs 
+		public int getCraftingSlot(int daemonSlot){
+			if(daemonSlot < 4) return daemonSlot;
+			if(daemonSlot < 8) return daemonSlot - DaemonMatrix.MATRIX_DIM - 3;
+			return daemonSlot - 2 * (DaemonMatrix.MATRIX_DIM - 3);
+		}
+		
+		public void populateCrafting(){
+			for (int i = 0; i < 9; i++) {
+				ItemStack stack = tileEntity.getStackInSlot(getDaemonSlot(i));
+				setInventorySlotContents(i, stack);
+			}
+		}
+
+		//TODO keepRecipe does stuff
+		public ItemStack craft(boolean keepRecipe) {
+			ItemStack result = CraftingManager.getInstance().findMatchingRecipe(this);
+			if(result != null){
+				for(int i = 0; i < 9; i++){
+					ItemStack mat = getStackInSlot(i);
+					if (mat != null)
+					{
+						if (mat.getItem().hasContainerItem()){
+							ItemStack container = mat.getItem().getContainerItemStack(mat);
+							tileEntity.setInventorySlotContents(getCraftingSlot(i), container);
+						}else{
+							tileEntity.removeItems(mat.getItem(), 1);
+						}
+					}
+				}
+			}
+			return result;		
+		}
+		public ItemStack craft(){
+			return craft(false);
+		}
 	}
 	
 	protected ItemStack[] matrix;
@@ -47,6 +93,8 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
     }
 	
 	public void updateMatrix(){
+		if(worldObj.isRemote){return;}
+		
 		ItemStack stack = getStackInSlot(DaemonMatrix.MATRIX_SIZE - 1);
 
 		DaemonMatrix type = DaemonMatrix.getType(stack);
@@ -61,6 +109,7 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 		case SMELT:
 			break;
 		case CONDUCT:
+			matrixConduct();
 			break;
 		case CRAFTMATRIX:
 			break;
@@ -69,51 +118,104 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 		}
 		applyMatrixEnergy(energy, instability);
 	}
-	
+		
 	//assumes 4x4
-	public void matrixCraft(){
+	public void matrixCraft(){		
+		InventoryCraftingDaemon craftingInv = new InventoryCraftingDaemon(this);
+		craftingInv.populateCrafting();
+		ItemStack result = CraftingManager.getInstance().findMatchingRecipe(craftingInv);
+		
+		//TODO better filling code, this doesnt take into account stacking same items
 		int emptySlot = getPreferredEmptySlot(ForgeDirection.DOWN);
 		if(emptySlot < 0) return;
-		
-		InventoryCraftingDaemon craftingInv = new InventoryCraftingDaemon();
-		for (int mat = 0, i = 0; i < 9; i++, mat++) {
-			if(mat == 3 || mat == 7) mat++;
-			ItemStack stack = getStackInSlot(mat);
-			craftingInv.setInventorySlotContents(i, stack);
-		}
-		
-		ItemStack result = CraftingManager.getInstance().findMatchingRecipe(craftingInv);
+
 		if(result != null){
 			for(int i = 0; i < 9; i++){
 				ItemStack mat = craftingInv.getStackInSlot(i);
-				if(mat != null){
-					removeItems(mat.getItem(), 1);
+				if (mat != null)
+				{
+					if (mat.getItem().hasContainerItem()){
+						ItemStack container = mat.getItem().getContainerItemStack(mat);
+						setInventorySlotContents(craftingInv.getDaemonSlot(i), container);
+					}else{
+						removeItems(mat.getItem(), 1);
+					}
 				}
 			}
-			//TODO better filling code, this doesnt take into account stacking same items
+			GameRegistry.onItemCrafted(null, result, craftingInv);
 			setInventorySlotContents(emptySlot, result);
 		}
 		
 	}
+	
+	public void matrixConduct(){
+		int size = getSizeInventorySide(ForgeDirection.DOWN);
+		int orb = -1;
+		ItemOrb orbItem = null;
+		int lastSlot = 0;
+		
+		for(; lastSlot < size; lastSlot++){
+			ItemStack stack = getStackInSlot(lastSlot);
+			if(stack != null && stack.getItem() instanceof ItemOrb){
+				orb = lastSlot;
+				orbItem = (ItemOrb) stack.getItem();
+				break;
+			}
+		}
+		if(orb < 0) return;
+
+		for(int i = 0; i < size; i++){
+			ItemStack stack = getStackInSlot(i);
+			if(stack != null
+					&& stack.getItem() instanceof ItemShardGlass
+					&& stack.getItemDamage() >= ItemShardGlass.DAMAGE_CHARGED){
+				setInventorySlotContents(i, null);
+				orbItem.chargeOrb(getStackInSlot(orb));
+				return;
+			}
+		}
+		
+		for(lastSlot++; lastSlot < size; lastSlot++){
+			ItemStack stack = getStackInSlot(lastSlot);
+			if(stack != null && stack.getItem() instanceof ItemOrb){
+				setInventorySlotContents(orb, orbItem.mergeOrbs(getStackInSlot(orb), stack));
+				setInventorySlotContents(lastSlot, null);
+				return;
+			}
+		}
+	}
 
 	public void applyMatrixEnergy(DaemonEnergy energy, int instability){
-		
+		//overridden by inheriting classes
 	}
 	
 	//assumes items exist
-	//removes all but 1 or amount, depending on which comes first
+	//attempts to leave stacks with at least 1 item
+	/**
+	 * 
+	 * @param side
+	 * @param item
+	 * @param amount amount of the item to remove from the inventory
+	 */
 	public void removeItems(ForgeDirection side, Item item, int amount){
-		int start = getStartInventorySide(side);
 		int size = getSizeInventorySide(side);
 		
 		for(int i = 0; i < size && amount > 0; i++){
-			ItemStack stack = getStackInSlot(start + i);
+			ItemStack stack = getStackInSlot(i);
 			if(stack != null && stack.getItem() == item){
-				int amt = stack.stackSize - 1;
+				int amt = stack.stackSize - 1; //maximum amt it can take from the stack
 				if(amount < amt){
 					amt = amount;
 				}
-				amount -= decrStackSize(start + i, amt).stackSize;
+				if(amt > 0){
+					amount -= decrStackSize(i, amt).stackSize;
+				}
+			}
+		}
+		for (int i = 0; i < size && amount > 0; i++) {
+			ItemStack stack = getStackInSlot(i);
+			if (stack != null && stack.getItem() == item) {
+				amount -= decrStackSize(i, amount).stackSize;
 			}
 		}
 	}
@@ -128,6 +230,7 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 	
 	//returns the sides, corners, then the main 3x3, or -1 is no empty slots found
 	//assumes 4x4 matrix
+	//TODO make it better
 	public int getPreferredEmptySlot(ForgeDirection side){
 		int start = getStartInventorySide(side);
 		int size = getSizeInventorySide(side);

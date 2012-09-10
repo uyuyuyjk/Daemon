@@ -3,17 +3,30 @@ package tco.daemon;
 import java.util.List;
 
 import net.minecraft.src.AxisAlignedBB;
+import net.minecraft.src.DamageSource;
+import net.minecraft.src.Entity;
 import net.minecraft.src.EntityAnimal;
+import net.minecraft.src.EntityChicken;
 import net.minecraft.src.EntityCow;
+import net.minecraft.src.EntityPig;
+import net.minecraft.src.EntitySheep;
+import net.minecraft.src.EntityZombie;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 public class TileEntityFeeder extends TileEntityDaemon {
+	
+	private static final int DEATH_THRESHHOLD = 8;
+	
+	private Class[] entityClasses = { EntityCow.class, EntityPig.class,
+			EntityChicken.class, EntitySheep.class,
+			EntityZombie.class };
 
 	private int maxCooldown;
 
 	private int cooldown;
+	private Entity target = null;
 
 	public TileEntityFeeder() {
 		inv = new ItemStack[1];
@@ -26,6 +39,15 @@ public class TileEntityFeeder extends TileEntityDaemon {
 		super.updateEntity();
 		
 		cooldown++;
+		
+		if(target != null){
+			if(target.isDead){
+				target = null;
+			}else{
+				target.attackEntityFrom(DamageSource.starve, 1); //TODO different types of damage
+				//target.attackEntityFrom(DamageSource.onFire, 1);
+			}
+		}
 
 		if(cooldown > maxCooldown){
 			cooldown = 0;
@@ -33,7 +55,10 @@ public class TileEntityFeeder extends TileEntityDaemon {
 			if (stack != null
 					&&  stack.getItem() == Item.wheat
 					&& stack.stackSize >= 2) {
-				List<EntityAnimal> entityList = getEntitiesOfTypeInRange(EntityCow.class);
+				List<EntityAnimal> entityList = getEntitiesOfTypeInRange(entityClasses[0]);
+				if(entityList.size() > DEATH_THRESHHOLD){
+					setKillTarget(entityList.get(0));
+				}
 				if (entityList.size() >= 2) {
 					attemptProcreation(entityList);
 				}
@@ -82,6 +107,10 @@ public class TileEntityFeeder extends TileEntityDaemon {
 			return true;
 		}
 		return false;
+	}
+	
+	public void setKillTarget(Entity e){
+		target = e;
 	}
 
 	@Override
