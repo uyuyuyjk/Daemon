@@ -1,18 +1,20 @@
 <project name="Daemon" basedir="./" default="main">
 
-	<property name="version" value="0.1" />
+	<property name="version" value="0.1a" />
 	<property name="mcp.version" value="72" />
 	<property name="forge.version" value="4.0.0.234" />
 	
-	<property name="mcp.dir" value="./" />
+	<property name="downloads.dir" value="downloads" />
+	<property name="mcp.dir" value="mcp" />
 	<property name="src.dir" value="${mcp.dir}/src" />
-	<property name="daemon.dir" value="${mcp.dir}/src-daemon" />
 	<property name="build.dir" value="${mcp.dir}/reobf" />
 	<property name="forge.dir" value="${mcp.dir}/forge" />
+	<property name="daemon.dir" value="src" />
+	<property name="temp.dir" value="temp" />
 
 	<target name="unzip">
-		<unzip src="${mcp.dir}/mcp${mcp.version}.zip" dest="${mcp.dir}" />
-		<unzip src="${mcp.dir}/minecraftforge-src-${forge.version}.zip" dest="${mcp.dir}" />
+		<unzip src="${downloads.dir}/mcp${mcp.version}.zip" dest="${mcp.dir}" />
+		<unzip src="${downloads.dir}/minecraftforge-src-${forge.version}.zip" dest="${mcp.dir}" />
 	</target>
 
 	<target name="install" depends="unzip">
@@ -25,20 +27,18 @@
 		
 		<copy todir="${src.dir}">
 			<fileset dir="${daemon.dir}" />
+			<filterset>
+				<filter token="VERSION" value="${version}" />
+			</filterset>
 		</copy>
 	</target>
-	
-	<target name="update-src">
-		<delete dir="${daemon.dir}" />
-		<copy todir="${daemon.dir}/minecraft/tco">
-			<fileset dir="${src.dir}/minecraft/tco" />
-		</copy>
-	</target>
-	
+		
 	<target name="clean">
+		<delete file="Daemon-${version}.jar" />
 		<delete dir="${build.dir}" />
+		<delete dir="${temp.dir}" />
 	</target>
-
+	
 	<target name="compile">
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c recompile.bat" />
@@ -48,7 +48,7 @@
 		</exec>
 	</target>
 	
-	<target name="reobfuscate" depends="clean">
+	<target name="reobfuscate">
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c reobfuscate.bat" />
 		</exec>
@@ -57,7 +57,7 @@
 		</exec>
 	</target>
 
-	<target name="package" depends="compile, reobfuscate">
+	<target name="package" depends="clean, compile, reobfuscate">
 		<copy file="mcmod.info" todir="${build.dir}">
 			<filterset>
 				<filter token="VERSION" value="${version}" />
@@ -72,9 +72,20 @@
 			<fileset dir="${src.dir}/minecraft/tco/daemon/lang" />
 		</copy>
 
-		<jar destfile="${build.dir}/Daemon-${version}.jar" basedir="${build.dir}" />
+		<jar destfile="Daemon-${version}.jar" basedir="${build.dir}" />
+	</target>
+	
+	<target name="update-src">
+		<delete dir="${temp.dir}" />
+		<copy todir="${temp.dir}">
+			<fileset dir="${daemon.dir}" />
+		</copy>
+		<delete dir="${daemon.dir}" />
+		<copy todir="${daemon.dir}/minecraft/tco">
+			<fileset dir="${src.dir}/minecraft/tco" />
+		</copy>
 	</target>
 
-	<target name="main" depends="update-src, package" />
+	<target name="main" depends="package" />
 
 </project>

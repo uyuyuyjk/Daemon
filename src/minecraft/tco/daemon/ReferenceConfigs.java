@@ -19,7 +19,7 @@ public class ReferenceConfigs {
 		public boolean block() default false;
 	}
 
-	public static final String VERSION = "0.1";
+	public static final String VERSION = "@VERSION@";
 	
 	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
 			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",

@@ -1,23 +1,6 @@
-CHANGELOG
-LICENSE.txt
-
-/bin/*
-/conf/*
-/docs/*
-/eclipse/*
-/forge/*
-/jars/*
-/lib/*
-/src/*
-/logs/*
-/modsrc/*
-/reobf/*
-/runtime/*
+/mcp/*
 /temp/*
-
-*.bat
-*.sh
-*.zip
+*.jar
 
 #################
 ## Eclipse
