@@ -9,6 +9,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
+import tco.daemon.util.ReferenceConfigs;
 
 public class BlockBrazier extends Block {
 	public BlockBrazier(int id) {

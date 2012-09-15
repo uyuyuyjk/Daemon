@@ -25,4 +25,9 @@ public class ProxyClient extends ProxyCommon {
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityGateway.class, new RenderGateway(new ModelGateway()));
 	}
+	
+	@Override
+	public boolean isSimulating(){
+		return false;
+	}
 }

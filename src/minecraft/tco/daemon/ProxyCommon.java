@@ -11,7 +11,9 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
+import tco.daemon.client.GuiMatrixContained;
 import tco.daemon.client.GuiMatrixPortable;
+import tco.daemon.util.ReferenceGui;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class ProxyCommon implements IGuiHandler{
@@ -100,6 +102,8 @@ public class ProxyCommon implements IGuiHandler{
 			return ReferenceGui.getContainer(id, player, world, x, y, z);
 		}
 		switch (id) {
+		case ReferenceGui.CONTAINED_MATRIX:
+			return new ContainerMatrixContained(player);
 		case ReferenceGui.PORTABLE_MATRIX:
 			return new ContainerMatrixPortable(player.inventory);
 		}
@@ -113,10 +117,16 @@ public class ProxyCommon implements IGuiHandler{
 			return ReferenceGui.getGui(id, player, world, x, y, z);
 		}
 		switch (id) {
+		case ReferenceGui.CONTAINED_MATRIX:
+			return new GuiMatrixContained(player);
 		case ReferenceGui.PORTABLE_MATRIX:
 			return new GuiMatrixPortable(player.inventory);
 		}
 		return null;
+	}
+	
+	public boolean isSimulating(){
+		return true;
 	}
 	
 }

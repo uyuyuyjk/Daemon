@@ -1,10 +1,8 @@
 package tco.daemon;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.src.Container;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryCrafting;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -13,8 +11,12 @@ import net.minecraft.src.NBTTagList;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import tco.daemon.util.DaemonEnergy;
+import tco.daemon.util.DaemonMatrix;
+import tco.daemon.util.UtilItem;
+import cpw.mods.fml.common.registry.GameRegistry;
 
-public class TileEntityDaemon extends TileEntity implements IInventory, ISidedInventory {
+public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 
 	public static class InventoryCraftingDaemon extends InventoryCrafting{
 		TileEntityDaemon tileEntity;
@@ -95,9 +97,8 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 	public void updateMatrix(){
 		if(worldObj.isRemote){return;}
 		
-		ItemStack stack = getStackInSlot(DaemonMatrix.MATRIX_SIZE - 1);
 
-		DaemonMatrix type = DaemonMatrix.getType(stack);
+		DaemonMatrix type = DaemonMatrix.getType(this);
 		DaemonEnergy energy = DaemonMatrix.calculateEnergy(this);
 		
 		int instability = DaemonMatrix.calculateInstability(this);
@@ -154,6 +155,7 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 		ItemOrb orbItem = null;
 		int lastSlot = 0;
 		
+		//find 1st orb
 		for(; lastSlot < size; lastSlot++){
 			ItemStack stack = getStackInSlot(lastSlot);
 			if(stack != null && stack.getItem() instanceof ItemOrb){
@@ -164,6 +166,7 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 		}
 		if(orb < 0) return;
 
+		//charge with glass shard if possible
 		for(int i = 0; i < size; i++){
 			ItemStack stack = getStackInSlot(i);
 			if(stack != null
@@ -171,6 +174,19 @@ public class TileEntityDaemon extends TileEntity implements IInventory, ISidedIn
 					&& stack.getItemDamage() >= ItemShardGlass.DAMAGE_CHARGED){
 				setInventorySlotContents(i, null);
 				orbItem.chargeOrb(getStackInSlot(orb));
+				return;
+			}
+		}
+		
+		//charge with crystal
+		for(int i = 0; i < size; i++){
+			ItemStack stack = getStackInSlot(i);
+			if(stack != null && stack.getItem() instanceof ItemCrystal){
+				setInventorySlotContents(i, null);
+				DaemonEnergy de = UtilItem.getDaemonEnergy(getStackInSlot(orb));
+				DaemonEnergy de2 = UtilItem.getDaemonEnergy(stack);
+				de.merge(de2);
+				UtilItem.setDaemonEnergy(getStackInSlot(orb), de);
 				return;
 			}
 		}

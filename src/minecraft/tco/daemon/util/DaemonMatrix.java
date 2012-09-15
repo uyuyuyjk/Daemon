@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,18 +10,21 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.ItemTool;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import tco.daemon.ItemDagger;
+import tco.daemon.ItemOrb;
 
 public enum DaemonMatrix {
 	DEFAULT,
 	CRAFT,
 	SMELT,
+	CHARGE,
 	CONDUCT,
 	CRAFTMATRIX;
 	
 	public static final int MATRIX_DIM = 4;
 	public static final int MATRIX_SIZE = MATRIX_DIM * MATRIX_DIM;
 
-	public static Map<Item, Integer> itemMap = new HashMap<Item, Integer>();
+	public static final Map<Item, Integer> itemMap = new HashMap<Item, Integer>();
 	
 	public static void initialize(){
 		addDeath(Item.bone);
@@ -47,7 +50,8 @@ public enum DaemonMatrix {
 		itemMap.put(item, 0x4);
 	}
 	
-	public static DaemonMatrix getType(ItemStack stack){
+	public static DaemonMatrix getType(ISidedInventory matrix){
+		ItemStack stack = matrix.getStackInSlot(DaemonMatrix.MATRIX_SIZE - 1);
 		if (stack != null) {
 			Item item = stack.getItem();
 			if (item instanceof ItemOrb) {
@@ -64,6 +68,14 @@ public enum DaemonMatrix {
 			}
 		}
 		return DEFAULT;
+	}
+		
+	public static ItemStack getStorageItem(ISidedInventory matrix){
+		ItemStack stack = matrix.getStackInSlot(DaemonMatrix.MATRIX_DIM - 1);
+		if(stack != null && stack.getItem() instanceof IDaemonEnergyStorage) {
+			return stack;
+		}
+		return null;
 	}
 	
 	public static DaemonEnergy calculateEnergy(ISidedInventory matrix, ForgeDirection side){

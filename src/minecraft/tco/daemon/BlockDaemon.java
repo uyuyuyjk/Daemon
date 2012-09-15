@@ -13,6 +13,8 @@ import net.minecraft.src.Material;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import tco.daemon.util.ReferenceConfigs;
+import tco.daemon.util.ReferenceGui;
 
 public class BlockDaemon extends BlockContainer {
 

@@ -10,6 +10,7 @@ import net.minecraft.src.ItemBow;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.MathHelper;
 import net.minecraft.src.World;
+import tco.daemon.util.ReferenceConfigs;
 
 //extend ItemBow in order to make it enchantable
 public class ItemBirdCannon extends ItemBow {

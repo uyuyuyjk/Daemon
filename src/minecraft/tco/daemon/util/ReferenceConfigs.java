@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.util;
 
 import java.io.InputStream;
 import java.lang.annotation.Retention;
@@ -19,21 +19,26 @@ public class ReferenceConfigs {
 		public boolean block() default false;
 	}
 
-	public static final String VERSION = "@VERSION@";
+	public static final String VERSION = "0.1";
 	
 	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
 			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
 			TEXTURE_GATEWAY = "/tco/daemon/sprites/gateway.png",
 			GUI_MATRIX = "/tco/daemon/sprites/matrix.png",
 			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
-			GUI_HUNGER_CHEST = "/gui/container.png";
+			GUI_HUNGER_CHEST = "/gui/container.png",
+			GUI_DECOMPOSER = "/gui/decomposer.png";
 	
-	public static @ConfigId(block=true) int blockDaemonId = 143,
+	public static @ConfigId(block=true) int blockCursedOreId = 141,
+			blockCrystalOreId = 142,
+			blockDaemonId = 143,
 			blockBrazierId = 144,
 			blockAltarId = 145;//TODO use
 	
 	public static @ConfigId int daemonBrazierId = 5432;
 
+	public static @ConfigId int matrixContainedId = 5700;
+	
 	public static @ConfigId int daggerSacrificeId = 5433,
 			daggerSoulsId = 5437,
 			daggerRitualId = 5435,
@@ -49,6 +54,7 @@ public class ReferenceConfigs {
 			shardDarkId = 5631,
 			shardUnstableId = 5630,
 			shardStableId = 5629;
+	public static @ConfigId int crystalId = 5900;
 	public static @ConfigId int orbMoldId = 5633,
 			orbGlassId = 5634,
 			orbObsidianId = 5635,

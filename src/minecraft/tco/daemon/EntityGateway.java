@@ -2,6 +2,7 @@ package tco.daemon;
 
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.World;
+import tco.daemon.util.ReferenceConfigs;
 
 public class EntityGateway extends EntityLiving {
 

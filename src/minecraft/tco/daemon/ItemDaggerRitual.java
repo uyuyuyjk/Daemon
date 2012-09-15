@@ -4,6 +4,7 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import tco.daemon.util.ReferenceGui;
 
 public class ItemDaggerRitual extends ItemDagger {
 

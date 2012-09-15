@@ -2,6 +2,7 @@ package tco.daemon;
 
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
+import tco.daemon.util.ReferenceGui;
 
 public class ItemBlockDaemon extends ItemBlock {
 

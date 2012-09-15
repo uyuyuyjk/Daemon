@@ -7,8 +7,8 @@ import net.minecraft.src.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import tco.daemon.ContainerFeeder;
-import tco.daemon.ReferenceConfigs;
 import tco.daemon.TileEntityFeeder;
+import tco.daemon.util.ReferenceConfigs;
 
 public class GuiFeeder extends GuiContainer {
 

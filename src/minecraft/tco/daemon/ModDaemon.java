@@ -23,6 +23,8 @@
  ******************************************/
 package tco.daemon;
 
+import java.util.Random;
+
 import net.minecraft.src.Block;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.CreativeTabs;
@@ -31,7 +33,12 @@ import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.Material;
 import net.minecraftforge.common.MinecraftForge;
+import tco.daemon.util.DaemonEnergy;
+import tco.daemon.util.DecomposerRecipes;
+import tco.daemon.util.ReferenceConfigs;
+import tco.daemon.util.UtilItem;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -56,18 +63,25 @@ public class ModDaemon {
 	@SidedProxy(clientSide = "tco.daemon.client.ProxyClient", serverSide = "tco.daemon.ProxyCommon")
 	public static ProxyCommon proxy;
 	
+	
 	//content
+	public Block blockCursedStone, blockCrystalOre;
 	public Block blockDaemon,
 		blockBrazier;
+	
 	public Item daemonBrazier;
 	
 	public Item birdCannnon;
 	public Item arrowUnstable;
 
+	public Item matrixContained;
+
 	public Item staff;
 	public Item daggerSacrifice, daggerSouls, daggerRitual;
 
 	public Item shardGlass, shardDark, shardUnstable, shardStable;
+	
+	public Item crystal;
 	
 	public Item orbMold,
 		orbGlass,
@@ -89,6 +103,9 @@ public class ModDaemon {
 		registerEntities();
 		addRecipes();
 		
+		WorldGenerator worldGenerator = new WorldGenerator();
+		GameRegistry.registerWorldGenerator(worldGenerator);
+		
 		GameRegistry.registerCraftingHandler(new CraftingHandlerDaemon());
 		
 		NetworkRegistry.instance().registerGuiHandler(this, proxy);
@@ -102,6 +119,14 @@ public class ModDaemon {
 	}
 	
 	private void loadBlocks(){
+		blockCursedStone = new Block(ReferenceConfigs.blockCursedOreId, Material.rock)
+			.setBlockName("cursedOre").setCreativeTab(CreativeTabs.tabMisc);
+		GameRegistry.registerBlock(blockCursedStone);
+
+		blockCrystalOre = new Block(ReferenceConfigs.blockCrystalOreId, Material.glass)
+			.setBlockName("crystalOre").setCreativeTab(CreativeTabs.tabMisc);
+		GameRegistry.registerBlock(blockCrystalOre);
+
 		blockDaemon = new BlockDaemon(ReferenceConfigs.blockDaemonId).setBlockName("blockDaemon");
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemon.class);
 		
@@ -111,7 +136,7 @@ public class ModDaemon {
 		GameRegistry.registerTileEntity(TileEntityDaemon.class, "tileEntityDaemon");
 		GameRegistry.registerTileEntity(TileEntityFeeder.class, "tileEntityFeeder");
 		GameRegistry.registerTileEntity(TileEntityHungerChest.class, "tileEntityHungerChest");
-		
+		GameRegistry.registerTileEntity(TileEntityDecomposer.class, "tileEntityDecomposer");
 	}
 	
 	private void loadItems(){
@@ -130,20 +155,26 @@ public class ModDaemon {
 		shardStable = new ItemShard(ReferenceConfigs.shardStableId)
 			.setIconCoord(7, 1).setItemName("shardStable");
 		
+		crystal = new ItemCrystal(ReferenceConfigs.crystalId).setItemName("crystal");
+		
 		//orbs
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
 			.setIconCoord(5, 1).setItemName("orbMold");
 			orbMold.setContainerItem(orbMold);
-		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId, 50).setRarity(EnumRarity.uncommon)
+		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId, 500).setRarity(EnumRarity.uncommon)
 			.setIconCoord(0, 1).setItemName("orbGlass");;
-		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId, 200).setRarity(EnumRarity.rare)
+		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId, 2000).setRarity(EnumRarity.rare)
 			.setIconCoord(1, 1).setItemName("orbObsidian");
-		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId, 1000).setRarity(EnumRarity.rare)
+		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId, 10000).setRarity(EnumRarity.rare)
 			.setIconCoord(2, 1).setItemName("orbBlaze");
 		orbWolf = new ItemOrbWolf(ReferenceConfigs.orbWolfId).setRarity(EnumRarity.rare)
 			.setIconCoord(3, 1).setItemName("orbWolf");
 		orbUnstable = new ItemOrbUnstable(ReferenceConfigs.orbUnstableId).setRarity(EnumRarity.rare)
 			.setIconCoord(4, 1).setItemName("orbUnstable");
+		
+		//special items
+		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContainedId)
+			.setItemName("matrixContained");
 		
 		//staves
 		staff = new ItemStaff(ReferenceConfigs.staffId, EnumToolMaterial.WOOD)
@@ -208,7 +239,22 @@ public class ModDaemon {
 			}
 		}
 		
-		GameRegistry.addSmelting(orbGlass.shiftedIndex, new ItemStack(shardGlass, 1), 1);
+		GameRegistry.addSmelting(orbGlass.shiftedIndex, new ItemStack(shardGlass), 0);
+		
+		DecomposerRecipes.addRecipe(blockCrystalOre.blockID,
+				new DecomposerRecipes.DecomposerRecipe(50, new ItemStack(crystal)) {
+					@Override
+					public void handleCraft(ItemStack stack) {
+						Random rand = new Random();
+						DaemonEnergy de = UtilItem.getDaemonEnergy(stack);
+						de.deathEnergy = rand.nextInt(100);
+						de.decayEnergy = rand.nextInt(100);
+						de.diseaseEnergy = rand.nextInt(100);
+						de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy + rand.nextInt(100);
+						UtilItem.setDaemonEnergy(stack, de);
+					}
+				});
+		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 2));	
 	}
 
 }

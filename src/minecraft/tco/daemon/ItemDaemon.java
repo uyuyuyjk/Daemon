@@ -4,6 +4,7 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumRarity;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
+import tco.daemon.util.ReferenceConfigs;
 
 public class ItemDaemon extends Item {
 	

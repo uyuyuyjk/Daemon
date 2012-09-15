@@ -7,8 +7,8 @@ import net.minecraft.src.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import tco.daemon.ContainerMatrix;
-import tco.daemon.ReferenceConfigs;
 import tco.daemon.TileEntityDaemon;
+import tco.daemon.util.ReferenceConfigs;
 
 public class GuiMatrix extends GuiContainer {
 
