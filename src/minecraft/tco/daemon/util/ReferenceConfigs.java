@@ -13,14 +13,16 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ReferenceConfigs {
-	
+
 	@Retention(RetentionPolicy.RUNTIME)
 	private static @interface ConfigId {
 		public boolean block() default false;
 	}
 
 	public static final String VERSION = "0.1";
-	
+	public static final String FULL_VERSION = "ModDaemon v" + VERSION;
+	public static final String CHANNEL = "ModDaemon";
+
 	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
 			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
 			TEXTURE_GATEWAY = "/tco/daemon/sprites/gateway.png",
@@ -28,26 +30,26 @@ public class ReferenceConfigs {
 			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
 			GUI_HUNGER_CHEST = "/gui/container.png",
 			GUI_DECOMPOSER = "/gui/decomposer.png";
-	
+
 	public static @ConfigId(block=true) int blockCursedOreId = 141,
 			blockCrystalOreId = 142,
 			blockDaemonId = 143,
 			blockBrazierId = 144,
 			blockAltarId = 145;//TODO use
-	
+
 	public static @ConfigId int daemonBrazierId = 5432;
 
 	public static @ConfigId int matrixContainedId = 5700;
-	
+
 	public static @ConfigId int daggerSacrificeId = 5433,
 			daggerSoulsId = 5437,
 			daggerRitualId = 5435,
 			birdCannnonId = 5436,
 			amuletUnlife = 5437;//TODO use
-	
+
 	public static @ConfigId int staffId = 5438,
 			staffUndeathId = 5439;//TODO use
-	
+
 	public static @ConfigId int arrowUnstableId = 5443;
 
 	public static @ConfigId int shardGlassId = 5632,
@@ -68,7 +70,7 @@ public class ReferenceConfigs {
 				event.getSuggestedConfigurationFile());
 		try {
 			cfg.load();
-			
+
 			Field[] fields = ReferenceConfigs.class.getFields();
 			for(Field field : fields){
 				ConfigId annotation = field.getAnnotation(ConfigId.class);
@@ -82,14 +84,31 @@ public class ReferenceConfigs {
 				}
 				field.setInt(null, id);
 			}
-			
+
 		} catch (Exception e) {
 			FMLLog.log(Level.SEVERE, e, "Failed to load Daemon mod configs.");
 		} finally {
 			cfg.save();
 		}
 	}
-	
+
+	public static String getConfigs() {
+		StringBuffer configs = new StringBuffer();
+		Field[] fields = ReferenceConfigs.class.getFields();
+		for(Field field : fields){
+			ConfigId annotation = field.getAnnotation(ConfigId.class);
+			if(annotation == null)
+				continue;
+			try{
+				int id = field.getInt(null);
+				configs.append(field.getName()).append('=').append(id).append(", ");
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return configs.toString();
+	}
+
 	public static Properties props;
 
 	public static void loadLocalizationProps() {
@@ -108,7 +127,7 @@ public class ReferenceConfigs {
 					"Failed to load Daemon mod language files.");
 		}
 	}
-	
+
 	public String get(String key){
 		return props.getProperty(key);
 	}

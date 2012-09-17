@@ -1,4 +1,4 @@
-package tco.daemon.render;
+package tco.daemon.client.render;
 
 import net.minecraft.src.RenderLiving;
 

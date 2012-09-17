@@ -1,8 +1,14 @@
 package tco.daemon.util;
 
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
+import net.minecraft.src.InventoryPlayer;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
+import tco.daemon.ItemOrb;
+import tco.daemon.ItemShardGlass;
 
 public class UtilItem {
 	
@@ -38,4 +44,31 @@ public class UtilItem {
 		checkTagCompound(stack);
 		inventory.saveToNBT(stack.getTagCompound());
 	}
+	
+	//misc. handling
+	public static void absorbSoul(Entity victim, EntityPlayer player){
+		InventoryPlayer inventory = player.inventory;
+		for(int i = 0; i < inventory.getSizeInventory(); i++){
+			ItemStack stack = inventory.getStackInSlot(i);
+			if(stack == null) continue;
+			Item item = stack.getItem();
+			if(item instanceof ItemShardGlass){
+				int damage = stack.getItemDamage();
+				if(damage < ItemShardGlass.DAMAGE_CHARGED){
+					stack.setItemDamage(damage + 1);
+					return;
+				}
+			}
+		}
+		for(int i = 0; i < inventory.getSizeInventory(); i++){
+			ItemStack stack = inventory.getStackInSlot(i);
+			if(stack == null) continue;
+			Item item = stack.getItem();
+			if(item instanceof ItemOrb){
+				//TODO implement
+				return;
+			}
+		}
+	}
+
 }

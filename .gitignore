@@ -1,5 +1,7 @@
+/downloads/*
 /mcp/*
 /temp/*
+/jars/*
 *.jar
 
 #################

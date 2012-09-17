@@ -5,6 +5,8 @@ import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
 import net.minecraftforge.common.ForgeDirection;
+import tco.daemon.machines.ContainerDaemon;
+import tco.daemon.machines.TileEntityMatrixPortable;
 
 public class ContainerMatrixPortable extends ContainerDaemon {
     

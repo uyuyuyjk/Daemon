@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import java.util.List;
 import java.util.Random;
@@ -13,12 +13,14 @@ import net.minecraft.src.Material;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
+import tco.daemon.ItemStaff;
+import tco.daemon.ModDaemon;
 import tco.daemon.util.ReferenceConfigs;
 import tco.daemon.util.ReferenceGui;
 
 public class BlockDaemon extends BlockContainer {
 
-	protected BlockDaemon(int id) {
+	public BlockDaemon(int id) {
 		super(id, Material.rock);
 		setTextureFile(ReferenceConfigs.TEXTURE_BLOCKS);
 		setHardness(2.0F);

@@ -8,18 +8,18 @@ import net.minecraft.src.GuiContainer;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.TileEntity;
 import net.minecraft.src.World;
-import tco.daemon.ContainerDecomposer;
-import tco.daemon.ContainerFeeder;
-import tco.daemon.ContainerHungerChest;
-import tco.daemon.ContainerMatrix;
-import tco.daemon.TileEntityDaemon;
-import tco.daemon.TileEntityDecomposer;
-import tco.daemon.TileEntityFeeder;
-import tco.daemon.TileEntityHungerChest;
 import tco.daemon.client.GuiDecomposer;
 import tco.daemon.client.GuiFeeder;
 import tco.daemon.client.GuiHungerChest;
 import tco.daemon.client.GuiMatrix;
+import tco.daemon.machines.ContainerDecomposer;
+import tco.daemon.machines.ContainerFeeder;
+import tco.daemon.machines.ContainerHungerChest;
+import tco.daemon.machines.ContainerMatrix;
+import tco.daemon.machines.TileEntityDaemon;
+import tco.daemon.machines.TileEntityDecomposer;
+import tco.daemon.machines.TileEntityFeeder;
+import tco.daemon.machines.TileEntityHungerChest;
 import cpw.mods.fml.common.FMLLog;
 
 public enum ReferenceGui {

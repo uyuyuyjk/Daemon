@@ -1,4 +1,4 @@
-package tco.daemon.client;
+package tco.daemon.client.render;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.EntityLiving;

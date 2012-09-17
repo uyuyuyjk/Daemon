@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import java.util.List;
 import java.util.Random;
@@ -9,6 +9,7 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
+import tco.daemon.ModDaemon;
 import tco.daemon.util.ReferenceConfigs;
 
 public class BlockBrazier extends Block {

@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import net.minecraft.src.Container;
 import net.minecraft.src.CraftingManager;
@@ -11,6 +11,9 @@ import net.minecraft.src.NBTTagList;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import tco.daemon.ItemCrystal;
+import tco.daemon.ItemOrb;
+import tco.daemon.ItemShardGlass;
 import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.DaemonMatrix;
 import tco.daemon.util.UtilItem;

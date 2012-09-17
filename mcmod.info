@@ -1,10 +1,10 @@
 [{
-  "modid": "ModDaemon",
-  "name": "Daemon",
-  "description": "Mod desc.",
-  "version": "@VERSION@",
-  "mcversion": "",
-  "logoFile": "",
-  "authorList" : [ "tcooc" ],
-  "dependencies": [""]
+  "modid" : "ModDaemon",
+  "name" : "Daemon",
+  "description" : "Mod desc.",
+  "url" : "https://github.com/tcooc/Daemon",
+  "version" : "",
+  "logoFile" : "",
+  "authors" : [ "tcooc" ],
+  "dependencies" : []
 }]

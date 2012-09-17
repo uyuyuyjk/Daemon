@@ -1,15 +1,17 @@
 <project name="Daemon" basedir="./" default="main">
 
-	<property name="version" value="0.1a" />
+	<property name="version" value="0.1.2a" />
 	<property name="mcp.version" value="72" />
-	<property name="forge.version" value="4.0.0.234" />
+	<property name="forge.version" value="4.1.1.251" />
 	
-	<property name="downloads.dir" value="downloads" />
-	<property name="mcp.dir" value="mcp" />
-	<property name="src.dir" value="${mcp.dir}/src" />
-	<property name="build.dir" value="${mcp.dir}/reobf" />
-	<property name="forge.dir" value="${mcp.dir}/forge" />
 	<property name="daemon.dir" value="src" />
+	<property name="jars.dir" value="jars" />
+	<property name="downloads.dir" value="downloads" />
+	
+	<property name="mcp.dir" value="mcp" />
+	<property name="src.dir" value="${mcp.dir}/src/minecraft" />
+	<property name="build.dir" value="${mcp.dir}/reobf/minecraft" />
+	<property name="forge.dir" value="${mcp.dir}/forge" />
 	<property name="temp.dir" value="temp" />
 
 	<target name="unzip">
@@ -18,6 +20,10 @@
 	</target>
 
 	<target name="install" depends="unzip">
+		<copy todir="${mcp.dir}/jars">
+			<fileset dir="${jars.dir}" />
+		</copy>
+
 		<exec dir="${forge.dir}" executable="cmd" osfamily="windows">
 			<arg line="/c install.cmd" />
 		</exec>
@@ -27,9 +33,6 @@
 		
 		<copy todir="${src.dir}">
 			<fileset dir="${daemon.dir}" />
-			<filterset>
-				<filter token="VERSION" value="${version}" />
-			</filterset>
 		</copy>
 	</target>
 		
@@ -58,18 +61,14 @@
 	</target>
 
 	<target name="package" depends="clean, compile, reobfuscate">
-		<copy file="mcmod.info" todir="${build.dir}">
-			<filterset>
-				<filter token="VERSION" value="${version}" />
-			</filterset>
-		</copy>
-		<copy todir="${build.dir}/minecraft/tco/daemon/sprites">
-			<fileset dir="${src.dir}/minecraft/tco/daemon/sprites">
+		<copy file="mcmod.info" todir="${build.dir}" />
+		<copy todir="${build.dir}/tco/daemon/sprites">
+			<fileset dir="${src.dir}/tco/daemon/sprites">
 				<exclude name="*.xcf" />
 			</fileset>
 		</copy>
-		<copy todir="${build.dir}/minecraft/tco/daemon/lang">
-			<fileset dir="${src.dir}/minecraft/tco/daemon/lang" />
+		<copy todir="${build.dir}/tco/daemon/lang">
+			<fileset dir="${src.dir}/tco/daemon/lang" />
 		</copy>
 
 		<jar destfile="Daemon-${version}.jar" basedir="${build.dir}" />
@@ -81,8 +80,8 @@
 			<fileset dir="${daemon.dir}" />
 		</copy>
 		<delete dir="${daemon.dir}" />
-		<copy todir="${daemon.dir}/minecraft/tco">
-			<fileset dir="${src.dir}/minecraft/tco" />
+		<copy todir="${daemon.dir}/tco">
+			<fileset dir="${src.dir}/tco" />
 		</copy>
 	</target>
 

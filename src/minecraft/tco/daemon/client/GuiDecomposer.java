@@ -6,8 +6,8 @@ import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import tco.daemon.ContainerDecomposer;
-import tco.daemon.TileEntityDecomposer;
+import tco.daemon.machines.ContainerDecomposer;
+import tco.daemon.machines.TileEntityDecomposer;
 import tco.daemon.util.ReferenceConfigs;
 
 public class GuiDecomposer extends GuiContainer {

@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import java.util.List;
 

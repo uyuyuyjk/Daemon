@@ -1,4 +1,4 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import net.minecraft.src.ItemStack;
 

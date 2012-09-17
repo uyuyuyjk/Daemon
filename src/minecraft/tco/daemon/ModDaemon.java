@@ -26,6 +26,7 @@ package tco.daemon;
 import java.util.Random;
 
 import net.minecraft.src.Block;
+import net.minecraft.src.CommandHandler;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumRarity;
@@ -35,6 +36,16 @@ import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Material;
 import net.minecraftforge.common.MinecraftForge;
+import tco.daemon.event.CraftingHandler;
+import tco.daemon.event.EventHandler;
+import tco.daemon.event.GuiHandler;
+import tco.daemon.event.PacketHandler;
+import tco.daemon.machines.BlockBrazier;
+import tco.daemon.machines.BlockDaemon;
+import tco.daemon.machines.TileEntityDaemon;
+import tco.daemon.machines.TileEntityDecomposer;
+import tco.daemon.machines.TileEntityFeeder;
+import tco.daemon.machines.TileEntityHungerChest;
 import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.DecomposerRecipes;
 import tco.daemon.util.ReferenceConfigs;
@@ -44,17 +55,19 @@ import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod( modid = "ModDaemon", name="Daemon", version=ReferenceConfigs.VERSION)
-@NetworkMod(channels = { "ModDaemon" },
+@NetworkMod(channels = { ReferenceConfigs.CHANNEL },
 	clientSideRequired = true,	serverSideRequired = false,
 	packetHandler = PacketHandler.class)
 public class ModDaemon {
@@ -106,18 +119,27 @@ public class ModDaemon {
 		WorldGenerator worldGenerator = new WorldGenerator();
 		GameRegistry.registerWorldGenerator(worldGenerator);
 		
-		GameRegistry.registerCraftingHandler(new CraftingHandlerDaemon());
+		GameRegistry.registerCraftingHandler(new CraftingHandler());
 		
-		NetworkRegistry.instance().registerGuiHandler(this, proxy);
-		MinecraftForge.EVENT_BUS.register(proxy);
+		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
+		
+		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		
 		proxy.registerRenderInformation();
+		
 	}
 	
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
 		
 	}
-	
+
+	@ServerStarting
+	public void serverStart(FMLServerStartingEvent event) {
+		((CommandHandler) event.getServer().getCommandManager())
+			.registerCommand(new CommandDaemon());
+	}
+
 	private void loadBlocks(){
 		blockCursedStone = new Block(ReferenceConfigs.blockCursedOreId, Material.rock)
 			.setBlockName("cursedOre").setCreativeTab(CreativeTabs.tabMisc);
