@@ -14,11 +14,22 @@ public class ItemCrystal extends ItemDaemon implements IDaemonEnergyStorage {
 	}
 
 	@Override
+	public int getColorFromDamage(int damage, int renderPass) {
+		return damage;
+	}
+
+	@Override
 	public void addInformation(ItemStack itemStack, List list) {
 		DaemonEnergy de = UtilItem.getDaemonEnergy(itemStack);
+		itemStack.setItemDamage(de.deathEnergy << 16 + de.decayEnergy << 8 + de.diseaseEnergy);
 		list.add("Death: " + de.deathEnergy);
 		list.add("Decay: " + de.decayEnergy);
 		list.add("Disease: " + de.diseaseEnergy);
+	}
+
+	@Override
+	public boolean getShareTag(){
+		return true;
 	}
 
 }

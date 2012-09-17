@@ -34,14 +34,14 @@ import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.Material;
 import net.minecraftforge.common.MinecraftForge;
 import tco.daemon.event.CraftingHandler;
 import tco.daemon.event.EventHandler;
 import tco.daemon.event.GuiHandler;
 import tco.daemon.event.PacketHandler;
 import tco.daemon.machines.BlockBrazier;
-import tco.daemon.machines.BlockDaemon;
+import tco.daemon.machines.BlockDaemonMachine;
+import tco.daemon.machines.ItemBlockDaemonMachine;
 import tco.daemon.machines.TileEntityDaemon;
 import tco.daemon.machines.TileEntityDecomposer;
 import tco.daemon.machines.TileEntityFeeder;
@@ -140,16 +140,19 @@ public class ModDaemon {
 	}
 
 	private void loadBlocks(){
-		blockCursedStone = new Block(ReferenceConfigs.blockCursedOreId, Material.rock)
-		.setBlockName("cursedOre").setCreativeTab(CreativeTabs.tabMisc);
+		blockCursedStone = new BlockCursedOre(ReferenceConfigs.blockCursedOreId)
+		.setBlockName("cursedOre");
+		blockCursedStone.blockIndexInTexture = 16;
 		GameRegistry.registerBlock(blockCursedStone);
 
-		blockCrystalOre = new Block(ReferenceConfigs.blockCrystalOreId, Material.glass)
-		.setBlockName("crystalOre").setCreativeTab(CreativeTabs.tabMisc);
+		blockCrystalOre = new BlockCrystal(ReferenceConfigs.blockCrystalOreId)
+		.setBlockName("crystalOre");
+		blockCrystalOre.blockIndexInTexture = 16 + 1;
 		GameRegistry.registerBlock(blockCrystalOre);
 
-		blockDaemon = new BlockDaemon(ReferenceConfigs.blockDaemonId).setBlockName("blockDaemon");
-		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemon.class);
+		blockDaemon = new BlockDaemonMachine(ReferenceConfigs.blockDaemonId)
+		.setBlockName("blockDaemon");
+		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemonMachine.class);
 
 		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazierId).setBlockName("blockDaemonBrazier");
 		GameRegistry.registerBlock(blockBrazier);
@@ -171,12 +174,13 @@ public class ModDaemon {
 		.setIconCoord(6, 1);
 		shardDark = new ItemShard(ReferenceConfigs.shardDarkId)
 		.setIconCoord(7, 1).setItemName("shardDark");
-		shardUnstable= new ItemShard(ReferenceConfigs.shardUnstableId)
+		shardUnstable = new ItemShard(ReferenceConfigs.shardUnstableId)
 		.setIconCoord(7, 1).setItemName("shardUnstable");
 		shardStable = new ItemShard(ReferenceConfigs.shardStableId)
 		.setIconCoord(7, 1).setItemName("shardStable");
 
-		crystal = new ItemCrystal(ReferenceConfigs.crystalId).setItemName("crystal");
+		crystal = new ItemCrystal(ReferenceConfigs.crystalId)
+		.setIconCoord(0, 3).setItemName("crystal");
 
 		//orbs
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
@@ -260,7 +264,9 @@ public class ModDaemon {
 			}
 		}
 
+		//low-efficiency versions
 		GameRegistry.addSmelting(orbGlass.shiftedIndex, new ItemStack(shardGlass), 0);
+		GameRegistry.addSmelting(blockCrystalOre.blockID, new ItemStack(crystal), 0);
 
 		DecomposerRecipes.addRecipe(blockCrystalOre.blockID,
 				new DecomposerRecipes.DecomposerRecipe(50, new ItemStack(crystal)) {
@@ -268,10 +274,10 @@ public class ModDaemon {
 			public void handleCraft(ItemStack stack) {
 				Random rand = new Random();
 				DaemonEnergy de = UtilItem.getDaemonEnergy(stack);
-				de.deathEnergy = rand.nextInt(100);
-				de.decayEnergy = rand.nextInt(100);
-				de.diseaseEnergy = rand.nextInt(100);
-				de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy + rand.nextInt(100);
+				de.deathEnergy = rand.nextInt(255);
+				de.decayEnergy = rand.nextInt(255);
+				de.diseaseEnergy = rand.nextInt(255);
+				de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy;
 				UtilItem.setDaemonEnergy(stack, de);
 			}
 		});

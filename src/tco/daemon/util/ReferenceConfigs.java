@@ -52,7 +52,7 @@ public class ReferenceConfigs {
 			GUI_MATRIX = "/tco/daemon/sprites/matrix.png",
 			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
 			GUI_HUNGER_CHEST = "/gui/container.png",
-			GUI_DECOMPOSER = "/gui/decomposer.png";
+			GUI_DECOMPOSER = "/tco/daemon/sprites/decomposer.png";
 
 	public static @ConfigId(block=true) int blockCursedOreId = 141,
 			blockCrystalOreId = 142,

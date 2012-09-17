@@ -93,4 +93,9 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 		tagCompound.setInteger("Fuel", fuelLeft);
 		tagCompound.setInteger("Progress", progress);
 	}
+
+	@Override
+	public String getInvName() {
+		return "decomposer.name";
+	}
 }

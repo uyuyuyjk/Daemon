@@ -19,7 +19,7 @@ public class GuiDecomposer extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerForegroundLayer() {
-		fontRenderer.drawString(StatCollector.translateToLocal("container.decomposer"), 8, 6, 4210752);
+		fontRenderer.drawString(StatCollector.translateToLocal("decomposer.name"), 8, 6, 4210752);
 		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
 	}
 

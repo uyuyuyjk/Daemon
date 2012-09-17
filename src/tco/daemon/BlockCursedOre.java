@@ -1,20 +1,17 @@
 package tco.daemon;
 
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.DamageSource;
 import net.minecraft.src.Entity;
 import net.minecraft.src.Material;
 import net.minecraft.src.World;
 
-public class BlockCursedOre extends Block {
+public class BlockCursedOre extends BlockDaemon {
 
 	public BlockCursedOre(int id) {
 		super(id, Material.rock);
 		setHardness(5.0F);
 		setResistance(15.0F);
 		setStepSound(soundStoneFootstep);
-		this.setCreativeTab(CreativeTabs.tabMisc);
 	}
 
 	@Override

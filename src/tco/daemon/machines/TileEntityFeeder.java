@@ -127,7 +127,7 @@ public class TileEntityFeeder extends TileEntityDaemon {
 
 	@Override
 	public String getInvName() {
-		return "container.feeder";
+		return "feeder.name";
 	}
 
 }

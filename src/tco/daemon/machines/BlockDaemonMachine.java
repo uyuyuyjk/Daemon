@@ -18,9 +18,9 @@ import tco.daemon.ModDaemon;
 import tco.daemon.util.ReferenceConfigs;
 import tco.daemon.util.ReferenceGui;
 
-public class BlockDaemon extends BlockContainer {
+public class BlockDaemonMachine extends BlockContainer {
 
-	public BlockDaemon(int id) {
+	public BlockDaemonMachine(int id) {
 		super(id, Material.rock);
 		setTextureFile(ReferenceConfigs.TEXTURE_BLOCKS);
 		setHardness(2.0F);

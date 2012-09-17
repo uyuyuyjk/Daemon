@@ -1,12 +1,12 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
 import tco.daemon.util.ReferenceGui;
 
-public class ItemBlockDaemon extends ItemBlock {
+public class ItemBlockDaemonMachine extends ItemBlock {
 
-	public ItemBlockDaemon(int id) {
+	public ItemBlockDaemonMachine(int id) {
 		super(id);
 		setHasSubtypes(true);
 	}

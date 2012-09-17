@@ -432,7 +432,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 
 	@Override
 	public String getInvName() {
-		return "container.matrix";
+		return "matrix.name";
 	}
 
 }
