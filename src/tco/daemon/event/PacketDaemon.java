@@ -13,7 +13,7 @@ public class PacketDaemon {
 
 	public byte id;
 	DataInputStream input;
-	
+
 	public PacketDaemon() {}
 
 	public PacketDaemon(byte packetId) {
@@ -37,7 +37,7 @@ public class PacketDaemon {
 		packet.length = baos.size();
 		return packet;
 	}
-	
+
 	public void readPacket(Packet250CustomPayload packet250){
 		ByteArrayInputStream bais = new ByteArrayInputStream(packet250.data);
 		DataInputStream in = new DataInputStream(bais);

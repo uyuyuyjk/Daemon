@@ -1,12 +1,9 @@
 package tco.daemon;
 
-import java.lang.reflect.Field;
-
-import tco.daemon.util.ReferenceConfigs;
 import net.minecraft.src.CommandBase;
 import net.minecraft.src.ICommandSender;
 import net.minecraft.src.WrongUsageException;
-import net.minecraftforge.common.Configuration;
+import tco.daemon.util.ReferenceConfigs;
 
 public class CommandDaemon extends CommandBase {
 
@@ -14,7 +11,7 @@ public class CommandDaemon extends CommandBase {
 	public String getCommandName() {
 		return "daemon";
 	}
-	
+
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
 		return "/" + getCommandName() + " <version|configuration> [arguments]";

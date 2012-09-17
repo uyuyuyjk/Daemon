@@ -9,14 +9,14 @@ import tco.daemon.util.DecomposerRecipes;
 import tco.daemon.util.UtilItem;
 
 public class TileEntityDecomposer extends TileEntityDaemon {
-	
+
 	public static final int FUEL_CAPACITY = 200;
 	public static final int BASE_SPEED = 1;
 
 	private int speed;
 	private int fuelLeft;
 	private int progress;
-	
+
 	public TileEntityDecomposer(){
 		super();
 		inv = new ItemStack[2];
@@ -24,40 +24,40 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 		fuelLeft = 0;
 		progress = 0;
 	}
-	
-    @Override
+
+	@Override
 	public void updateEntity() {
-    	super.updateEntity();
-    	if(worldObj.isRemote) return;
-    	
-    	ItemStack storage =  DaemonMatrix.getStorageItem(this);
-    	if(storage != null) {
-        	DaemonEnergy storageDE = UtilItem.getDaemonEnergy(storage);
-    		if(fuelLeft < FUEL_CAPACITY && storageDE.drainEnergy(0, speed, 0)){
-    			fuelLeft += speed;
-    		} else if(fuelLeft > FUEL_CAPACITY
-    				&& storageDE.chargeEnergy(0, fuelLeft - FUEL_CAPACITY, 0)) {
-    			fuelLeft -= fuelLeft - FUEL_CAPACITY;
-    		}
-    	}
-    	
-    	if(inv[0] != null && inv[1] == null && DecomposerRecipes.hasRecipe(inv[0].itemID)) {
-    		DecomposerRecipes.DecomposerRecipe recipe = DecomposerRecipes.getRecipe(inv[0].itemID);
-    		if(recipe.cost > fuelLeft) {
-    			progress = 0;
-    		} else {
-    			progress += speed;
-    		}
-    		if(progress >= recipe.cost){
-    			progress = 0;
-    			fuelLeft -= recipe.cost;
-    			ItemStack result = DecomposerRecipes.useRecipe(inv[0].itemID);
-    		}
-    	} else {
+		super.updateEntity();
+		if(worldObj.isRemote) return;
+
+		ItemStack storage =  DaemonMatrix.getStorageItem(this);
+		if(storage != null) {
+			DaemonEnergy storageDE = UtilItem.getDaemonEnergy(storage);
+			if(fuelLeft < FUEL_CAPACITY && storageDE.drainEnergy(0, speed, 0)){
+				fuelLeft += speed;
+			} else if(fuelLeft > FUEL_CAPACITY
+					&& storageDE.chargeEnergy(0, fuelLeft - FUEL_CAPACITY, 0)) {
+				fuelLeft -= fuelLeft - FUEL_CAPACITY;
+			}
+		}
+
+		if(inv[0] != null && inv[1] == null && DecomposerRecipes.hasRecipe(inv[0].itemID)) {
+			DecomposerRecipes.DecomposerRecipe recipe = DecomposerRecipes.getRecipe(inv[0].itemID);
+			if(recipe.cost > fuelLeft) {
+				progress = 0;
+			} else {
+				progress += speed;
+			}
+			if(progress >= recipe.cost){
+				progress = 0;
+				fuelLeft -= recipe.cost;
+				ItemStack result = DecomposerRecipes.useRecipe(inv[0].itemID);
+			}
+		} else {
 			progress = 0;
-    	}
-    }
-    
+		}
+	}
+
 	@Override
 	public int getStartInventorySide(ForgeDirection side) {
 		switch (side) {
@@ -79,7 +79,7 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 			return 1;
 		}
 	}
-    
+
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);

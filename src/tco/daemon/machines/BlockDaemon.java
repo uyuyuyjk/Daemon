@@ -56,7 +56,7 @@ public class BlockDaemon extends BlockContainer {
 		dropItems(world, x, y, z);
 		super.breakBlock(world, x, y, z, par5, par6);
 	}
-	
+
 	private void dropItems(World world, int x, int y, int z){
 		Random rand = new Random();
 
@@ -101,7 +101,7 @@ public class BlockDaemon extends BlockContainer {
 	public TileEntity createNewTileEntity(World world, int metadata) {
 		return ReferenceGui.values()[metadata].getTileEntity();
 	}
-		
+
 	@Override
 	public int getBlockTextureFromSideAndMetadata(int side, int metadata) {
 		// crafting = 43
@@ -114,16 +114,16 @@ public class BlockDaemon extends BlockContainer {
 		case 5: // f:3 +x east
 			return 1;
 		}
-		
+
 		return 0;  // 0 = bottom
 	}
-	
+
 	@Override
 	public void randomDisplayTick(World world, int x, int y, int z, Random rand) {
 		for (int i = 0; i < 2; i++) {
 			float fx = rand.nextFloat() - 0.5f;
 			float fz = rand.nextFloat() - 0.5f;
-			
+
 			double dx = x + 0.5 + fx;
 			double dy = y + 2 * rand.nextFloat();
 			double dz = z + 0.5 + fz;

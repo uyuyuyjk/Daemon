@@ -10,12 +10,12 @@ public class ItemBlockDaemon extends ItemBlock {
 		super(id);
 		setHasSubtypes(true);
 	}
-	
+
 	@Override
 	public int getMetadata(int i) {
-	  return i;
+		return i;
 	}
-		
+
 	@Override
 	public String getItemNameIS(ItemStack stack){
 		return ReferenceGui.values()[stack.getItemDamage()].getName();

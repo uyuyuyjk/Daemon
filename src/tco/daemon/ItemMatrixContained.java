@@ -19,7 +19,7 @@ public class ItemMatrixContained extends ItemDaemon {
 		player.openGui(ModDaemon.instance, ReferenceGui.CONTAINED_MATRIX, world, 0, 0, 0);
 		return itemStack;
 	}
-	
+
 	@Override
 	public boolean getShareTag() {
 		return true;

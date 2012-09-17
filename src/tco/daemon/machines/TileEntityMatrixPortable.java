@@ -11,7 +11,7 @@ public class TileEntityMatrixPortable extends TileEntityDaemon {
 			updateMatrix();
 		}
 	}
-	
+
 	@Override
 	public ItemStack decrStackSize(int slot, int amt) {
 		ItemStack stack = super.decrStackSize(slot, amt);

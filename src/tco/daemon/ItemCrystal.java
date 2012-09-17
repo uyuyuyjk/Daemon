@@ -12,9 +12,9 @@ public class ItemCrystal extends ItemDaemon implements IDaemonEnergyStorage {
 	public ItemCrystal(int id) {
 		super(id);
 	}
-	
+
 	@Override
-	public void addInformation(ItemStack itemStack, List list) {				
+	public void addInformation(ItemStack itemStack, List list) {
 		DaemonEnergy de = UtilItem.getDaemonEnergy(itemStack);
 		list.add("Death: " + de.deathEnergy);
 		list.add("Decay: " + de.decayEnergy);

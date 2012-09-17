@@ -11,12 +11,12 @@ import tco.daemon.util.ReferenceConfigs;
 
 public class GuiMatrixPortable extends GuiContainer
 {
-    public GuiMatrixPortable(InventoryPlayer player)
-    {
-        super(new ContainerMatrixPortable(player));
-    }
+	public GuiMatrixPortable(InventoryPlayer player)
+	{
+		super(new ContainerMatrixPortable(player));
+	}
 
-    //copied from GuiMatrix
+	//copied from GuiMatrix
 	@Override
 	protected void drawGuiContainerForegroundLayer() {
 		fontRenderer.drawString(StatCollector.translateToLocal("container.matrix"), 8, 6, 4210752);

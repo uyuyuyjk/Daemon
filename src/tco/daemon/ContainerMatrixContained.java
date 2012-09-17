@@ -9,9 +9,9 @@ import tco.daemon.util.DaemonMatrix;
 import tco.daemon.util.UtilItem;
 
 public class ContainerMatrixContained extends ContainerDaemon {
-    
+
 	IInventory inventory;
-	
+
 	public ContainerMatrixContained(EntityPlayer player) {
 		super(null);
 		inventory = UtilItem.getInventory(player.inventory.getCurrentItem());
@@ -21,10 +21,10 @@ public class ContainerMatrixContained extends ContainerDaemon {
 						+ 3 * j, 7 + 16 * i + 3 * i));
 			}
 		}
-		
+
 		bindPlayerInventory(player.inventory);
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(int slot) {
 		ItemStack stack = null;

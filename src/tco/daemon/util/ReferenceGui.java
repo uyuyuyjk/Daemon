@@ -27,7 +27,7 @@ public enum ReferenceGui {
 	FEEDER("feeder", TileEntityFeeder.class, ContainerFeeder.class, GuiFeeder.class),
 	CHEST("hungerChest", TileEntityHungerChest.class, ContainerHungerChest.class, GuiHungerChest.class),
 	DECOMPOSER("decomposer", TileEntityDecomposer.class, ContainerDecomposer.class, GuiDecomposer.class);
-	
+
 	public static final int CONTAINED_MATRIX = 100;
 	public static final int PORTABLE_MATRIX = 101;
 
@@ -41,7 +41,7 @@ public enum ReferenceGui {
 		container = cont;
 		guiContainer = gc;
 	}
-	
+
 
 	public String getName(){
 		return name;
@@ -56,7 +56,7 @@ public enum ReferenceGui {
 		}
 		return te;
 	}
-	
+
 	public static Container getContainer(int id, EntityPlayer player, World world,
 			int x, int y, int z) {
 		Container container = null;

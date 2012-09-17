@@ -17,10 +17,10 @@ public class ContainerMatrix extends ContainerDaemon {
 						+ 3 * j, 7 + 16 * i + 3 * i));
 			}
 		}
-		
+
 		bindPlayerInventory(inventoryPlayer);
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(int slot) {
 		ItemStack stack = null;

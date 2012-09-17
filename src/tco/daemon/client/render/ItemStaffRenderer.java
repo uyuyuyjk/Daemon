@@ -47,95 +47,95 @@ public class ItemStaffRenderer implements IItemRenderer {
 		//GL11.glRotatef(50, 0, 1.0F, 0);
 		//GL11.glRotatef(335.0F, 0, 0, 1.0F);
 		GL11.glTranslatef(0, -0.18f, 0.0f);
-		
+
 		renderItemIn2D(tesselator, x2, y1, x1, y2);
-		
+
 		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
 		GL11.glPopMatrix();
 	}
-	
-    public void renderItemIn2D(Tessellator tesselator, float par2, float par3, float par4, float par5){
-        float one = 1.0F;
-        float oneSixteenth = 0.0625F;
-        
-        tesselator.startDrawingQuads();
-        tesselator.setNormal(0, 0, 1.0F);
-        tesselator.addVertexWithUV(0, 0, 0, par2, par5);
-        tesselator.addVertexWithUV(one, 0, 0, par4, par5);
-        tesselator.addVertexWithUV(one, 1.0, 0, par4, par3);
-        tesselator.addVertexWithUV(0, 1.0, 0, par2, par3);
-        tesselator.draw();
-        
-        tesselator.startDrawingQuads();
-        tesselator.setNormal(0, 0, -1.0F);
-        tesselator.addVertexWithUV(0, 1.0, -oneSixteenth, par2, par3);
-        tesselator.addVertexWithUV(one, 1.0, -oneSixteenth, par4, par3);
-        tesselator.addVertexWithUV(one, 0, -oneSixteenth, par4, par5);
-        tesselator.addVertexWithUV(0, 0, -oneSixteenth, par2, par5);
-        tesselator.draw();
-        
-        tesselator.startDrawingQuads();
-        tesselator.setNormal(-1.0F, 0, 0);
-        
-        int i;
-        float var9;
-        float var10;
-        float var11;
 
-        for (i = 0; i < 16; ++i)
-        {
-            var9 = i / 16.0F;
-            var10 = par2 + (par4 - par2) * var9 - 0.001953125F;
-            var11 = one * var9;
-            tesselator.addVertexWithUV(var11, 0, -oneSixteenth, var10, par5);
-            tesselator.addVertexWithUV(var11, 0, 0, var10, par5);
-            tesselator.addVertexWithUV(var11, 1.0, 0, var10, par3);
-            tesselator.addVertexWithUV(var11, 1.0, -oneSixteenth, var10, par3);
-        }
+	public void renderItemIn2D(Tessellator tesselator, float par2, float par3, float par4, float par5){
+		float one = 1.0F;
+		float oneSixteenth = 0.0625F;
 
-        tesselator.draw();
-        
-        tesselator.startDrawingQuads();
-        tesselator.setNormal(1.0F, 0, 0);
-        for (i = 0; i < 16; ++i)
-        {
-            var9 = i / 16.0F;
-            var10 = par2 + (par4 - par2) * var9 - 0.001953125F;
-            var11 = one * var9 + 0.0625F;
-            tesselator.addVertexWithUV(var11, 1.0, -oneSixteenth, var10, par3);
-            tesselator.addVertexWithUV(var11, 1.0, 0, var10, par3);
-            tesselator.addVertexWithUV(var11, 0, 0, var10, par5);
-            tesselator.addVertexWithUV(var11, 0, -oneSixteenth, var10, par5);
-        }
-        tesselator.draw();
-        
-        tesselator.startDrawingQuads();
-        tesselator.setNormal(0, 1, 0);
-        for (i = 0; i < 16; ++i)
-        {
-            var9 = i / 16.0F;
-            var10 = par5 + (par3 - par5) * var9 - 0.001953125F;
-            var11 = one * var9 + 0.0625F;
-            tesselator.addVertexWithUV(0, var11, 0, par2, var10);
-            tesselator.addVertexWithUV(one, var11, 0, par4, var10);
-            tesselator.addVertexWithUV(one, var11, -oneSixteenth, par4, var10);
-            tesselator.addVertexWithUV(0, var11, -oneSixteenth, par2, var10);
-        }
-        tesselator.draw();
-        
-        tesselator.startDrawingQuads();
-        tesselator.setNormal(0, -1.0F, 0);
-        for (i = 0; i < 16; ++i)
-        {
-            var9 = i / 16.0F;
-            var10 = par5 + (par3 - par5) * var9 - 0.001953125F;
-            var11 = one * var9;
-            tesselator.addVertexWithUV(one, var11, 0, par4, var10);
-            tesselator.addVertexWithUV(0, var11, 0, par2, var10);
-            tesselator.addVertexWithUV(0, var11, -oneSixteenth, par2, var10);
-            tesselator.addVertexWithUV(one, var11, -oneSixteenth, par4, var10);
-        }
-        tesselator.draw();
+		tesselator.startDrawingQuads();
+		tesselator.setNormal(0, 0, 1.0F);
+		tesselator.addVertexWithUV(0, 0, 0, par2, par5);
+		tesselator.addVertexWithUV(one, 0, 0, par4, par5);
+		tesselator.addVertexWithUV(one, 1.0, 0, par4, par3);
+		tesselator.addVertexWithUV(0, 1.0, 0, par2, par3);
+		tesselator.draw();
+
+		tesselator.startDrawingQuads();
+		tesselator.setNormal(0, 0, -1.0F);
+		tesselator.addVertexWithUV(0, 1.0, -oneSixteenth, par2, par3);
+		tesselator.addVertexWithUV(one, 1.0, -oneSixteenth, par4, par3);
+		tesselator.addVertexWithUV(one, 0, -oneSixteenth, par4, par5);
+		tesselator.addVertexWithUV(0, 0, -oneSixteenth, par2, par5);
+		tesselator.draw();
+
+		tesselator.startDrawingQuads();
+		tesselator.setNormal(-1.0F, 0, 0);
+
+		int i;
+		float var9;
+		float var10;
+		float var11;
+
+		for (i = 0; i < 16; ++i)
+		{
+			var9 = i / 16.0F;
+			var10 = par2 + (par4 - par2) * var9 - 0.001953125F;
+			var11 = one * var9;
+			tesselator.addVertexWithUV(var11, 0, -oneSixteenth, var10, par5);
+			tesselator.addVertexWithUV(var11, 0, 0, var10, par5);
+			tesselator.addVertexWithUV(var11, 1.0, 0, var10, par3);
+			tesselator.addVertexWithUV(var11, 1.0, -oneSixteenth, var10, par3);
+		}
+
+		tesselator.draw();
+
+		tesselator.startDrawingQuads();
+		tesselator.setNormal(1.0F, 0, 0);
+		for (i = 0; i < 16; ++i)
+		{
+			var9 = i / 16.0F;
+			var10 = par2 + (par4 - par2) * var9 - 0.001953125F;
+			var11 = one * var9 + 0.0625F;
+			tesselator.addVertexWithUV(var11, 1.0, -oneSixteenth, var10, par3);
+			tesselator.addVertexWithUV(var11, 1.0, 0, var10, par3);
+			tesselator.addVertexWithUV(var11, 0, 0, var10, par5);
+			tesselator.addVertexWithUV(var11, 0, -oneSixteenth, var10, par5);
+		}
+		tesselator.draw();
+
+		tesselator.startDrawingQuads();
+		tesselator.setNormal(0, 1, 0);
+		for (i = 0; i < 16; ++i)
+		{
+			var9 = i / 16.0F;
+			var10 = par5 + (par3 - par5) * var9 - 0.001953125F;
+			var11 = one * var9 + 0.0625F;
+			tesselator.addVertexWithUV(0, var11, 0, par2, var10);
+			tesselator.addVertexWithUV(one, var11, 0, par4, var10);
+			tesselator.addVertexWithUV(one, var11, -oneSixteenth, par4, var10);
+			tesselator.addVertexWithUV(0, var11, -oneSixteenth, par2, var10);
+		}
+		tesselator.draw();
+
+		tesselator.startDrawingQuads();
+		tesselator.setNormal(0, -1.0F, 0);
+		for (i = 0; i < 16; ++i)
+		{
+			var9 = i / 16.0F;
+			var10 = par5 + (par3 - par5) * var9 - 0.001953125F;
+			var11 = one * var9;
+			tesselator.addVertexWithUV(one, var11, 0, par4, var10);
+			tesselator.addVertexWithUV(0, var11, 0, par2, var10);
+			tesselator.addVertexWithUV(0, var11, -oneSixteenth, par2, var10);
+			tesselator.addVertexWithUV(one, var11, -oneSixteenth, par4, var10);
+		}
+		tesselator.draw();
 	}
 
 }

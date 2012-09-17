@@ -9,7 +9,7 @@ import tco.daemon.machines.ContainerDaemon;
 import tco.daemon.machines.TileEntityMatrixPortable;
 
 public class ContainerMatrixPortable extends ContainerDaemon {
-    
+
 	public ContainerMatrixPortable(InventoryPlayer inventoryPlayer) {
 		super(new TileEntityMatrixPortable());
 		for (int i = 0; i < 4; i++) {
@@ -18,10 +18,10 @@ public class ContainerMatrixPortable extends ContainerDaemon {
 						+ 3 * j, 7 + 16 * i + 3 * i));
 			}
 		}
-		
+
 		bindPlayerInventory(inventoryPlayer);
 	}
-	
+
 	@Override
 	public void onCraftGuiClosed(EntityPlayer player) {
 		super.onCraftGuiClosed(player);
@@ -31,7 +31,7 @@ public class ContainerMatrixPortable extends ContainerDaemon {
 			if (stack != null) player.dropPlayerItem(stack);
 		}
 	}
-		
+
 	@Override
 	public ItemStack transferStackInSlot(int slot) {
 		ItemStack stack = null;

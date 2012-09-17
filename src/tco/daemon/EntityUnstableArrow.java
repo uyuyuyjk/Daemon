@@ -17,7 +17,7 @@ public class EntityUnstableArrow extends EntityArrow {
 	public EntityUnstableArrow(World world, EntityPlayer player, float power) {
 		super(world, player, power);
 	}
-	
+
 	//this is terrible, i know
 	@Override
 	public void onUpdate(){

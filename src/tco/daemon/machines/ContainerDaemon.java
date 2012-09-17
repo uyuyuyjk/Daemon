@@ -8,7 +8,7 @@ import net.minecraft.src.Slot;
 public abstract class ContainerDaemon extends Container {
 
 	protected TileEntityDaemon tileEntity;
-	
+
 	public ContainerDaemon(TileEntityDaemon te){
 		tileEntity = te;
 	}

@@ -32,21 +32,21 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 				}}, 3, 3);
 			tileEntity = te;
 		}
-		
+
 		//0<i<9 gets the corresponding slot of the tileEntity
 		public int getDaemonSlot(int craftingSlot){
 			if(craftingSlot < 3) return craftingSlot;
 			if(craftingSlot < 6) return craftingSlot + DaemonMatrix.MATRIX_DIM - 3;
 			return craftingSlot + 2 * (DaemonMatrix.MATRIX_DIM - 3);
 		}
-		
-		//inverse of getDaemonSlot, unpredictable with wrong inputs 
+
+		//inverse of getDaemonSlot, unpredictable with wrong inputs
 		public int getCraftingSlot(int daemonSlot){
 			if(daemonSlot < 4) return daemonSlot;
 			if(daemonSlot < 8) return daemonSlot - DaemonMatrix.MATRIX_DIM - 3;
 			return daemonSlot - 2 * (DaemonMatrix.MATRIX_DIM - 3);
 		}
-		
+
 		public void populateCrafting(){
 			for (int i = 0; i < 9; i++) {
 				ItemStack stack = tileEntity.getStackInSlot(getDaemonSlot(i));
@@ -71,41 +71,41 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 					}
 				}
 			}
-			return result;		
+			return result;
 		}
 		public ItemStack craft(){
 			return craft(false);
 		}
 	}
-	
+
 	protected ItemStack[] matrix;
-			
+
 	protected ItemStack[] inv;
-	
+
 	private int ticksSinceLastCalc;
-	
+
 	public TileEntityDaemon(){
 		matrix = new ItemStack[DaemonMatrix.MATRIX_SIZE];
 		inv = new ItemStack[0];
 	}
-	
+
 	@Override
-    public void updateEntity() {
+	public void updateEntity() {
 		ticksSinceLastCalc = (ticksSinceLastCalc + 1) % 20;
 		if(ticksSinceLastCalc == 0 && !worldObj.isRemote){
-	    	updateMatrix();
+			updateMatrix();
 		}
-    }
-	
+	}
+
 	public void updateMatrix(){
 		if(worldObj.isRemote){return;}
-		
+
 
 		DaemonMatrix type = DaemonMatrix.getType(this);
 		DaemonEnergy energy = DaemonMatrix.calculateEnergy(this);
-		
+
 		int instability = DaemonMatrix.calculateInstability(this);
-		
+
 		switch (type) {
 		case CRAFT:
 			matrixCraft();
@@ -122,13 +122,13 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 		}
 		applyMatrixEnergy(energy, instability);
 	}
-		
+
 	//assumes 4x4
-	public void matrixCraft(){		
+	public void matrixCraft(){
 		InventoryCraftingDaemon craftingInv = new InventoryCraftingDaemon(this);
 		craftingInv.populateCrafting();
 		ItemStack result = CraftingManager.getInstance().findMatchingRecipe(craftingInv);
-		
+
 		//TODO better filling code, this doesnt take into account stacking same items
 		int emptySlot = getPreferredEmptySlot(ForgeDirection.DOWN);
 		if(emptySlot < 0) return;
@@ -149,15 +149,15 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 			GameRegistry.onItemCrafted(null, result, craftingInv);
 			setInventorySlotContents(emptySlot, result);
 		}
-		
+
 	}
-	
+
 	public void matrixConduct(){
 		int size = getSizeInventorySide(ForgeDirection.DOWN);
 		int orb = -1;
 		ItemOrb orbItem = null;
 		int lastSlot = 0;
-		
+
 		//find 1st orb
 		for(; lastSlot < size; lastSlot++){
 			ItemStack stack = getStackInSlot(lastSlot);
@@ -180,7 +180,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 				return;
 			}
 		}
-		
+
 		//charge with crystal
 		for(int i = 0; i < size; i++){
 			ItemStack stack = getStackInSlot(i);
@@ -193,7 +193,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 				return;
 			}
 		}
-		
+
 		for(lastSlot++; lastSlot < size; lastSlot++){
 			ItemStack stack = getStackInSlot(lastSlot);
 			if(stack != null && stack.getItem() instanceof ItemOrb){
@@ -207,7 +207,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 	public void applyMatrixEnergy(DaemonEnergy energy, int instability){
 		//overridden by inheriting classes
 	}
-	
+
 	//assumes items exist
 	//attempts to leave stacks with at least 1 item
 	/**
@@ -218,7 +218,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 	 */
 	public void removeItems(ForgeDirection side, Item item, int amount){
 		int size = getSizeInventorySide(side);
-		
+
 		for(int i = 0; i < size && amount > 0; i++){
 			ItemStack stack = getStackInSlot(i);
 			if(stack != null && stack.getItem() == item){
@@ -238,15 +238,15 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 			}
 		}
 	}
-	
+
 	public void removeItems(Item item, int amount){
 		removeItems(ForgeDirection.DOWN, item, amount);
 	}
-	
+
 	public void addItemToMatrix(){
-		
+
 	}
-	
+
 	//returns the sides, corners, then the main 3x3, or -1 is no empty slots found
 	//assumes 4x4 matrix
 	//TODO make it better
@@ -261,7 +261,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 		if(stack == null) return 13;
 		stack = getStackInSlot(14);
 		if(stack == null) return 14;
-		
+
 		stack = getStackInSlot(3);
 		if(stack == null) return 3;
 		stack = getStackInSlot(12);
@@ -273,7 +273,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 			stack = getStackInSlot(start + i);
 			if(stack == null) return i;
 		}
-		
+
 		return -1;
 	}
 
@@ -289,7 +289,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 		}
 		return inv[slot - matrix.length];
 	}
-	
+
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
 		if(slot < matrix.length){
@@ -326,17 +326,17 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 		}
 		return stack;
 	}
-	
+
 	//3 methods to make accessing normal inventory easier
-	
+
 	public int getSize(){
 		return inv.length;
 	}
-	
+
 	public ItemStack getStack(int slot){
 		return inv[slot];
 	}
-	
+
 	public void setStack(int slot, ItemStack stack){
 		inv[slot] = stack;
 	}
@@ -349,7 +349,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer player) {
 		return worldObj.getBlockTileEntity(xCoord, yCoord, zCoord) == this &&
-		player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
+				player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) < 64;
 	}
 
 	@Override
@@ -357,11 +357,11 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void closeChest() {}
-	
+
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-		
+
 		NBTTagList tagList = tagCompound.getTagList("SpecialInventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -371,20 +371,20 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 			}
 		}
 
-			tagList = tagCompound.getTagList("Inventory");
-			for (int i = 0; i < tagList.tagCount(); i++) {
-				NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
-				byte slot = tag.getByte("Slot");
-				if (slot >= 0 && slot < inv.length) {
-					inv[slot] = ItemStack.loadItemStackFromNBT(tag);
-				}
+		tagList = tagCompound.getTagList("Inventory");
+		for (int i = 0; i < tagList.tagCount(); i++) {
+			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
+			byte slot = tag.getByte("Slot");
+			if (slot >= 0 && slot < inv.length) {
+				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
+			}
 		}
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		
+
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < matrix.length; i++) {
 			ItemStack stack = matrix[i];
@@ -396,18 +396,18 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 			}
 		}
 		tagCompound.setTag("SpecialInventory", itemList);
-		
-			itemList = new NBTTagList();
-			for (int i = 0; i < inv.length; i++) {
-				ItemStack stack = inv[i];
-				if (stack != null) {
-					NBTTagCompound tag = new NBTTagCompound();
-					tag.setByte("Slot", (byte) i);
-					stack.writeToNBT(tag);
-					itemList.appendTag(tag);
-				}
+
+		itemList = new NBTTagList();
+		for (int i = 0; i < inv.length; i++) {
+			ItemStack stack = inv[i];
+			if (stack != null) {
+				NBTTagCompound tag = new NBTTagCompound();
+				tag.setByte("Slot", (byte) i);
+				stack.writeToNBT(tag);
+				itemList.appendTag(tag);
 			}
-			tagCompound.setTag("Inventory", itemList);
+		}
+		tagCompound.setTag("Inventory", itemList);
 	}
 
 	@Override

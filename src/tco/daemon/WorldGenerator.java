@@ -26,15 +26,15 @@ public class WorldGenerator implements IWorldGenerator {
 					5, 0, 25);
 		}
 	}
-	
+
 	public void generateOre(World world, int cX, int cZ, Random random,
 			WorldGenMinable gen, int deposits, int minH, int maxH){
-        for (int i = 0; i < deposits; i++) {
-            int x = cX + random.nextInt(16);
-            int z = cZ + random.nextInt(16);
-            int y = random.nextInt(maxH) + random.nextInt(maxH) + (minH - maxH);
-            gen.generate(world, random, x, y, z);
-        }
+		for (int i = 0; i < deposits; i++) {
+			int x = cX + random.nextInt(16);
+			int z = cZ + random.nextInt(16);
+			int y = random.nextInt(maxH) + random.nextInt(maxH) + (minH - maxH);
+			gen.generate(world, random, x, y, z);
+		}
 	}
 
 }

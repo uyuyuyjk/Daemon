@@ -15,10 +15,10 @@ public class CraftingHandler implements ICraftingHandler {
 			item.addEnchantment(Enchantment.knockback, 1);
 		}
 	}
-	
+
 	@Override
 	public void onSmelting(EntityPlayer player, ItemStack item) {
-		
+
 	}
 
 }

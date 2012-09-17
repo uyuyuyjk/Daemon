@@ -16,9 +16,9 @@ import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 
 public class TileEntityFeeder extends TileEntityDaemon {
-	
+
 	private static final int DEATH_THRESHHOLD = 8;
-	
+
 	private Class[] entityClasses = { EntityCow.class, EntityPig.class,
 			EntityChicken.class, EntitySheep.class,
 			EntityZombie.class };
@@ -33,13 +33,13 @@ public class TileEntityFeeder extends TileEntityDaemon {
 		cooldown = 0;
 		maxCooldown = 20 * 10;
 	}
-	
+
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
-		
+
 		cooldown++;
-		
+
 		if(target != null){
 			if(target.isDead){
 				target = null;
@@ -65,7 +65,7 @@ public class TileEntityFeeder extends TileEntityDaemon {
 			}
 		}
 	}
-	
+
 	private List<EntityAnimal> getEntitiesOfTypeInRange(Class type){
 		List<EntityAnimal> entityList = this.worldObj.getEntitiesWithinAABB(
 				type,
@@ -89,7 +89,7 @@ public class TileEntityFeeder extends TileEntityDaemon {
 					break;
 				}
 			}
-		} 
+		}
 		if(parent1 == null || parent2 == null)
 			return false;
 
@@ -108,7 +108,7 @@ public class TileEntityFeeder extends TileEntityDaemon {
 		}
 		return false;
 	}
-	
+
 	public void setKillTarget(Entity e){
 		target = e;
 	}
@@ -129,5 +129,5 @@ public class TileEntityFeeder extends TileEntityDaemon {
 	public String getInvName() {
 		return "container.feeder";
 	}
-	
+
 }

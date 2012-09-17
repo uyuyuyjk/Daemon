@@ -11,7 +11,7 @@ import tco.daemon.ItemOrb;
 import tco.daemon.ItemShardGlass;
 
 public class UtilItem {
-	
+
 	public static boolean checkTagCompound(ItemStack itemStack){
 		if(!itemStack.hasTagCompound()){
 			itemStack.setTagCompound(new NBTTagCompound());
@@ -19,7 +19,7 @@ public class UtilItem {
 		}
 		return false;
 	}
-	
+
 	//DaemonEnergy
 	public static DaemonEnergy getDaemonEnergy(ItemStack itemStack){
 		checkTagCompound(itemStack);
@@ -31,7 +31,7 @@ public class UtilItem {
 		NBTTagCompound tagCompound = itemStack.getTagCompound();
 		de.writetoNBT(tagCompound);
 	}
-	
+
 	//InventoryItem
 	public static IInventory getInventory(ItemStack stack){
 		checkTagCompound(stack);
@@ -39,12 +39,12 @@ public class UtilItem {
 		inv.getFromNBT(stack.getTagCompound());
 		return inv;
 	}
-	
+
 	public static void setInventory(ItemStack stack, InventoryBasic inventory){
 		checkTagCompound(stack);
 		inventory.saveToNBT(stack.getTagCompound());
 	}
-	
+
 	//misc. handling
 	public static void absorbSoul(Entity victim, EntityPlayer player){
 		InventoryPlayer inventory = player.inventory;

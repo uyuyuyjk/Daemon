@@ -10,7 +10,7 @@ public class ContainerDecomposer extends ContainerDaemon {
 	public ContainerDecomposer(InventoryPlayer inventoryPlayer,
 			TileEntityDecomposer tileEntity) {
 		super(tileEntity);
-		
+
 		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.UP), 77, 38));
 		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.EAST), 127, 38));
 

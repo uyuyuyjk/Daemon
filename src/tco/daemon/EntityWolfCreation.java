@@ -58,7 +58,7 @@ public class EntityWolfCreation extends EntityWolf {
 	 */
 	@Override
 	public void onUpdate() {
-		
+
 		if (flyToggleTimer > 0) {
 			flyToggleTimer--;
 		}
@@ -88,8 +88,8 @@ public class EntityWolfCreation extends EntityWolf {
 						flyToggleTimer = 7;
 					} else {
 						setFlying(true); // fly if player taps forward twice
-											// in
-											// 7/20 seconds
+						// in
+						// 7/20 seconds
 						flyToggleTimer = 0;
 					}
 				}
@@ -106,10 +106,10 @@ public class EntityWolfCreation extends EntityWolf {
 				jump(0.6);
 			}
 		}
-		
+
 		super.onUpdate();
 	}
-	
+
 	@Override
 	public void updateRiderPosition() {
 		if (riddenByEntity != null) {

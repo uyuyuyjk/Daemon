@@ -68,22 +68,21 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod( modid = "ModDaemon", name="Daemon", version=ReferenceConfigs.VERSION)
 @NetworkMod(channels = { ReferenceConfigs.CHANNEL },
-	clientSideRequired = true,	serverSideRequired = false,
-	packetHandler = PacketHandler.class)
+clientSideRequired = true,	serverSideRequired = false, packetHandler = PacketHandler.class)
 public class ModDaemon {
 	@Instance
 	public static ModDaemon instance;
 	@SidedProxy(clientSide = "tco.daemon.client.ProxyClient", serverSide = "tco.daemon.ProxyCommon")
 	public static ProxyCommon proxy;
-	
-	
+
+
 	//content
 	public Block blockCursedStone, blockCrystalOre;
 	public Block blockDaemon,
-		blockBrazier;
-	
+	blockBrazier;
+
 	public Item daemonBrazier;
-	
+
 	public Item birdCannnon;
 	public Item arrowUnstable;
 
@@ -93,15 +92,15 @@ public class ModDaemon {
 	public Item daggerSacrifice, daggerSouls, daggerRitual;
 
 	public Item shardGlass, shardDark, shardUnstable, shardStable;
-	
+
 	public Item crystal;
-	
+
 	public Item orbMold,
-		orbGlass,
-		orbObsidian,
-		orbBlaze,
-		orbWolf,
-		orbUnstable;
+	orbGlass,
+	orbObsidian,
+	orbBlaze,
+	orbWolf,
+	orbUnstable;
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -115,108 +114,108 @@ public class ModDaemon {
 		loadItems();
 		registerEntities();
 		addRecipes();
-		
+
 		WorldGenerator worldGenerator = new WorldGenerator();
 		GameRegistry.registerWorldGenerator(worldGenerator);
-		
+
 		GameRegistry.registerCraftingHandler(new CraftingHandler());
-		
+
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
-		
+
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-		
+
 		proxy.registerRenderInformation();
-		
+
 	}
-	
+
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
-		
+
 	}
 
 	@ServerStarting
 	public void serverStart(FMLServerStartingEvent event) {
 		((CommandHandler) event.getServer().getCommandManager())
-			.registerCommand(new CommandDaemon());
+		.registerCommand(new CommandDaemon());
 	}
 
 	private void loadBlocks(){
 		blockCursedStone = new Block(ReferenceConfigs.blockCursedOreId, Material.rock)
-			.setBlockName("cursedOre").setCreativeTab(CreativeTabs.tabMisc);
+		.setBlockName("cursedOre").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerBlock(blockCursedStone);
 
 		blockCrystalOre = new Block(ReferenceConfigs.blockCrystalOreId, Material.glass)
-			.setBlockName("crystalOre").setCreativeTab(CreativeTabs.tabMisc);
+		.setBlockName("crystalOre").setCreativeTab(CreativeTabs.tabMisc);
 		GameRegistry.registerBlock(blockCrystalOre);
 
 		blockDaemon = new BlockDaemon(ReferenceConfigs.blockDaemonId).setBlockName("blockDaemon");
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemon.class);
-		
+
 		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazierId).setBlockName("blockDaemonBrazier");
 		GameRegistry.registerBlock(blockBrazier);
-		
+
 		GameRegistry.registerTileEntity(TileEntityDaemon.class, "tileEntityDaemon");
 		GameRegistry.registerTileEntity(TileEntityFeeder.class, "tileEntityFeeder");
 		GameRegistry.registerTileEntity(TileEntityHungerChest.class, "tileEntityHungerChest");
 		GameRegistry.registerTileEntity(TileEntityDecomposer.class, "tileEntityDecomposer");
 	}
-	
+
 	private void loadItems(){
 		//block items
 		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazierId, blockBrazier).setItemName("daemonBrazier")
 				.setTabToDisplayOn(CreativeTabs.tabMisc);
 		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
-		
+
 		//shards
 		shardGlass = new ItemShardGlass(ReferenceConfigs.shardGlassId)
-			.setIconCoord(6, 1);
+		.setIconCoord(6, 1);
 		shardDark = new ItemShard(ReferenceConfigs.shardDarkId)
-			.setIconCoord(7, 1).setItemName("shardDark");
+		.setIconCoord(7, 1).setItemName("shardDark");
 		shardUnstable= new ItemShard(ReferenceConfigs.shardUnstableId)
-			.setIconCoord(7, 1).setItemName("shardUnstable");
+		.setIconCoord(7, 1).setItemName("shardUnstable");
 		shardStable = new ItemShard(ReferenceConfigs.shardStableId)
-			.setIconCoord(7, 1).setItemName("shardStable");
-		
+		.setIconCoord(7, 1).setItemName("shardStable");
+
 		crystal = new ItemCrystal(ReferenceConfigs.crystalId).setItemName("crystal");
-		
+
 		//orbs
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
-			.setIconCoord(5, 1).setItemName("orbMold");
-			orbMold.setContainerItem(orbMold);
+		.setIconCoord(5, 1).setItemName("orbMold");
+		orbMold.setContainerItem(orbMold);
 		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId, 500).setRarity(EnumRarity.uncommon)
-			.setIconCoord(0, 1).setItemName("orbGlass");;
-		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId, 2000).setRarity(EnumRarity.rare)
-			.setIconCoord(1, 1).setItemName("orbObsidian");
-		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId, 10000).setRarity(EnumRarity.rare)
-			.setIconCoord(2, 1).setItemName("orbBlaze");
-		orbWolf = new ItemOrbWolf(ReferenceConfigs.orbWolfId).setRarity(EnumRarity.rare)
-			.setIconCoord(3, 1).setItemName("orbWolf");
-		orbUnstable = new ItemOrbUnstable(ReferenceConfigs.orbUnstableId).setRarity(EnumRarity.rare)
-			.setIconCoord(4, 1).setItemName("orbUnstable");
-		
-		//special items
-		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContainedId)
-			.setItemName("matrixContained");
-		
-		//staves
-		staff = new ItemStaff(ReferenceConfigs.staffId, EnumToolMaterial.WOOD)
-			.setIconCoord(3, 0).setItemName("staff");
-		
-		//daggers
-		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId, EnumToolMaterial.STONE)
-			.setIconCoord(0, 0).setItemName("daggerSacrifice");
-		daggerSouls = new ItemDagger(ReferenceConfigs.daggerSoulsId, EnumToolMaterial.IRON)
-			.setRarity(EnumRarity.rare).setMaxDamage(0).setIconCoord(1, 0).setItemName("daggerSouls");
-		daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitualId, EnumToolMaterial.EMERALD)
-			.setRarity(EnumRarity.rare).setIconCoord(2, 0).setItemName("daggerRitual");
-		
-		//ranged
-		arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstableId)
-		.setIconCoord(0, 1).setItemName("arrowUnstable");
-		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnonId)
-			.setIconCoord(0, 4).setItemName("birdCannon");
+				.setIconCoord(0, 1).setItemName("orbGlass");;
+				orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId, 2000).setRarity(EnumRarity.rare)
+						.setIconCoord(1, 1).setItemName("orbObsidian");
+				orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId, 10000).setRarity(EnumRarity.rare)
+						.setIconCoord(2, 1).setItemName("orbBlaze");
+				orbWolf = new ItemOrbWolf(ReferenceConfigs.orbWolfId).setRarity(EnumRarity.rare)
+						.setIconCoord(3, 1).setItemName("orbWolf");
+				orbUnstable = new ItemOrbUnstable(ReferenceConfigs.orbUnstableId).setRarity(EnumRarity.rare)
+						.setIconCoord(4, 1).setItemName("orbUnstable");
+
+				//special items
+				matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContainedId)
+				.setItemName("matrixContained");
+
+				//staves
+				staff = new ItemStaff(ReferenceConfigs.staffId, EnumToolMaterial.WOOD)
+				.setIconCoord(3, 0).setItemName("staff");
+
+				//daggers
+				daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId, EnumToolMaterial.STONE)
+				.setIconCoord(0, 0).setItemName("daggerSacrifice");
+				daggerSouls = new ItemDagger(ReferenceConfigs.daggerSoulsId, EnumToolMaterial.IRON)
+				.setRarity(EnumRarity.rare).setMaxDamage(0).setIconCoord(1, 0).setItemName("daggerSouls");
+				daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitualId, EnumToolMaterial.EMERALD)
+				.setRarity(EnumRarity.rare).setIconCoord(2, 0).setItemName("daggerRitual");
+
+				//ranged
+				arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstableId)
+				.setIconCoord(0, 1).setItemName("arrowUnstable");
+				birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnonId)
+				.setIconCoord(0, 4).setItemName("birdCannon");
 	}
-	
+
 	private void registerEntities(){
 		int chickenId = 1, wolfId = 2, arrowId = 3, gateId = 4;
 		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "CreeperChicken" , chickenId, this, 32, 5, true);
@@ -225,10 +224,10 @@ public class ModDaemon {
 		//EntityRegistry.registerModEntity(EntityGateway.class, "Gateway" , gateId, this, 32, 5, true);
 		EntityRegistry.registerGlobalEntityID(EntityGateway.class, "Gateway", EntityRegistry.findGlobalUniqueEntityId(), 0xff, 0xff);
 	}
-	
+
 	private void addRecipes(){
 		CraftingManager cm = CraftingManager.getInstance();
-		
+
 		cm.addRecipe(new ItemStack(staff), new Object[]{"x", "x" , "x", 'x', Item.stick});
 		//matrix recipes
 		{
@@ -241,12 +240,12 @@ public class ModDaemon {
 				cm.addRecipe(new ItemStack(blockDaemon, 1, 0), matrixPattern);
 			}
 		}
-		
+
 		cm.addRecipe(new ItemStack(blockDaemon, 1, 1), new Object[]{"xx", 'x', Block.dirt});
 		cm.addRecipe(new ItemStack(blockDaemon, 1, 2), new Object[]{"xxx", 'x', Block.dirt});
-		
+
 		cm.addRecipe(new ItemStack(orbMold), new Object[]{" X","XX", 'X', Item.ingotGold});
-		
+
 		//orb recipes
 		{
 			Object[] orbPattern = new Object[] { "MXM", "XOX", "MXM", 'M',
@@ -260,23 +259,23 @@ public class ModDaemon {
 				cm.addRecipe(orbResults[i], orbPattern);
 			}
 		}
-		
+
 		GameRegistry.addSmelting(orbGlass.shiftedIndex, new ItemStack(shardGlass), 0);
-		
+
 		DecomposerRecipes.addRecipe(blockCrystalOre.blockID,
 				new DecomposerRecipes.DecomposerRecipe(50, new ItemStack(crystal)) {
-					@Override
-					public void handleCraft(ItemStack stack) {
-						Random rand = new Random();
-						DaemonEnergy de = UtilItem.getDaemonEnergy(stack);
-						de.deathEnergy = rand.nextInt(100);
-						de.decayEnergy = rand.nextInt(100);
-						de.diseaseEnergy = rand.nextInt(100);
-						de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy + rand.nextInt(100);
-						UtilItem.setDaemonEnergy(stack, de);
-					}
-				});
-		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 2));	
+			@Override
+			public void handleCraft(ItemStack stack) {
+				Random rand = new Random();
+				DaemonEnergy de = UtilItem.getDaemonEnergy(stack);
+				de.deathEnergy = rand.nextInt(100);
+				de.decayEnergy = rand.nextInt(100);
+				de.diseaseEnergy = rand.nextInt(100);
+				de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy + rand.nextInt(100);
+				UtilItem.setDaemonEnergy(stack, de);
+			}
+		});
+		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 2));
 	}
 
 }

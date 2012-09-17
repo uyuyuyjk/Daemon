@@ -13,7 +13,7 @@ public class EntityChickenDaemon extends EntityChicken {
 		super(world);
 		setProjectileStats(1.5f, 1);
 	}
-	
+
 	public void setProjectileStats(float size, int chain){
 		explosionSize = size;
 		explosionChain = chain;
@@ -34,7 +34,7 @@ public class EntityChickenDaemon extends EntityChicken {
 		}
 		super.onLivingUpdate();
 	}
-	
+
 	@Override
 	protected void dropFewItems(boolean par1, int par2) {
 	}

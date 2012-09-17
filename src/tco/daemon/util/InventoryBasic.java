@@ -7,15 +7,15 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 
 public class InventoryBasic implements IInventory {
-	
+
 	private ItemStack[] inventory;
 	private String name;
-	
+
 	public InventoryBasic(String name, int slots){
 		this.name = name;
 		inventory = new ItemStack[slots];
 	}
-	
+
 	public InventoryBasic(String name, IInventory inv){
 		this.name = name;
 		inventory = new ItemStack[inv.getSizeInventory()];
@@ -37,7 +37,7 @@ public class InventoryBasic implements IInventory {
 		}
 		tagCompound.setTag(name, itemList);
 	}
-	
+
 	public void getFromNBT(NBTTagCompound tagCompound){
 		NBTTagList itemList = tagCompound.getTagList(name);
 		for (int i = 0; i < itemList.tagCount(); i++) {

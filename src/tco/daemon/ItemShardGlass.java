@@ -9,12 +9,12 @@ public class ItemShardGlass extends ItemShard {
 		super(id);
 		setHasSubtypes(true);
 	}
-		
+
 	@Override
 	public int getIconFromDamage(int damage) {
 		return iconIndex + damage / 4;
 	}
-	
+
 	@Override
 	public String getItemNameIS(ItemStack stack){
 		switch(stack.getItemDamage()){

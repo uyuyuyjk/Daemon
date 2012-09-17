@@ -7,14 +7,14 @@ import net.minecraftforge.common.ForgeDirection;
 
 public class ContainerHungerChest extends ContainerDaemon {
 
-    private int inventoryRows = 3;
-    
+	private int inventoryRows = 3;
+
 	public ContainerHungerChest(InventoryPlayer inventoryPlayer,
 			TileEntityHungerChest tileEntity) {
 		super(tileEntity);
-		
+
 		int start = tileEntity.getStartInventorySide(ForgeDirection.UP);
-		
+
 		for (int i = 0; i < inventoryRows; i++) {
 			for (int j = 0; j < 9; j++) {
 				addSlotToContainer(new Slot(tileEntity, start + j + i * 9, 8 + j * 18, 18 + i * 18));
@@ -23,7 +23,7 @@ public class ContainerHungerChest extends ContainerDaemon {
 
 		bindPlayerInventory(inventoryPlayer);
 	}
-	
+
 	@Override
 	public ItemStack transferStackInSlot(int slot) {
 		ItemStack stack = null;

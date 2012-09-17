@@ -42,7 +42,7 @@ public class BlockBrazier extends Block {
 		super.addCollidingBlockToList(world, x, y, z, aabb, list, entity);
 		setBlockBoundsForItemRender();
 	}
-	
+
 	@Override
 	public void setBlockBoundsForItemRender() {
 		setBlockBounds(0, 0, 0, 1, 1, 1);
@@ -57,7 +57,7 @@ public class BlockBrazier extends Block {
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return ModDaemon.proxy.renderBrazierId;
@@ -67,11 +67,11 @@ public class BlockBrazier extends Block {
 	public boolean onBlockActivated(World world, int x, int y,
 			int z, EntityPlayer player, int par6, float par7,
 			float par8, float par9) {
-			return false;
+		return false;
 	}
 
 	@Override
-    public int idDropped(int id, Random rand, int par3){
+	public int idDropped(int id, Random rand, int par3){
 		return ModDaemon.instance.daemonBrazier.shiftedIndex;
 	}
 }

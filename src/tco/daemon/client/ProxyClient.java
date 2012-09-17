@@ -1,6 +1,5 @@
 package tco.daemon.client;
 
-import net.minecraft.src.Packet250CustomPayload;
 import net.minecraftforge.client.MinecraftForgeClient;
 import tco.daemon.EntityGateway;
 import tco.daemon.ModDaemon;
@@ -15,7 +14,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ProxyClient extends ProxyCommon {
-		
+
 	@Override
 	public void registerRenderInformation() {
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.TEXTURE_BLOCKS);
@@ -25,19 +24,19 @@ public class ProxyClient extends ProxyCommon {
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_FEEDER);
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_HUNGER_CHEST);
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_DECOMPOSER);
-		
+
 		MinecraftForgeClient.registerItemRenderer(ModDaemon.instance.staff.shiftedIndex, new ItemStaffRenderer());
-		
+
 		renderBrazierId = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(renderBrazierId, new RenderBrazier());
-		
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityGateway.class, new RenderGateway(new ModelGateway()));
 	}
-	
+
 	public void sendToServer(PacketDaemon packet) {
 		PacketDispatcher.sendPacketToServer(packet.writePacket());
 	}
-	
+
 	@Override
 	public boolean isSimulating(){
 		return false;
