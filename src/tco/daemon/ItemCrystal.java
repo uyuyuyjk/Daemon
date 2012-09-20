@@ -11,6 +11,7 @@ public class ItemCrystal extends ItemDaemon implements IDaemonEnergyStorage {
 
 	public ItemCrystal(int id) {
 		super(id);
+		setMaxStackSize(1);
 	}
 
 	@Override
@@ -21,7 +22,12 @@ public class ItemCrystal extends ItemDaemon implements IDaemonEnergyStorage {
 	@Override
 	public void addInformation(ItemStack itemStack, List list) {
 		DaemonEnergy de = UtilItem.getDaemonEnergy(itemStack);
-		itemStack.setItemDamage(de.deathEnergy << 16 + de.decayEnergy << 8 + de.diseaseEnergy);
+		int color = de.deathEnergy << 16 + de.decayEnergy << 8 + de.diseaseEnergy;
+		itemStack.setItemDamage(color);
+		if(color == 0){
+			list.add("Depleted");
+			return;
+		}
 		list.add("Death: " + de.deathEnergy);
 		list.add("Decay: " + de.decayEnergy);
 		list.add("Disease: " + de.diseaseEnergy);

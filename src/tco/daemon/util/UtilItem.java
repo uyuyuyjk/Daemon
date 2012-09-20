@@ -7,6 +7,8 @@ import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.ItemOrb;
 import tco.daemon.ItemShardGlass;
 
@@ -69,6 +71,41 @@ public class UtilItem {
 				return;
 			}
 		}
+	}
+	
+	//assumes items exist
+	//attempts to leave stacks with at least 1 item
+	/**
+	 * 
+	 * @param side
+	 * @param item
+	 * @param amount amount of the item to remove from the inventory
+	 */
+	public static void removeItems(ForgeDirection side, ISidedInventory inv, Item item, int amount){
+		int size = inv.getSizeInventorySide(side);
+
+		for(int i = 0; i < size && amount > 0; i++){
+			ItemStack stack = inv.getStackInSlot(i);
+			if(stack != null && stack.getItem() == item){
+				int amt = stack.stackSize - 1; //maximum amt it can take from the stack
+				if(amount < amt){
+					amt = amount;
+				}
+				if(amt > 0){
+					amount -= inv.decrStackSize(i, amt).stackSize;
+				}
+			}
+		}
+		for (int i = 0; i < size && amount > 0; i++) {
+			ItemStack stack = inv.getStackInSlot(i);
+			if (stack != null && stack.getItem() == item) {
+				amount -= inv.decrStackSize(i, amount).stackSize;
+			}
+		}
+	}
+
+	public static void removeItems(ISidedInventory inv, Item item, int amount){
+		removeItems(ForgeDirection.DOWN, inv, item, amount);
 	}
 
 }

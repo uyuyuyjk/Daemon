@@ -42,7 +42,7 @@ public class ReferenceConfigs {
 		public boolean block() default false;
 	}
 
-	public static final String VERSION = "0.1";
+	public static final String VERSION = "0.1.2a";
 	public static final String FULL_VERSION = "ModDaemon v" + VERSION;
 	public static final String CHANNEL = "ModDaemon";
 

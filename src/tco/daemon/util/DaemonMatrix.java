@@ -12,15 +12,9 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.ItemDagger;
 import tco.daemon.ItemOrb;
+import tco.daemon.ModDaemon;
 
-public enum DaemonMatrix {
-	DEFAULT,
-	CRAFT,
-	SMELT,
-	CHARGE,
-	CONDUCT,
-	CRAFTMATRIX;
-
+public class DaemonMatrix {
 	public static final int MATRIX_DIM = 4;
 	public static final int MATRIX_SIZE = MATRIX_DIM * MATRIX_DIM;
 
@@ -49,25 +43,13 @@ public enum DaemonMatrix {
 	public static void addDisease(Item item){
 		itemMap.put(item, 0x4);
 	}
-
-	public static DaemonMatrix getType(ISidedInventory matrix){
+	
+	public static IMatrixActivator getMatrixActivator(ISidedInventory matrix){
 		ItemStack stack = matrix.getStackInSlot(DaemonMatrix.MATRIX_SIZE - 1);
-		if (stack != null) {
-			Item item = stack.getItem();
-			if (item instanceof ItemOrb) {
-				return CRAFTMATRIX;
-			}
-			if (item instanceof ItemDagger) {
-				return CONDUCT;
-			}
-			if (item == Item.coal) {
-				return SMELT;
-			}
-			if (item instanceof ItemTool) {
-				return CRAFT;
-			}
+		if (stack != null && stack.getItem() instanceof IMatrixActivator) {
+			return (IMatrixActivator) stack.getItem();
 		}
-		return DEFAULT;
+		return null;
 	}
 
 	public static ItemStack getStorageItem(ISidedInventory matrix){
