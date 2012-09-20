@@ -11,6 +11,7 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.ItemOrb;
 import tco.daemon.ItemShardGlass;
+import tco.daemon.matrix.DaemonMatrix;
 
 public class UtilItem {
 
@@ -72,7 +73,7 @@ public class UtilItem {
 			}
 		}
 	}
-	
+
 	//assumes items exist
 	//attempts to leave stacks with at least 1 item
 	/**
@@ -81,9 +82,7 @@ public class UtilItem {
 	 * @param item
 	 * @param amount amount of the item to remove from the inventory
 	 */
-	public static void removeItems(ForgeDirection side, ISidedInventory inv, Item item, int amount){
-		int size = inv.getSizeInventorySide(side);
-
+	public static void removeItems(IInventory inv, Item item, int start, int size, int amount){
 		for(int i = 0; i < size && amount > 0; i++){
 			ItemStack stack = inv.getStackInSlot(i);
 			if(stack != null && stack.getItem() == item){
@@ -104,8 +103,15 @@ public class UtilItem {
 		}
 	}
 
+	public static void removeItems(IInventory inv, Item item, int amount){
+		removeItems(inv, item, 0, inv.getSizeInventory(), amount);
+	}
+
 	public static void removeItems(ISidedInventory inv, Item item, int amount){
-		removeItems(ForgeDirection.DOWN, inv, item, amount);
+		removeItems(inv, item,
+				inv.getStartInventorySide(ForgeDirection.DOWN),
+				inv.getSizeInventorySide(ForgeDirection.DOWN),
+				amount);
 	}
 
 }

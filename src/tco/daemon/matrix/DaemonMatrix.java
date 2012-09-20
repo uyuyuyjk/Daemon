@@ -1,18 +1,17 @@
-package tco.daemon.util;
+package tco.daemon.matrix;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.src.IInventory;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
-import net.minecraft.src.ItemTool;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import tco.daemon.ItemDagger;
-import tco.daemon.ItemOrb;
-import tco.daemon.ModDaemon;
+import tco.daemon.energy.IDaemonEnergyStorage;
+import tco.daemon.util.DaemonEnergy;
 
 public class DaemonMatrix {
 	public static final int MATRIX_DIM = 4;
@@ -43,7 +42,7 @@ public class DaemonMatrix {
 	public static void addDisease(Item item){
 		itemMap.put(item, 0x4);
 	}
-	
+
 	public static IMatrixActivator getMatrixActivator(ISidedInventory matrix){
 		ItemStack stack = matrix.getStackInSlot(DaemonMatrix.MATRIX_SIZE - 1);
 		if (stack != null && stack.getItem() instanceof IMatrixActivator) {
@@ -52,7 +51,7 @@ public class DaemonMatrix {
 		return null;
 	}
 
-	public static ItemStack getStorageItem(ISidedInventory matrix){
+	public static ItemStack getStorageItem(IInventory matrix){
 		ItemStack stack = matrix.getStackInSlot(DaemonMatrix.MATRIX_DIM - 1);
 		if(stack != null && stack.getItem() instanceof IDaemonEnergyStorage) {
 			return stack;

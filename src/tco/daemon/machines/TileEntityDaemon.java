@@ -1,25 +1,16 @@
 package tco.daemon.machines;
 
-import net.minecraft.src.Container;
-import net.minecraft.src.CraftingManager;
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.InventoryCrafting;
-import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import tco.daemon.ItemCrystal;
-import tco.daemon.ItemOrb;
-import tco.daemon.ItemShardGlass;
+import tco.daemon.matrix.DaemonMatrix;
+import tco.daemon.matrix.IMatrixActivator;
 import tco.daemon.util.DaemonEnergy;
-import tco.daemon.util.DaemonMatrix;
-import tco.daemon.util.IMatrixAction;
-import tco.daemon.util.IMatrixActivator;
 import tco.daemon.util.UtilItem;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 
@@ -47,21 +38,24 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 
 		IMatrixActivator activator = DaemonMatrix.getMatrixActivator(this);
 		ItemStack storage = DaemonMatrix.getStorageItem(this);
-		DaemonEnergy storageEnergy = UtilItem.getDaemonEnergy(storage);
-				
+		DaemonEnergy storageEnergy = null;
+		if(storage != null) {
+			storageEnergy = UtilItem.getDaemonEnergy(storage);
+		}
+		
 		if(activator != null) {
-			activator.getAction().doAction(this, storageEnergy);			
+			activator.getAction().doAction(this, storageEnergy);
 		} else {
 			defaultMatrixAction(storageEnergy);
 		}
 		UtilItem.setDaemonEnergy(storage, storageEnergy);
 	}
-	
+
 	public void defaultMatrixAction(DaemonEnergy storageEnergy) {
 		DaemonEnergy energy = DaemonMatrix.calculateEnergy(this);
 		int instability = DaemonMatrix.calculateInstability(this);
 	}
-		
+
 	@Override
 	public int getSizeInventory() {
 		return matrix.length + inv.length;

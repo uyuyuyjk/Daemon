@@ -1,4 +1,4 @@
-package tco.daemon.util;
+package tco.daemon.energy;
 
 import java.util.HashMap;
 

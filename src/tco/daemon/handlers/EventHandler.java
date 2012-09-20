@@ -1,4 +1,4 @@
-package tco.daemon.event;
+package tco.daemon.handlers;
 
 import net.minecraft.src.EntityArrow;
 import net.minecraft.src.EntityPlayer;

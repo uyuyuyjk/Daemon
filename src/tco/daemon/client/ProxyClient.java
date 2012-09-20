@@ -8,7 +8,7 @@ import tco.daemon.client.render.ItemStaffRenderer;
 import tco.daemon.client.render.ModelGateway;
 import tco.daemon.client.render.RenderBrazier;
 import tco.daemon.client.render.RenderGateway;
-import tco.daemon.event.PacketDaemon;
+import tco.daemon.handlers.PacketDaemon;
 import tco.daemon.util.ReferenceConfigs;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.network.PacketDispatcher;

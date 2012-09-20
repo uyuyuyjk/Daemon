@@ -1,7 +1,7 @@
 package tco.daemon.machines;
 
 import net.minecraft.src.ItemStack;
-import tco.daemon.util.DaemonMatrix;
+import tco.daemon.matrix.DaemonMatrix;
 
 public class TileEntityMatrixPortable extends TileEntityDaemon {
 	@Override

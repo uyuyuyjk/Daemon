@@ -1,26 +1,20 @@
 package tco.daemon.client;
 
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.GuiContainer;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import tco.daemon.ContainerMatrixPortable;
+import tco.daemon.machines.ContainerMatrixContained;
 import tco.daemon.util.ReferenceConfigs;
 
-public class GuiMatrixPortable extends GuiContainer
+public class GuiMatrixPortable extends GuiMatrixContained
 {
-	public GuiMatrixPortable(InventoryPlayer player)
+	public GuiMatrixPortable(EntityPlayer player)
 	{
-		super(new ContainerMatrixPortable(player));
-	}
-
-	//copied from GuiMatrix
-	@Override
-	protected void drawGuiContainerForegroundLayer() {
-		fontRenderer.drawString(StatCollector.translateToLocal("matrix.name"), 8, 6, 4210752);
-		fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, ySize - 96 + 2, 4210752);
+		super(player);
 	}
 
 	@Override

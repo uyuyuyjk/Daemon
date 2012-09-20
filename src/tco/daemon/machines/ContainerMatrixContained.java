@@ -1,11 +1,10 @@
-package tco.daemon;
+package tco.daemon.machines;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
-import tco.daemon.machines.ContainerDaemon;
-import tco.daemon.util.DaemonMatrix;
+import tco.daemon.matrix.DaemonMatrix;
 import tco.daemon.util.UtilItem;
 
 public class ContainerMatrixContained extends ContainerDaemon {

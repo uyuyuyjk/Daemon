@@ -1,4 +1,5 @@
-package tco.daemon;
+package tco.daemon.world;
+
 
 import java.util.Random;
 
@@ -6,6 +7,7 @@ import net.minecraft.src.BiomeGenBase;
 import net.minecraft.src.IChunkProvider;
 import net.minecraft.src.World;
 import net.minecraft.src.WorldGenMinable;
+import tco.daemon.ModDaemon;
 import cpw.mods.fml.common.IWorldGenerator;
 
 public class WorldGenerator implements IWorldGenerator {

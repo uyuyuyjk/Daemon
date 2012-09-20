@@ -3,11 +3,14 @@ package tco.daemon;
 import java.util.List;
 
 import net.minecraft.src.ItemStack;
+import tco.daemon.energy.IDaemonEnergyStorage;
+import tco.daemon.matrix.IMatrixAction;
+import tco.daemon.matrix.IMatrixActivator;
+import tco.daemon.matrix.MatrixActionCraft;
 import tco.daemon.util.DaemonEnergy;
-import tco.daemon.util.IDaemonEnergyStorage;
 import tco.daemon.util.UtilItem;
 
-public class ItemOrb extends ItemDaemon implements IDaemonEnergyStorage {
+public class ItemOrb extends ItemDaemon implements IDaemonEnergyStorage, IMatrixActivator {
 	public static final int MAX_COND_FACTOR = 100;
 
 	private int conductivity;
@@ -61,6 +64,11 @@ public class ItemOrb extends ItemDaemon implements IDaemonEnergyStorage {
 	@Override
 	public boolean getShareTag() {
 		return true;
+	}
+
+	@Override
+	public IMatrixAction getAction() {
+		return new MatrixActionCraft();
 	}
 
 }

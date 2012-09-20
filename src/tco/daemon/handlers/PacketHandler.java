@@ -1,4 +1,4 @@
-package tco.daemon.event;
+package tco.daemon.handlers;
 
 import java.util.HashMap;
 import java.util.Map;

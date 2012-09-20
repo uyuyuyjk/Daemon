@@ -1,19 +1,17 @@
-package tco.daemon.machines;
+package tco.daemon.matrix;
 
+import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.ItemCrystal;
 import tco.daemon.ItemOrb;
 import tco.daemon.ItemShardGlass;
 import tco.daemon.util.DaemonEnergy;
-import tco.daemon.util.IMatrixAction;
 import tco.daemon.util.UtilItem;
 
 public class MatrixActionConduct implements IMatrixAction {
 	@Override
-	public void doAction(ISidedInventory matrix, DaemonEnergy energy) {
-		int size = matrix.getSizeInventorySide(ForgeDirection.DOWN);
+	public void doAction(IInventory matrix, DaemonEnergy energy) {
+		int size = DaemonMatrix.MATRIX_SIZE;
 		int orb = -1;
 		ItemOrb orbItem = null;
 		int lastSlot = 0;

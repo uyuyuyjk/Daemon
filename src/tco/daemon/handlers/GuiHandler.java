@@ -1,11 +1,10 @@
-package tco.daemon.event;
+package tco.daemon.handlers;
 
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.World;
-import tco.daemon.ContainerMatrixContained;
-import tco.daemon.ContainerMatrixPortable;
 import tco.daemon.client.GuiMatrixContained;
 import tco.daemon.client.GuiMatrixPortable;
+import tco.daemon.machines.ContainerMatrixContained;
 import tco.daemon.util.ReferenceGui;
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -20,7 +19,7 @@ public class GuiHandler implements IGuiHandler {
 		case ReferenceGui.CONTAINED_MATRIX:
 			return new ContainerMatrixContained(player);
 		case ReferenceGui.PORTABLE_MATRIX:
-			return new ContainerMatrixPortable(player.inventory);
+			return new ContainerMatrixContained(player);
 		}
 		return null;
 	}
@@ -35,7 +34,7 @@ public class GuiHandler implements IGuiHandler {
 		case ReferenceGui.CONTAINED_MATRIX:
 			return new GuiMatrixContained(player);
 		case ReferenceGui.PORTABLE_MATRIX:
-			return new GuiMatrixPortable(player.inventory);
+			return new GuiMatrixPortable(player);
 		}
 		return null;
 	}

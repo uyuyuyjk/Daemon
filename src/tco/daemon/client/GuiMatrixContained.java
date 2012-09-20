@@ -6,7 +6,7 @@ import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import tco.daemon.ContainerMatrixContained;
+import tco.daemon.machines.ContainerMatrixContained;
 import tco.daemon.util.ReferenceConfigs;
 
 public class GuiMatrixContained extends GuiContainer

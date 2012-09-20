@@ -1,3 +1,3 @@
-package tco.daemon.util;
+package tco.daemon.energy;
 
 public interface IDaemonEnergyStorage {}

@@ -4,8 +4,11 @@ import net.minecraft.src.Entity;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.ItemStack;
+import tco.daemon.matrix.IMatrixAction;
+import tco.daemon.matrix.IMatrixActivator;
+import tco.daemon.matrix.MatrixActionConduct;
 
-public class ItemDagger extends ItemDaemon {
+public class ItemDagger extends ItemDaemon implements IMatrixActivator {
 
 	private int damage;
 
@@ -26,6 +29,11 @@ public class ItemDagger extends ItemDaemon {
 	@Override
 	public int getDamageVsEntity(Entity entity){
 		return damage;
+	}
+
+	@Override
+	public IMatrixAction getAction() {
+		return new MatrixActionConduct();
 	}
 
 }

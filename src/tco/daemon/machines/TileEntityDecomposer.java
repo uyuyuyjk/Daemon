@@ -3,9 +3,9 @@ package tco.daemon.machines;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
+import tco.daemon.energy.DecomposerRecipes;
+import tco.daemon.matrix.DaemonMatrix;
 import tco.daemon.util.DaemonEnergy;
-import tco.daemon.util.DaemonMatrix;
-import tco.daemon.util.DecomposerRecipes;
 import tco.daemon.util.UtilItem;
 
 public class TileEntityDecomposer extends TileEntityDaemon {
@@ -13,6 +13,8 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 	public static final int FUEL_CAPACITY = 200;
 	public static final int BASE_SPEED = 1;
 
+	private DecomposerRecipes.DecomposerRecipe recipe;
+	
 	private int speed;
 	private int fuelLeft;
 	private int progress;
@@ -42,7 +44,7 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 		}
 
 		if(inv[0] != null && inv[1] == null && DecomposerRecipes.hasRecipe(inv[0].itemID)) {
-			DecomposerRecipes.DecomposerRecipe recipe = DecomposerRecipes.getRecipe(inv[0].itemID);
+			recipe = DecomposerRecipes.getRecipe(inv[0].itemID);
 			if(recipe.cost > fuelLeft) {
 				progress = 0;
 			} else {
@@ -52,6 +54,7 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 				progress = 0;
 				fuelLeft -= recipe.cost;
 				ItemStack result = DecomposerRecipes.useRecipe(inv[0].itemID);
+				recipe = null;
 			}
 		} else {
 			progress = 0;

@@ -1,24 +1,22 @@
-package tco.daemon.machines;
+package tco.daemon.matrix;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.src.Container;
 import net.minecraft.src.CraftingManager;
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryCrafting;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
-import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.util.DaemonEnergy;
-import tco.daemon.util.DaemonMatrix;
-import tco.daemon.util.IMatrixAction;
 import tco.daemon.util.UtilItem;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class MatrixActionCraft implements IMatrixAction {
 
 	public static class InventoryCraftingDaemon extends InventoryCrafting {
-		private ISidedInventory matrix;
+		private IInventory matrix;
 
-		public InventoryCraftingDaemon(ISidedInventory m) {
+		public InventoryCraftingDaemon(IInventory m) {
 			super(new Container(){
 				@Override
 				public boolean canInteractWith(EntityPlayer player) {
@@ -71,10 +69,14 @@ public class MatrixActionCraft implements IMatrixAction {
 			return craft(false);
 		}
 	}
-	
+
 	//assumes 4x4
 	@Override
-	public void doAction(ISidedInventory matrix, DaemonEnergy energy) {		
+	public void doAction(IInventory matrix, DaemonEnergy energy) {
+		if(energy != null){
+			doDaemonCraft();
+			return;
+		}
 		InventoryCraftingDaemon craftingInv = new InventoryCraftingDaemon(matrix);
 		craftingInv.populateCrafting();
 		ItemStack result = CraftingManager.getInstance().findMatchingRecipe(craftingInv);
@@ -100,12 +102,15 @@ public class MatrixActionCraft implements IMatrixAction {
 			matrix.setInventorySlotContents(emptySlot, result);
 		}
 	}
+
+	private void doDaemonCraft() {
+		// TODO Auto-generated method stub
+	}
+
 	//returns the sides, corners, then the main 3x3, or -1 is no empty slots found
 	//assumes 4x4 matrix
 	//TODO make it better
-	public int getPreferredEmptySlot(ISidedInventory matrix, ForgeDirection side){
-		int start = matrix.getStartInventorySide(side);
-		int size = matrix.getSizeInventorySide(side);
+	public int getPreferredEmptySlot(IInventory matrix, ForgeDirection side){
 		ItemStack stack = matrix.getStackInSlot(7);
 		if(stack == null) return 7;
 		stack = matrix.getStackInSlot(11);
@@ -122,8 +127,8 @@ public class MatrixActionCraft implements IMatrixAction {
 		stack = matrix.getStackInSlot(15);
 		if(stack == null) return 15;
 
-		for(int i = 0; i < size; i++){
-			stack = matrix.getStackInSlot(start + i);
+		for(int i = 0; i < DaemonMatrix.MATRIX_SIZE; i++){
+			stack = matrix.getStackInSlot(i);
 			if(stack == null) return i;
 		}
 
