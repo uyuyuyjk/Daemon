@@ -2,7 +2,7 @@ package tco.daemon.machines;
 
 import net.minecraft.src.ItemBlock;
 import net.minecraft.src.ItemStack;
-import tco.daemon.util.ReferenceGui;
+import tco.daemon.util.ReferenceTiles;
 
 public class ItemBlockDaemonMachine extends ItemBlock {
 
@@ -18,7 +18,7 @@ public class ItemBlockDaemonMachine extends ItemBlock {
 
 	@Override
 	public String getItemNameIS(ItemStack stack){
-		return ReferenceGui.values()[stack.getItemDamage()].getName();
+		return ReferenceTiles.values()[stack.getItemDamage()].getName();
 	}
 
 }

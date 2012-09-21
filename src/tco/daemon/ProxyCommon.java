@@ -1,6 +1,8 @@
 package tco.daemon;
 
 import net.minecraft.src.Packet250CustomPayload;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Side;
 
 public class ProxyCommon {
 
@@ -11,6 +13,6 @@ public class ProxyCommon {
 	public void sendToServer(Packet250CustomPayload packet) {}
 
 	public boolean isSimulating() {
-		return true;
+		return FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER;
 	}
 }

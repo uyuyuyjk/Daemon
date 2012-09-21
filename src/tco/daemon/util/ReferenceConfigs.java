@@ -47,18 +47,21 @@ public class ReferenceConfigs {
 	public static final String CHANNEL = "ModDaemon";
 
 	public static final String SPRITE_FOLDER = "/tco/daemon/sprites/";
-	public static final String TEXTURE_BLOCKS = SPRITE_FOLDER + "blocks.png",
-			TEXTURE_ITEMS = SPRITE_FOLDER + "daemonitems.png",
-			TEXTURE_GATEWAY = SPRITE_FOLDER + "gateway.png",
-			GUI_MATRIX = SPRITE_FOLDER + "matrix.png",
-			GUI_FEEDER = SPRITE_FOLDER + "feeder.png",
-			GUI_HUNGER_CHEST = "/gui/container.png",
-			GUI_DECOMPOSER = SPRITE_FOLDER + "decomposer.png";
+	public static final String
+	TEXTURE_BLOCKS   = SPRITE_FOLDER + "blocks.png",
+	TEXTURE_ITEMS    = SPRITE_FOLDER + "daemonitems.png",
+	TEXTURE_GATEWAY  = SPRITE_FOLDER + "gateway.png",
+	GUI_MATRIX       = SPRITE_FOLDER + "matrix.png",
+	GUI_FEEDER       = SPRITE_FOLDER + "feeder.png",
+	GUI_HUNGER_CHEST = "/gui/container.png",
+	GUI_DECOMPOSER   = SPRITE_FOLDER + "decomposer.png",
+	GUI_ADV_MATRIX   = SPRITE_FOLDER + "adv_matrix.png";
 
 	public static final int DEATH_ENERGY_BLAZE = 50;
 	public static final int DEATH_ENERGY_FIRE = 10;
 	public static final int ENERGY_UNDEATH = 10000;
-
+	public static final int DECAY_ENERGY_UNSTABLE = 50;
+	public static final int DISEASE_ENERGY_STABLE = 50;
 	//blocks
 	public static @ConfigId(block=true) int blockCursedOre = 141,
 			blockCrystalOre = 142,
@@ -67,44 +70,45 @@ public class ReferenceConfigs {
 			blockAltar = 145;//TODO use
 
 	//misc.
-	public static @ConfigId int daemonBrazier = 5432;
+	public static @ConfigId int daemonBrazier = 5400;
 
-	public static @ConfigId int matrixContained = 5700, birdCannnon = 5436;
+	public static @ConfigId int matrixContained = 5401, birdCannnon = 5402;
 
-	public static @ConfigId int arrowUnstable = 5443;
+	public static @ConfigId int arrowUnstable = 5403;
 
 	//daggers
-	public static @ConfigId int daggerSacrifice = 5433,
-			daggerSouls = 5437,
-			daggerRitual = 5435;
+	public static @ConfigId int daggerSacrifice = 5404,
+			daggerSouls = 5405,
+			daggerRitual = 5406;
 
 	//amulets
-	public static @ConfigId int amuletFire = 6938,
-			amuletBlaze = 6939,
-			amuletInferno = 6990, //TODO use
-			amuletUnlife = 5437;
+	public static @ConfigId int amuletFire = 5407,
+			amuletBlaze = 5408,
+			amuletInferno = 5409, //TODO use
+			amuletUnlife = 5410;
 
 	//staves
-	public static @ConfigId int staff = 5438,
-			staffUndeath = 5439;//TODO use
+	public static @ConfigId int staff = 5411,
+			staffUndeath = 5412;//TODO use
 
 	//shards
-	public static @ConfigId int shardGlass = 5632,
-			shardDark = 5631,
-			shardUnstable = 5630,
-			shardStable = 5629;
+	public static @ConfigId int shardGlass = 5413,
+			shardDark = 5414,
+			shardUnstable = 5415,
+			shardStable = 5416;
 
 	//crystals
-	public static @ConfigId int crystal = 5900;
+	public static @ConfigId int crystal = 5417;
 
 	//orbs
-	public static @ConfigId int orbMold = 5633,
-			orbGlass = 5634,
-			orbObsidian = 5635,
-			orbBlaze = 5636,
-			orbFamiliar = 5639,//TODO use
-			orbWolf = 5637,
-			orbUnstable = 5638;
+	public static @ConfigId int orbMold = 5418,
+			orbGlass = 5419,
+			orbObsidian = 5420,
+			orbBlaze = 5421,
+			orbFamiliar = 5422,//TODO use
+			orbWolf = 5423,
+			orbUnstable = 5424,
+			orbStable = 5425;
 
 	public static void loadConfigs(FMLPreInitializationEvent event) {
 		Configuration cfg = new Configuration(

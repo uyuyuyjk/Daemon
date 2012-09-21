@@ -57,6 +57,11 @@ public class DaemonEnergy {
 				return true;
 			}
 		}
+
+		if(player.capabilities.isCreativeMode) {
+			return true;
+		}
+
 		return false;
 	}
 

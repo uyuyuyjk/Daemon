@@ -4,6 +4,8 @@ import net.minecraft.src.EntityEnderPearl;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
+import tco.daemon.energy.DaemonEnergy;
+import tco.daemon.util.ReferenceConfigs;
 
 public class ItemOrbUnstable extends ItemDaemon {
 
@@ -15,7 +17,8 @@ public class ItemOrbUnstable extends ItemDaemon {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
 			EntityPlayer player) {
-		if (player.ridingEntity == null) {
+		if (player.ridingEntity == null &&
+				DaemonEnergy.drainEnergy(player, 0, ReferenceConfigs.DECAY_ENERGY_UNSTABLE, 0)) {
 			world.playSoundAtEntity(player, "random.bow", 0.5F,
 					0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 

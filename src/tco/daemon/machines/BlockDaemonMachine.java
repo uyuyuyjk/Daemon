@@ -16,7 +16,7 @@ import net.minecraft.src.World;
 import tco.daemon.ItemStaff;
 import tco.daemon.ModDaemon;
 import tco.daemon.util.ReferenceConfigs;
-import tco.daemon.util.ReferenceGui;
+import tco.daemon.util.ReferenceTiles;
 
 public class BlockDaemonMachine extends BlockContainer {
 
@@ -39,7 +39,7 @@ public class BlockDaemonMachine extends BlockContainer {
 		}
 		if (player.getCurrentEquippedItem() != null
 				&& player.getCurrentEquippedItem().getItem() instanceof ItemStaff) {
-			player.openGui(ModDaemon.instance, ReferenceGui.MATRIX.ordinal(), world, x, y, z);
+			player.openGui(ModDaemon.instance, ReferenceTiles.MATRIX.ordinal(), world, x, y, z);
 		} else {
 			player.openGui(ModDaemon.instance, world.getBlockMetadata(x, y, z), world, x, y, z);
 		}
@@ -99,7 +99,7 @@ public class BlockDaemonMachine extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int metadata) {
-		return ReferenceGui.values()[metadata].getTileEntity();
+		return ReferenceTiles.values()[metadata].getTileEntity();
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class BlockDaemonMachine extends BlockContainer {
 
 	@Override
 	public void getSubBlocks(int id, CreativeTabs creativeTabs, List list) {
-		int values = ReferenceGui.values().length;
+		int values = ReferenceTiles.values().length;
 		for(int i = 0; i < values; i++){
 			list.add(new ItemStack(id, 1, i));
 		}

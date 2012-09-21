@@ -44,11 +44,8 @@ import tco.daemon.handlers.PacketHandler;
 import tco.daemon.machines.BlockBrazier;
 import tco.daemon.machines.BlockDaemonMachine;
 import tco.daemon.machines.ItemBlockDaemonMachine;
-import tco.daemon.machines.TileEntityDaemon;
-import tco.daemon.machines.TileEntityDecomposer;
-import tco.daemon.machines.TileEntityFeeder;
-import tco.daemon.machines.TileEntityHungerChest;
 import tco.daemon.util.ReferenceConfigs;
+import tco.daemon.util.ReferenceTiles;
 import tco.daemon.util.UtilItem;
 import tco.daemon.world.WorldGenerator;
 import cpw.mods.fml.common.Mod;
@@ -93,7 +90,7 @@ public class ModDaemon {
 	public Item daggerSacrifice, daggerSouls, daggerRitual;
 
 	//amulets
-	public Item amuletFire, amuletBlaze;
+	public Item amuletFire, amuletBlaze, amuletInferno;
 	public Item amuletUnlife;
 
 	//staves
@@ -111,7 +108,8 @@ public class ModDaemon {
 	orbObsidian,
 	orbBlaze,
 	orbWolf,
-	orbUnstable;
+	orbUnstable,
+	orbStable;
 
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -168,10 +166,7 @@ public class ModDaemon {
 		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazier).setBlockName("blockDaemonBrazier");
 		GameRegistry.registerBlock(blockBrazier);
 
-		GameRegistry.registerTileEntity(TileEntityDaemon.class, "tileEntityDaemon");
-		GameRegistry.registerTileEntity(TileEntityFeeder.class, "tileEntityFeeder");
-		GameRegistry.registerTileEntity(TileEntityHungerChest.class, "tileEntityHungerChest");
-		GameRegistry.registerTileEntity(TileEntityDecomposer.class, "tileEntityDecomposer");
+		ReferenceTiles.registerTileEntities();
 	}
 
 	private void loadItems(){
@@ -186,7 +181,7 @@ public class ModDaemon {
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
 		.setIconCoord(0, 4).setItemName("birdCannon");
 		arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstable)
-		.setIconCoord(0, 1).setItemName("arrowUnstable");
+		.setIconCoord(1, 4).setItemName("arrowUnstable");
 
 		//daggers
 		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrifice, EnumToolMaterial.STONE)
@@ -198,11 +193,13 @@ public class ModDaemon {
 
 		//amulets
 		amuletFire = new ItemAmuletFire(ReferenceConfigs.amuletFire)
-		.setIconCoord(0, 0).setItemName("amuletFire");
+		.setIconCoord(1, 2).setItemName("amuletFire");
 		amuletBlaze = new ItemAmuletBlaze(ReferenceConfigs.amuletBlaze).setRarity(EnumRarity.uncommon)
-				.setIconCoord(0, 0).setItemName("amuletBlaze");
+				.setIconCoord(1, 2).setItemName("amuletBlaze");
+		amuletInferno = new ItemAmuletBlaze(ReferenceConfigs.amuletInferno).setRarity(EnumRarity.epic)
+				.setIconCoord(2, 2).setItemName("amuletInferno"); //TODO implement
 		amuletUnlife = new ItemDaemon(ReferenceConfigs.amuletUnlife).setRarity(EnumRarity.rare)
-				.setMaxStackSize(1).setIconCoord(0, 0).setItemName("amuletUnlife");
+				.setMaxStackSize(1).setIconCoord(0, 2).setItemName("amuletUnlife");
 
 		//staves
 		staff = new ItemStaff(ReferenceConfigs.staff, EnumToolMaterial.WOOD)
@@ -226,9 +223,9 @@ public class ModDaemon {
 		orbMold = new ItemOrbMold(ReferenceConfigs.orbMold)
 		.setIconCoord(5, 1).setItemName("orbMold");
 		orbMold.setContainerItem(orbMold);
-		orbGlass = new ItemOrb(ReferenceConfigs.orbGlass, 500).setRarity(EnumRarity.uncommon)
-				.setIconCoord(0, 1).setItemName("orbGlass");
-		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidian, 2000).setRarity(EnumRarity.rare)
+		orbGlass = new ItemOrb(ReferenceConfigs.orbGlass, 500)
+		.setIconCoord(0, 1).setItemName("orbGlass");
+		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidian, 2000).setRarity(EnumRarity.uncommon)
 				.setIconCoord(1, 1).setItemName("orbObsidian");
 		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlaze, 10000).setRarity(EnumRarity.rare)
 				.setIconCoord(2, 1).setItemName("orbBlaze");
@@ -236,6 +233,8 @@ public class ModDaemon {
 				.setIconCoord(3, 1).setItemName("orbWolf");
 		orbUnstable = new ItemOrbUnstable(ReferenceConfigs.orbUnstable).setRarity(EnumRarity.rare)
 				.setIconCoord(4, 1).setItemName("orbUnstable");
+		orbStable = new ItemOrbStable(ReferenceConfigs.orbStable).setRarity(EnumRarity.rare)
+				.setIconCoord(4, 1).setItemName("orbStable");
 	}
 
 	private void registerEntities(){

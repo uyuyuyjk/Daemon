@@ -24,6 +24,7 @@ public class ProxyClient extends ProxyCommon {
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_FEEDER);
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_HUNGER_CHEST);
 		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_DECOMPOSER);
+		MinecraftForgeClient.preloadTexture(ReferenceConfigs.GUI_ADV_MATRIX);
 
 		MinecraftForgeClient.registerItemRenderer(ModDaemon.instance.staff.shiftedIndex, new ItemStaffRenderer());
 
@@ -35,10 +36,5 @@ public class ProxyClient extends ProxyCommon {
 
 	public void sendToServer(PacketDaemon packet) {
 		PacketDispatcher.sendPacketToServer(packet.writePacket());
-	}
-
-	@Override
-	public boolean isSimulating(){
-		return false;
 	}
 }
