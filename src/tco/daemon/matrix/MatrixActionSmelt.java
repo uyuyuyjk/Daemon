@@ -7,9 +7,12 @@ import tco.daemon.energy.DaemonEnergy;
 public class MatrixActionSmelt implements IMatrixAction {
 
 	private int boost;
+	
+	public int progress;
 
 	public MatrixActionSmelt(int b) {
 		boost = b;
+		progress = 0;
 	}
 
 	public MatrixActionSmelt() {
@@ -18,18 +21,17 @@ public class MatrixActionSmelt implements IMatrixAction {
 
 	@Override
 	public void doAction(IInventory matrix, DaemonEnergy energy) {
-		// TODO Auto-generated method stub
+		progress += boost;
+		//TODO finish implementation
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
-
+		tagCompound.setInteger("Progress", progress);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound tagCompound) {
-		// TODO Auto-generated method stub
-
+		progress = tagCompound.getInteger("Progress");
 	}
 }
