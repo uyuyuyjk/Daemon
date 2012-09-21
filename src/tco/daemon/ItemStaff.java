@@ -29,9 +29,4 @@ public class ItemStaff extends ItemDaemon {
 		return damage;
 	}
 
-	@Override
-	public EnumRarity getRarity(ItemStack itemStack) {
-		return EnumRarity.common;
-	}
-
 }

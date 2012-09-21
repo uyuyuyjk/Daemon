@@ -1,13 +1,9 @@
 package tco.daemon.client;
 
 import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.GuiContainer;
-import net.minecraft.src.InventoryPlayer;
-import net.minecraft.src.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import tco.daemon.machines.ContainerMatrixContained;
 import tco.daemon.util.ReferenceConfigs;
 
 public class GuiMatrixPortable extends GuiMatrixContained

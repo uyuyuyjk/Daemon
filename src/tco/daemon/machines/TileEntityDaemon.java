@@ -1,22 +1,26 @@
 package tco.daemon.machines;
 
 import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.NBTTagList;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.matrix.DaemonMatrix;
+import tco.daemon.matrix.IMatrixAction;
 import tco.daemon.matrix.IMatrixActivator;
-import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.UtilItem;
 
 public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 
 	protected ItemStack[] matrix;
-
 	protected ItemStack[] inv;
+
+	protected int activatorId;
+	protected IMatrixAction action;
 
 	private int ticksSinceLastCalc;
 
@@ -36,19 +40,32 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 	public void updateMatrix(){
 		if(worldObj.isRemote){return;}
 
-		IMatrixActivator activator = DaemonMatrix.getMatrixActivator(this);
 		ItemStack storage = DaemonMatrix.getStorageItem(this);
 		DaemonEnergy storageEnergy = null;
 		if(storage != null) {
 			storageEnergy = UtilItem.getDaemonEnergy(storage);
 		}
-		
+
+
+		IMatrixActivator activator = DaemonMatrix.getMatrixActivator(this);
 		if(activator != null) {
-			activator.getAction().doAction(this, storageEnergy);
+			int id = activator.getActivatorId();
+			if(id == activatorId) {
+				action.doAction(this, storageEnergy);
+			} else {
+				activatorId = id;
+				action = activator.getAction();
+			}
 		} else {
+			activatorId = 0;
+			action = null;
 			defaultMatrixAction(storageEnergy);
 		}
-		UtilItem.setDaemonEnergy(storage, storageEnergy);
+
+
+		if(storage != null) {
+			UtilItem.setDaemonEnergy(storage, storageEnergy);
+		}
 	}
 
 	public void defaultMatrixAction(DaemonEnergy storageEnergy) {
@@ -158,6 +175,16 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 				inv[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
+
+		//matrix action
+		activatorId = tagCompound.getInteger("ActivatorId");
+		if(tagCompound.hasKey("MatrixAction")) {
+			Item activator = Item.itemsList[activatorId];
+			if(activator instanceof IMatrixActivator && tagCompound.hasKey("MatrixAction")) {
+				NBTTagCompound actionTag = (NBTTagCompound) tagCompound.getTag("MatrixAction");
+				action.readFromNBT(actionTag);
+			}
+		}
 	}
 
 	@Override
@@ -187,6 +214,14 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 			}
 		}
 		tagCompound.setTag("Inventory", itemList);
+
+		//matrix action
+		tagCompound.setInteger("ActivatorId", activatorId);
+		if(action != null) {
+			NBTTagCompound actionTag = new NBTTagCompound();
+			action.writeToNBT(actionTag);
+			tagCompound.setTag("MatrixAction", actionTag);
+		}
 	}
 
 	@Override

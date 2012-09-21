@@ -36,4 +36,9 @@ public class ItemDagger extends ItemDaemon implements IMatrixActivator {
 		return new MatrixActionConduct();
 	}
 
+	@Override
+	public int getActivatorId() {
+		return shiftedIndex;
+	}
+
 }

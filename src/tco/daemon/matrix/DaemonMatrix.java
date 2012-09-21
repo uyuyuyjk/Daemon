@@ -10,8 +10,8 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.energy.IDaemonEnergyStorage;
-import tco.daemon.util.DaemonEnergy;
 
 public class DaemonMatrix {
 	public static final int MATRIX_DIM = 4;

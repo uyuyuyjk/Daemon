@@ -6,8 +6,9 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryCrafting;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
-import tco.daemon.util.DaemonEnergy;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.util.UtilItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -74,7 +75,7 @@ public class MatrixActionCraft implements IMatrixAction {
 	@Override
 	public void doAction(IInventory matrix, DaemonEnergy energy) {
 		if(energy != null){
-			doDaemonCraft();
+			doDaemonCraft(matrix, energy);
 			return;
 		}
 		InventoryCraftingDaemon craftingInv = new InventoryCraftingDaemon(matrix);
@@ -103,8 +104,8 @@ public class MatrixActionCraft implements IMatrixAction {
 		}
 	}
 
-	private void doDaemonCraft() {
-		// TODO Auto-generated method stub
+	private void doDaemonCraft(IInventory matrix, DaemonEnergy energy) {
+		//TODO stub
 	}
 
 	//returns the sides, corners, then the main 3x3, or -1 is no empty slots found
@@ -134,4 +135,10 @@ public class MatrixActionCraft implements IMatrixAction {
 
 		return -1;
 	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound) {}
+
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {}
 }

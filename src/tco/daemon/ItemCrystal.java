@@ -3,8 +3,8 @@ package tco.daemon;
 import java.util.List;
 
 import net.minecraft.src.ItemStack;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.energy.IDaemonEnergyStorage;
-import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.UtilItem;
 
 public class ItemCrystal extends ItemDaemon implements IDaemonEnergyStorage {

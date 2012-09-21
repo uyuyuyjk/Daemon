@@ -1,8 +1,5 @@
 package tco.daemon.machines;
 
-import java.util.Iterator;
-
-import net.minecraft.src.ICrafting;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
@@ -14,8 +11,8 @@ public class ContainerDecomposer extends ContainerDaemon {
 			TileEntityDecomposer tileEntity) {
 		super(tileEntity);
 
-		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.UP), 77, 38));
-		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.EAST), 127, 38));
+		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.UP), 44, 33));
+		addSlotToContainer(new Slot(tileEntity, tileEntity.getStartInventorySide(ForgeDirection.EAST), 116, 33));
 
 		bindPlayerInventory(inventoryPlayer);
 	}

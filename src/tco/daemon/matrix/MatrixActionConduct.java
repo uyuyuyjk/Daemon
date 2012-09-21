@@ -2,10 +2,11 @@ package tco.daemon.matrix;
 
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
+import net.minecraft.src.NBTTagCompound;
 import tco.daemon.ItemCrystal;
 import tco.daemon.ItemOrb;
 import tco.daemon.ItemShardGlass;
-import tco.daemon.util.DaemonEnergy;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.util.UtilItem;
 
 public class MatrixActionConduct implements IMatrixAction {
@@ -61,4 +62,10 @@ public class MatrixActionConduct implements IMatrixAction {
 			}
 		}
 	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound tagCompound) {}
+
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {}
 }

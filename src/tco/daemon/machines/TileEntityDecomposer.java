@@ -3,9 +3,9 @@ package tco.daemon.machines;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.energy.DecomposerRecipes;
 import tco.daemon.matrix.DaemonMatrix;
-import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.UtilItem;
 
 public class TileEntityDecomposer extends TileEntityDaemon {
@@ -14,7 +14,7 @@ public class TileEntityDecomposer extends TileEntityDaemon {
 	public static final int BASE_SPEED = 1;
 
 	private DecomposerRecipes.DecomposerRecipe recipe;
-	
+
 	private int speed;
 	private int fuelLeft;
 	private int progress;

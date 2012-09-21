@@ -3,11 +3,11 @@ package tco.daemon;
 import java.util.List;
 
 import net.minecraft.src.ItemStack;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.energy.IDaemonEnergyStorage;
 import tco.daemon.matrix.IMatrixAction;
 import tco.daemon.matrix.IMatrixActivator;
 import tco.daemon.matrix.MatrixActionCraft;
-import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.UtilItem;
 
 public class ItemOrb extends ItemDaemon implements IDaemonEnergyStorage, IMatrixActivator {
@@ -69,6 +69,11 @@ public class ItemOrb extends ItemDaemon implements IDaemonEnergyStorage, IMatrix
 	@Override
 	public IMatrixAction getAction() {
 		return new MatrixActionCraft();
+	}
+
+	@Override
+	public int getActivatorId() {
+		return shiftedIndex;
 	}
 
 }

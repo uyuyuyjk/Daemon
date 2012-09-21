@@ -42,51 +42,69 @@ public class ReferenceConfigs {
 		public boolean block() default false;
 	}
 
-	public static final String VERSION = "0.1.2a";
-	public static final String FULL_VERSION = "ModDaemon v" + VERSION;
+	public static final String VERSION = "0.1", REVISION = "3",	RELEASE_TYPE = "a";
+	public static final String FULL_VERSION = "ModDaemon v" + VERSION + "." + REVISION + RELEASE_TYPE;
 	public static final String CHANNEL = "ModDaemon";
 
-	public static final String TEXTURE_BLOCKS = "/tco/daemon/sprites/blocks.png",
-			TEXTURE_ITEMS = "/tco/daemon/sprites/daemonitems.png",
-			TEXTURE_GATEWAY = "/tco/daemon/sprites/gateway.png",
-			GUI_MATRIX = "/tco/daemon/sprites/matrix.png",
-			GUI_FEEDER = "/tco/daemon/sprites/feeder.png",
+	public static final String SPRITE_FOLDER = "/tco/daemon/sprites/";
+	public static final String TEXTURE_BLOCKS = SPRITE_FOLDER + "blocks.png",
+			TEXTURE_ITEMS = SPRITE_FOLDER + "daemonitems.png",
+			TEXTURE_GATEWAY = SPRITE_FOLDER + "gateway.png",
+			GUI_MATRIX = SPRITE_FOLDER + "matrix.png",
+			GUI_FEEDER = SPRITE_FOLDER + "feeder.png",
 			GUI_HUNGER_CHEST = "/gui/container.png",
-			GUI_DECOMPOSER = "/tco/daemon/sprites/decomposer.png";
+			GUI_DECOMPOSER = SPRITE_FOLDER + "decomposer.png";
 
-	public static @ConfigId(block=true) int blockCursedOreId = 141,
-			blockCrystalOreId = 142,
-			blockDaemonId = 143,
-			blockBrazierId = 144,
-			blockAltarId = 145;//TODO use
+	public static final int DEATH_ENERGY_BLAZE = 50;
+	public static final int DEATH_ENERGY_FIRE = 10;
+	public static final int ENERGY_UNDEATH = 10000;
 
-	public static @ConfigId int daemonBrazierId = 5432;
+	//blocks
+	public static @ConfigId(block=true) int blockCursedOre = 141,
+			blockCrystalOre = 142,
+			blockDaemon = 143,
+			blockBrazier = 144,
+			blockAltar = 145;//TODO use
 
-	public static @ConfigId int matrixContainedId = 5700;
+	//misc.
+	public static @ConfigId int daemonBrazier = 5432;
 
-	public static @ConfigId int daggerSacrificeId = 5433,
-			daggerSoulsId = 5437,
-			daggerRitualId = 5435,
-			birdCannnonId = 5436,
-			amuletUnlife = 5437;//TODO use
+	public static @ConfigId int matrixContained = 5700, birdCannnon = 5436;
 
-	public static @ConfigId int staffId = 5438,
-			staffUndeathId = 5439;//TODO use
+	public static @ConfigId int arrowUnstable = 5443;
 
-	public static @ConfigId int arrowUnstableId = 5443;
+	//daggers
+	public static @ConfigId int daggerSacrifice = 5433,
+			daggerSouls = 5437,
+			daggerRitual = 5435;
 
-	public static @ConfigId int shardGlassId = 5632,
-			shardDarkId = 5631,
-			shardUnstableId = 5630,
-			shardStableId = 5629;
-	public static @ConfigId int crystalId = 5900;
-	public static @ConfigId int orbMoldId = 5633,
-			orbGlassId = 5634,
-			orbObsidianId = 5635,
-			orbBlazeId = 5636,
-			orbFamiliarId = 5639,//TODO use
-			orbWolfId = 5637,
-			orbUnstableId = 5638;
+	//amulets
+	public static @ConfigId int amuletFire = 6938,
+			amuletBlaze = 6939,
+			amuletInferno = 6990, //TODO use
+			amuletUnlife = 5437;
+
+	//staves
+	public static @ConfigId int staff = 5438,
+			staffUndeath = 5439;//TODO use
+
+	//shards
+	public static @ConfigId int shardGlass = 5632,
+			shardDark = 5631,
+			shardUnstable = 5630,
+			shardStable = 5629;
+
+	//crystals
+	public static @ConfigId int crystal = 5900;
+
+	//orbs
+	public static @ConfigId int orbMold = 5633,
+			orbGlass = 5634,
+			orbObsidian = 5635,
+			orbBlaze = 5636,
+			orbFamiliar = 5639,//TODO use
+			orbWolf = 5637,
+			orbUnstable = 5638;
 
 	public static void loadConfigs(FMLPreInitializationEvent event) {
 		Configuration cfg = new Configuration(
@@ -115,7 +133,7 @@ public class ReferenceConfigs {
 		}
 	}
 
-	public static String getConfigs() {
+	public static String getConfigString() {
 		StringBuffer configs = new StringBuffer();
 		Field[] fields = ReferenceConfigs.class.getFields();
 		for(Field field : fields){

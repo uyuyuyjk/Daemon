@@ -35,6 +35,7 @@ import net.minecraft.src.Item;
 import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.energy.DecomposerRecipes;
 import tco.daemon.handlers.CraftingHandler;
 import tco.daemon.handlers.EventHandler;
@@ -47,7 +48,6 @@ import tco.daemon.machines.TileEntityDaemon;
 import tco.daemon.machines.TileEntityDecomposer;
 import tco.daemon.machines.TileEntityFeeder;
 import tco.daemon.machines.TileEntityHungerChest;
-import tco.daemon.util.DaemonEnergy;
 import tco.daemon.util.ReferenceConfigs;
 import tco.daemon.util.UtilItem;
 import tco.daemon.world.WorldGenerator;
@@ -77,25 +77,35 @@ public class ModDaemon {
 	public static ProxyCommon proxy;
 
 
-	//content
+	//blocks
 	public Block blockCursedStone, blockCrystalOre;
 	public Block blockDaemon,
 	blockBrazier;
 
+	//misc.
 	public Item daemonBrazier;
 
+	public Item matrixContained;
 	public Item birdCannnon;
 	public Item arrowUnstable;
 
-	public Item matrixContained;
-
-	public Item staff;
+	//daggers
 	public Item daggerSacrifice, daggerSouls, daggerRitual;
 
+	//amulets
+	public Item amuletFire, amuletBlaze;
+	public Item amuletUnlife;
+
+	//staves
+	public Item staff;
+
+	//shards
 	public Item shardGlass, shardDark, shardUnstable, shardStable;
 
+	//crystals
 	public Item crystal;
 
+	//orbs
 	public Item orbMold,
 	orbGlass,
 	orbObsidian,
@@ -141,21 +151,21 @@ public class ModDaemon {
 	}
 
 	private void loadBlocks(){
-		blockCursedStone = new BlockCursedOre(ReferenceConfigs.blockCursedOreId)
+		blockCursedStone = new BlockCursedOre(ReferenceConfigs.blockCursedOre)
 		.setBlockName("cursedOre");
 		blockCursedStone.blockIndexInTexture = 16;
 		GameRegistry.registerBlock(blockCursedStone);
 
-		blockCrystalOre = new BlockCrystal(ReferenceConfigs.blockCrystalOreId)
+		blockCrystalOre = new BlockCrystal(ReferenceConfigs.blockCrystalOre)
 		.setBlockName("crystalOre");
 		blockCrystalOre.blockIndexInTexture = 16 + 1;
 		GameRegistry.registerBlock(blockCrystalOre);
 
-		blockDaemon = new BlockDaemonMachine(ReferenceConfigs.blockDaemonId)
+		blockDaemon = new BlockDaemonMachine(ReferenceConfigs.blockDaemon)
 		.setBlockName("blockDaemon");
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemonMachine.class);
 
-		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazierId).setBlockName("blockDaemonBrazier");
+		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazier).setBlockName("blockDaemonBrazier");
 		GameRegistry.registerBlock(blockBrazier);
 
 		GameRegistry.registerTileEntity(TileEntityDaemon.class, "tileEntityDaemon");
@@ -165,60 +175,67 @@ public class ModDaemon {
 	}
 
 	private void loadItems(){
-		//block items
-		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazierId, blockBrazier).setItemName("daemonBrazier")
+		//blocks
+		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazier, blockBrazier).setItemName("daemonBrazier")
 				.setTabToDisplayOn(CreativeTabs.tabMisc);
 		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 
+		//misc.
+		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContained)
+		.setItemName("matrixContained");
+		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
+		.setIconCoord(0, 4).setItemName("birdCannon");
+		arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstable)
+		.setIconCoord(0, 1).setItemName("arrowUnstable");
+
+		//daggers
+		daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrifice, EnumToolMaterial.STONE)
+		.setIconCoord(0, 0).setItemName("daggerSacrifice");
+		daggerSouls = new ItemDagger(ReferenceConfigs.daggerSouls, EnumToolMaterial.IRON)
+		.setRarity(EnumRarity.rare).setMaxDamage(0).setIconCoord(1, 0).setItemName("daggerSouls");
+		daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitual, EnumToolMaterial.EMERALD)
+		.setRarity(EnumRarity.rare).setIconCoord(2, 0).setItemName("daggerRitual");
+
+		//amulets
+		amuletFire = new ItemAmuletFire(ReferenceConfigs.amuletFire)
+		.setIconCoord(0, 0).setItemName("amuletFire");
+		amuletBlaze = new ItemAmuletBlaze(ReferenceConfigs.amuletBlaze).setRarity(EnumRarity.uncommon)
+				.setIconCoord(0, 0).setItemName("amuletBlaze");
+		amuletUnlife = new ItemDaemon(ReferenceConfigs.amuletUnlife).setRarity(EnumRarity.rare)
+				.setMaxStackSize(1).setIconCoord(0, 0).setItemName("amuletUnlife");
+
+		//staves
+		staff = new ItemStaff(ReferenceConfigs.staff, EnumToolMaterial.WOOD)
+		.setIconCoord(3, 0).setItemName("staff");
+
 		//shards
-		shardGlass = new ItemShardGlass(ReferenceConfigs.shardGlassId)
+		shardGlass = new ItemShardGlass(ReferenceConfigs.shardGlass)
 		.setIconCoord(6, 1);
-		shardDark = new ItemShard(ReferenceConfigs.shardDarkId)
+		shardDark = new ItemShard(ReferenceConfigs.shardDark)
 		.setIconCoord(7, 1).setItemName("shardDark");
-		shardUnstable = new ItemShard(ReferenceConfigs.shardUnstableId)
+		shardUnstable = new ItemShard(ReferenceConfigs.shardUnstable)
 		.setIconCoord(7, 1).setItemName("shardUnstable");
-		shardStable = new ItemShard(ReferenceConfigs.shardStableId)
+		shardStable = new ItemShard(ReferenceConfigs.shardStable)
 		.setIconCoord(7, 1).setItemName("shardStable");
 
-		crystal = new ItemCrystal(ReferenceConfigs.crystalId)
+		//crystals
+		crystal = new ItemCrystal(ReferenceConfigs.crystal)
 		.setIconCoord(0, 3).setItemName("crystal");
 
 		//orbs
-		orbMold = new ItemOrbMold(ReferenceConfigs.orbMoldId)
+		orbMold = new ItemOrbMold(ReferenceConfigs.orbMold)
 		.setIconCoord(5, 1).setItemName("orbMold");
 		orbMold.setContainerItem(orbMold);
-		orbGlass = new ItemOrb(ReferenceConfigs.orbGlassId, 500).setRarity(EnumRarity.uncommon)
-				.setIconCoord(0, 1).setItemName("orbGlass");;
-				orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidianId, 2000).setRarity(EnumRarity.rare)
-						.setIconCoord(1, 1).setItemName("orbObsidian");
-				orbBlaze = new ItemOrb(ReferenceConfigs.orbBlazeId, 10000).setRarity(EnumRarity.rare)
-						.setIconCoord(2, 1).setItemName("orbBlaze");
-				orbWolf = new ItemOrbWolf(ReferenceConfigs.orbWolfId).setRarity(EnumRarity.rare)
-						.setIconCoord(3, 1).setItemName("orbWolf");
-				orbUnstable = new ItemOrbUnstable(ReferenceConfigs.orbUnstableId).setRarity(EnumRarity.rare)
-						.setIconCoord(4, 1).setItemName("orbUnstable");
-
-				//special items
-				matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContainedId)
-				.setItemName("matrixContained");
-
-				//staves
-				staff = new ItemStaff(ReferenceConfigs.staffId, EnumToolMaterial.WOOD)
-				.setIconCoord(3, 0).setItemName("staff");
-
-				//daggers
-				daggerSacrifice = new ItemDagger(ReferenceConfigs.daggerSacrificeId, EnumToolMaterial.STONE)
-				.setIconCoord(0, 0).setItemName("daggerSacrifice");
-				daggerSouls = new ItemDagger(ReferenceConfigs.daggerSoulsId, EnumToolMaterial.IRON)
-				.setRarity(EnumRarity.rare).setMaxDamage(0).setIconCoord(1, 0).setItemName("daggerSouls");
-				daggerRitual = new ItemDaggerRitual(ReferenceConfigs.daggerRitualId, EnumToolMaterial.EMERALD)
-				.setRarity(EnumRarity.rare).setIconCoord(2, 0).setItemName("daggerRitual");
-
-				//ranged
-				arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstableId)
-				.setIconCoord(0, 1).setItemName("arrowUnstable");
-				birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnonId)
-				.setIconCoord(0, 4).setItemName("birdCannon");
+		orbGlass = new ItemOrb(ReferenceConfigs.orbGlass, 500).setRarity(EnumRarity.uncommon)
+				.setIconCoord(0, 1).setItemName("orbGlass");
+		orbObsidian = new ItemOrb(ReferenceConfigs.orbObsidian, 2000).setRarity(EnumRarity.rare)
+				.setIconCoord(1, 1).setItemName("orbObsidian");
+		orbBlaze = new ItemOrb(ReferenceConfigs.orbBlaze, 10000).setRarity(EnumRarity.rare)
+				.setIconCoord(2, 1).setItemName("orbBlaze");
+		orbWolf = new ItemOrbWolf(ReferenceConfigs.orbWolf).setRarity(EnumRarity.rare)
+				.setIconCoord(3, 1).setItemName("orbWolf");
+		orbUnstable = new ItemOrbUnstable(ReferenceConfigs.orbUnstable).setRarity(EnumRarity.rare)
+				.setIconCoord(4, 1).setItemName("orbUnstable");
 	}
 
 	private void registerEntities(){
