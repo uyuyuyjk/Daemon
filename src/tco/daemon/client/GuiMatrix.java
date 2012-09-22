@@ -4,7 +4,6 @@ import net.minecraft.src.GuiContainer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.StatCollector;
-import net.minecraft.src.TileEntity;
 
 import org.lwjgl.opengl.GL11;
 
@@ -15,11 +14,11 @@ import tco.daemon.util.ReferenceConfigs;
 public class GuiMatrix extends GuiContainer {
 
 	public IInventory tileInventory;
-	
+
 	public GuiMatrix(InventoryPlayer inventoryPlayer,
 			TileEntityDaemon tileEntity) {
 		super(new ContainerMatrix(inventoryPlayer, tileEntity));
-		tileInventory = (IInventory) tileEntity;
+		tileInventory = tileEntity;
 	}
 
 	@Override
