@@ -50,6 +50,7 @@ public class ReferenceConfigs {
 	public static final String
 	TEXTURE_BLOCKS   = SPRITE_FOLDER + "blocks.png",
 	TEXTURE_ITEMS    = SPRITE_FOLDER + "daemonitems.png",
+	TEXTURE_ARROW = SPRITE_FOLDER + "arrows.png",
 	TEXTURE_GATEWAY  = SPRITE_FOLDER + "gateway.png",
 	GUI_MATRIX       = SPRITE_FOLDER + "matrix.png",
 	GUI_FEEDER       = SPRITE_FOLDER + "feeder.png",

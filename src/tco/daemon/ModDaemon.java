@@ -34,6 +34,7 @@ import net.minecraft.src.EnumToolMaterial;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.energy.DecomposerRecipes;
@@ -47,7 +48,8 @@ import tco.daemon.machines.ItemBlockDaemonMachine;
 import tco.daemon.util.ReferenceConfigs;
 import tco.daemon.util.ReferenceTiles;
 import tco.daemon.util.UtilItem;
-import tco.daemon.world.WorldGenerator;
+import tco.daemon.world.WorldGeneratorDaemonOres;
+import tco.daemon.world.WorldProviderDaemon;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -73,7 +75,7 @@ public class ModDaemon {
 	@SidedProxy(clientSide = "tco.daemon.client.ProxyClient", serverSide = "tco.daemon.ProxyCommon")
 	public static ProxyCommon proxy;
 
-
+	public int dimensionId = 2;
 	//blocks
 	public Block blockCursedStone, blockCrystalOre;
 	public Block blockDaemon,
@@ -124,17 +126,16 @@ public class ModDaemon {
 		registerEntities();
 		addRecipes();
 
-		WorldGenerator worldGenerator = new WorldGenerator();
+		WorldGeneratorDaemonOres worldGenerator = new WorldGeneratorDaemonOres();
 		GameRegistry.registerWorldGenerator(worldGenerator);
 
+		registerDimension();
+
 		GameRegistry.registerCraftingHandler(new CraftingHandler());
-
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
-
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 
 		proxy.registerRenderInformation();
-
 	}
 
 	@PostInit
@@ -146,6 +147,13 @@ public class ModDaemon {
 	public void serverStart(FMLServerStartingEvent event) {
 		((CommandHandler) event.getServer().getCommandManager())
 		.registerCommand(new CommandDaemon());
+	}
+
+	private void registerDimension() {
+		while(!DimensionManager.registerProviderType(dimensionId, WorldProviderDaemon.class, false)) {
+			dimensionId++;
+		}
+		DimensionManager.registerDimension(dimensionId, dimensionId);
 	}
 
 	private void loadBlocks(){
@@ -180,7 +188,7 @@ public class ModDaemon {
 		.setItemName("matrixContained");
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
 		.setIconCoord(0, 4).setItemName("birdCannon");
-		arrowUnstable = new ItemDaemon(ReferenceConfigs.arrowUnstable)
+		arrowUnstable = new ItemArrowUnstable(ReferenceConfigs.arrowUnstable)
 		.setIconCoord(1, 4).setItemName("arrowUnstable");
 
 		//daggers
@@ -198,7 +206,7 @@ public class ModDaemon {
 				.setIconCoord(1, 2).setItemName("amuletBlaze");
 		amuletInferno = new ItemAmuletBlaze(ReferenceConfigs.amuletInferno).setRarity(EnumRarity.epic)
 				.setIconCoord(2, 2).setItemName("amuletInferno"); //TODO implement
-		amuletUnlife = new ItemDaemon(ReferenceConfigs.amuletUnlife).setRarity(EnumRarity.rare)
+		amuletUnlife = new ItemDaemon(ReferenceConfigs.amuletUnlife).setRarity(EnumRarity.epic)
 				.setMaxStackSize(1).setIconCoord(0, 2).setItemName("amuletUnlife");
 
 		//staves
@@ -241,9 +249,8 @@ public class ModDaemon {
 		int chickenId = 1, wolfId = 2, arrowId = 3, gateId = 4;
 		EntityRegistry.registerModEntity(EntityChickenDaemon.class, "CreeperChicken" , chickenId, this, 32, 5, true);
 		EntityRegistry.registerModEntity(EntityWolfCreation.class, "Spirit Wolf" , wolfId, this, 32, 5, true);
-		EntityRegistry.registerModEntity(EntityUnstableArrow.class, "Unstable Arrow" , arrowId, this, 32, 5, true);
-		//EntityRegistry.registerModEntity(EntityGateway.class, "Gateway" , gateId, this, 32, 5, true);
-		EntityRegistry.registerGlobalEntityID(EntityGateway.class, "Gateway", EntityRegistry.findGlobalUniqueEntityId(), 0xff, 0xff);
+		EntityRegistry.registerModEntity(EntityArrowUnstable.class, "Unstable Arrow" , arrowId, this, 32, 5, true);
+		EntityRegistry.registerModEntity(EntityGateway.class, "Gateway" , gateId, this, 32, 5, true);
 	}
 
 	private void addRecipes(){
@@ -281,10 +288,14 @@ public class ModDaemon {
 			}
 		}
 
-		//low-efficiency versions
-		GameRegistry.addSmelting(orbGlass.shiftedIndex, new ItemStack(shardGlass), 0);
-		GameRegistry.addSmelting(blockCrystalOre.blockID, new ItemStack(crystal), 0);
+		//smelting
+		GameRegistry.addSmelting(crystal.shiftedIndex, new ItemStack(shardGlass), 0);
 
+		//low-efficiency version
+		GameRegistry.addSmelting(blockCrystalOre.blockID, new ItemStack(crystal), 0);
+		GameRegistry.addSmelting(blockCursedStone.blockID, new ItemStack(shardDark), 0);
+
+		//decomposer
 		DecomposerRecipes.addRecipe(blockCrystalOre.blockID,
 				new DecomposerRecipes.DecomposerRecipe(50, new ItemStack(crystal)) {
 			@Override
@@ -298,7 +309,7 @@ public class ModDaemon {
 				UtilItem.setDaemonEnergy(stack, de);
 			}
 		});
-		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 2));
+		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 1));
 	}
 
 }

@@ -10,7 +10,7 @@ public class TileEntityHungerChest extends TileEntityDaemon {
 
 	@Override
 	public String getInvName() {
-		return "hungerchest.name";
+		return "hungerChest.name";
 	}
 
 }

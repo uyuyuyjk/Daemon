@@ -1,5 +1,7 @@
 package tco.daemon;
 
+import java.util.List;
+
 import net.minecraft.src.EntityEnderPearl;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
@@ -12,6 +14,11 @@ public class ItemOrbUnstable extends ItemDaemon {
 	protected ItemOrbUnstable(int id) {
 		super(id);
 		setMaxStackSize(1);
+	}
+
+	@Override
+	public void addInformation(ItemStack itemStack, List list) {
+		list.add("Unstable II");
 	}
 
 	@Override

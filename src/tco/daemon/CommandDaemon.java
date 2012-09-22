@@ -1,7 +1,7 @@
 package tco.daemon;
 
 import net.minecraft.src.CommandBase;
-import net.minecraft.src.EntityPlayer;
+import net.minecraft.src.EntityPlayerMP;
 import net.minecraft.src.ICommandSender;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
@@ -30,7 +30,7 @@ public class CommandDaemon extends CommandBase {
 			} else if("configuration".equals(command[0])) {
 				sender.sendChatToPlayer(ReferenceConfigs.getConfigString());
 			} else if("charge".equals(command[0])) {
-				InventoryPlayer inv = ((EntityPlayer)sender).inventory;
+				InventoryPlayer inv = ((EntityPlayerMP) sender).inventory;
 				int orbSlot = DaemonEnergy.getFirstStorage(inv);
 				if(orbSlot > -1) {
 					ItemStack orb = inv.getStackInSlot(orbSlot);
@@ -42,6 +42,9 @@ public class CommandDaemon extends CommandBase {
 				} else {
 					sender.sendChatToPlayer("No energy container found");
 				}
+			} else if("dimension".equals(command[0])) {
+				((EntityPlayerMP) sender).mcServer.getConfigurationManager()
+				.transferPlayerToDimension((EntityPlayerMP) sender, ModDaemon.instance.dimensionId);
 			} else {
 				throw new WrongUsageException(getCommandUsage(sender));
 			}

@@ -13,22 +13,26 @@ import tco.daemon.client.GuiDecomposer;
 import tco.daemon.client.GuiFeeder;
 import tco.daemon.client.GuiHungerChest;
 import tco.daemon.client.GuiMatrix;
+import tco.daemon.client.GuiSpellbound;
 import tco.daemon.machines.ContainerAdvancedMatrix;
 import tco.daemon.machines.ContainerDecomposer;
 import tco.daemon.machines.ContainerFeeder;
 import tco.daemon.machines.ContainerHungerChest;
 import tco.daemon.machines.ContainerMatrix;
+import tco.daemon.machines.ContainerSpellound;
 import tco.daemon.machines.TileEntityAdvancedMatrix;
 import tco.daemon.machines.TileEntityDaemon;
 import tco.daemon.machines.TileEntityDecomposer;
 import tco.daemon.machines.TileEntityFeeder;
 import tco.daemon.machines.TileEntityHungerChest;
+import tco.daemon.machines.TileEntitySpellbound;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public enum ReferenceTiles {
 	MATRIX("matrix", TileEntityDaemon.class, ContainerMatrix.class, GuiMatrix.class),
 	FEEDER("feeder", TileEntityFeeder.class, ContainerFeeder.class, GuiFeeder.class),
+	CONTAINER("spellbound", TileEntitySpellbound.class, ContainerSpellound.class, GuiSpellbound.class),
 	CHEST("hungerChest", TileEntityHungerChest.class, ContainerHungerChest.class, GuiHungerChest.class),
 	DECOMPOSER("decomposer", TileEntityDecomposer.class, ContainerDecomposer.class, GuiDecomposer.class),
 	ADVMATRIX("advMatrix", TileEntityAdvancedMatrix.class, ContainerAdvancedMatrix.class, GuiAdvancedMatrix.class);

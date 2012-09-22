@@ -19,14 +19,18 @@ public class CraftingHandler implements ICraftingHandler {
 
 	@Override
 	public void onSmelting(EntityPlayer player, ItemStack item) {
+		Random rand = new Random();
 		if(item.getItem() == ModDaemon.instance.crystal) {
-			Random rand = new Random();
 			DaemonEnergy de = UtilItem.getDaemonEnergy(item);
 			de.deathEnergy = rand.nextInt(50);
 			de.decayEnergy = rand.nextInt(50);
 			de.diseaseEnergy = rand.nextInt(50);
 			de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy;
 			UtilItem.setDaemonEnergy(item, de);
+		} else if(item.getItem() == ModDaemon.instance.shardDark) {
+			if(rand.nextInt(4) != 0){
+				item.stackSize--;
+			}
 		}
 	}
 

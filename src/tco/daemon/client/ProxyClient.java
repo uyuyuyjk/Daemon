@@ -1,11 +1,13 @@
 package tco.daemon.client;
 
 import net.minecraftforge.client.MinecraftForgeClient;
+import tco.daemon.EntityArrowUnstable;
 import tco.daemon.EntityGateway;
 import tco.daemon.ModDaemon;
 import tco.daemon.ProxyCommon;
 import tco.daemon.client.render.ItemStaffRenderer;
 import tco.daemon.client.render.ModelGateway;
+import tco.daemon.client.render.RenderArrowUnstable;
 import tco.daemon.client.render.RenderBrazier;
 import tco.daemon.client.render.RenderGateway;
 import tco.daemon.handlers.PacketDaemon;
@@ -31,7 +33,10 @@ public class ProxyClient extends ProxyCommon {
 		renderBrazierId = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(renderBrazierId, new RenderBrazier());
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityGateway.class, new RenderGateway(new ModelGateway()));
+		RenderingRegistry.registerEntityRenderingHandler(EntityArrowUnstable.class,
+				new RenderArrowUnstable(ReferenceConfigs.TEXTURE_ARROW));
+		RenderingRegistry.registerEntityRenderingHandler(EntityGateway.class,
+				new RenderGateway(new ModelGateway()));
 	}
 
 	public void sendToServer(PacketDaemon packet) {

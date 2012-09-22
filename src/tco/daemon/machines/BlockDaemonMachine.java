@@ -24,7 +24,6 @@ public class BlockDaemonMachine extends BlockContainer {
 		super(id, Material.rock);
 		setTextureFile(ReferenceConfigs.TEXTURE_BLOCKS);
 		setHardness(2.0F);
-		setResistance(5.0F);
 		setStepSound(soundStoneFootstep);
 		setCreativeTab(CreativeTabs.tabMisc);
 		setTickRandomly(true);

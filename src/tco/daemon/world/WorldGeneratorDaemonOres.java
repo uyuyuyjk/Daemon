@@ -10,7 +10,7 @@ import net.minecraft.src.WorldGenMinable;
 import tco.daemon.ModDaemon;
 import cpw.mods.fml.common.IWorldGenerator;
 
-public class WorldGenerator implements IWorldGenerator {
+public class WorldGeneratorDaemonOres implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world,

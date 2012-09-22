@@ -1,6 +1,5 @@
 package tco.daemon.handlers;
 
-import net.minecraft.src.EntityArrow;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -9,7 +8,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.ArrowNockEvent;
-import tco.daemon.EntityUnstableArrow;
+import tco.daemon.EntityArrowUnstable;
 import tco.daemon.ItemDagger;
 import tco.daemon.ModDaemon;
 import tco.daemon.energy.DaemonEnergy;
@@ -37,12 +36,10 @@ public class EventHandler {
 			if(player.getHealth() <= event.ammount){
 				if(DaemonEnergy.drainEnergy(player, ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH,
-						ReferenceConfigs.ENERGY_UNDEATH) ||
-						player.inventory.consumeInventoryItem(unlifeId)) {
-					if(!player.inventory.consumeInventoryItem(unlifeId)) { //limits amount of resurrects
-						player.heal(player.getMaxHealth() / 2);
-						event.setCanceled(true);
-					}
+						ReferenceConfigs.ENERGY_UNDEATH) &&
+						player.inventory.hasItem(unlifeId)) {
+					player.heal(player.getMaxHealth() / 2);
+					event.setCanceled(true);
 				}
 			}
 		}
@@ -74,14 +71,15 @@ public class EventHandler {
 			float power = event.charge / 20.0F;
 			power = (power * power + power * 2.0F) / 3.0F;
 
-			if (power < 0.1D) {
+			if (power < 0.5D) {
+				event.setCanceled(true);
 				return;
 			}
 			if (power > 1.0F) {
 				power = 1.0F;
 			}
 
-			EntityArrow arrow = new EntityUnstableArrow(player.worldObj, player, power * 2.0F);
+			EntityArrowUnstable arrow = new EntityArrowUnstable(player.worldObj, player, power * 2.0F);
 
 			player.worldObj.playSoundAtEntity(player, "random.bow", 1.0F, 1.0F / (0.2F + 1.2F) + power * 0.5F);
 
