@@ -8,6 +8,7 @@ import net.minecraft.src.NBTTagList;
 import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
+import tco.daemon.ModDaemon;
 import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.matrix.DaemonMatrix;
 import tco.daemon.matrix.IMatrixAction;
@@ -38,7 +39,7 @@ public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 	}
 
 	public void updateMatrix(){
-		if(worldObj.isRemote){return;}
+		if(!ModDaemon.proxy.isSimulating()){return;}
 
 		ItemStack storage = DaemonMatrix.getStorageItem(this);
 		DaemonEnergy storageEnergy = null;
