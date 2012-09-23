@@ -78,8 +78,7 @@ public class ModDaemon {
 	public int dimensionId = 2;
 	//blocks
 	public Block blockCursedStone, blockCrystalOre;
-	public Block blockDaemon,
-	blockBrazier;
+	public Block blockDaemon, blockAltar, blockBrazier;
 
 	//misc.
 	public Item daemonBrazier;
@@ -171,6 +170,11 @@ public class ModDaemon {
 		blockDaemon = new BlockDaemonMachine(ReferenceConfigs.blockDaemon)
 		.setBlockName("blockDaemon");
 		GameRegistry.registerBlock(blockDaemon, ItemBlockDaemonMachine.class);
+
+		blockAltar = new BlockDaemonAltar(ReferenceConfigs.blockAltar)
+		.setBlockName("blockAltar");
+		GameRegistry.registerBlock(blockAltar);
+		GameRegistry.registerTileEntity(TileEntityDaemonAltar.class, "daemonAltar");
 
 		blockBrazier = new BlockBrazier(ReferenceConfigs.blockBrazier).setBlockName("blockDaemonBrazier");
 		GameRegistry.registerBlock(blockBrazier);
@@ -312,7 +316,7 @@ public class ModDaemon {
 				UtilItem.setDaemonEnergy(stack, de);
 			}
 		});
-		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 1));
+		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 2));
 	}
 
 }

@@ -70,7 +70,7 @@ public class ReferenceConfigs {
 			blockCrystalOre = 142,
 			blockDaemon = 143,
 			blockBrazier = 144,
-			blockAltar = 145;//TODO use
+			blockAltar = 145;
 
 	//misc.
 	public static @ConfigId int daemonBrazier = 5400;

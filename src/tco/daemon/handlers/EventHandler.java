@@ -19,6 +19,7 @@ public class EventHandler {
 	public void onLivingHurt(LivingHurtEvent event) {
 		if(event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
+<<<<<<< HEAD
 			//fire amulets
 			if(event.source.fireDamage()){
 				if(player.inventory.hasItem(ModDaemon.instance.amuletInferno.shiftedIndex)
@@ -37,6 +38,11 @@ public class EventHandler {
 			//unlife amulet
 			else if(player.getHealth() <= event.ammount){
 				int unlifeId = ModDaemon.instance.amuletUnlife.shiftedIndex;
+=======
+			int unlifeId = ModDaemon.instance.amuletUnlife.shiftedIndex;
+			if(player.getHealth() <= event.ammount &&
+					!"outOfWorld".equals(event.source.getDamageType())){
+>>>>>>> altar-test
 				if(DaemonEnergy.drainEnergy(player, ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH) &&
