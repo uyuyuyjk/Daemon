@@ -58,10 +58,12 @@ public class ReferenceConfigs {
 	GUI_DECOMPOSER   = SPRITE_FOLDER + "decomposer.png",
 	GUI_ADV_MATRIX   = SPRITE_FOLDER + "adv_matrix.png";
 
+	public static final int DEATH_ENERGY_INFERNO = 80;
 	public static final int DEATH_ENERGY_BLAZE = 50;
 	public static final int DEATH_ENERGY_FIRE = 10;
 	public static final int ENERGY_UNDEATH = 10000;
 	public static final int DECAY_ENERGY_UNSTABLE = 50;
+	public static final int DECAY_ENERGY_TWISTED = 100;
 	public static final int DISEASE_ENERGY_STABLE = 50;
 	//blocks
 	public static @ConfigId(block=true) int blockCursedOre = 141,
@@ -73,7 +75,7 @@ public class ReferenceConfigs {
 	//misc.
 	public static @ConfigId int daemonBrazier = 5400;
 
-	public static @ConfigId int matrixContained = 5401, birdCannnon = 5402;
+	public static @ConfigId int matrixContained = 5401, twistedSeed = 5500, birdCannnon = 5402;
 
 	public static @ConfigId int arrowUnstable = 5403;
 

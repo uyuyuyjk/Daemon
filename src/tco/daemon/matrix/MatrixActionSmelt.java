@@ -7,7 +7,7 @@ import tco.daemon.energy.DaemonEnergy;
 public class MatrixActionSmelt implements IMatrixAction {
 
 	private int boost;
-	
+
 	public int progress;
 
 	public MatrixActionSmelt(int b) {

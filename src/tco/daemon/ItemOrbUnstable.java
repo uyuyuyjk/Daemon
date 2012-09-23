@@ -29,7 +29,7 @@ public class ItemOrbUnstable extends ItemDaemon {
 			world.playSoundAtEntity(player, "random.bow", 0.5F,
 					0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
-			if (!world.isRemote) {
+			if (ModDaemon.proxy.isSimulating()) {
 				world.spawnEntityInWorld(new EntityEnderPearl(world, player));
 			}
 

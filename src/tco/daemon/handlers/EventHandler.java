@@ -17,23 +17,26 @@ import tco.daemon.util.ReferenceConfigs;
 public class EventHandler {
 	@ForgeSubscribe
 	public void onLivingHurt(LivingHurtEvent event) {
-		//fire amulets
-		if(event.entityLiving instanceof EntityPlayer && event.source.fireDamage()) {
-			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			if(player.inventory.hasItem(ModDaemon.instance.amuletBlaze.shiftedIndex)
-					&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_BLAZE, 0, 0)){
-				player.extinguish();
-				event.ammount = Math.max(event.ammount - 2, 0);
-			} else if(player.inventory.hasItem(ModDaemon.instance.amuletFire.shiftedIndex)
-					&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_FIRE, 0, 0)) {
-				event.ammount = Math.max(event.ammount - 1, 1);
-			}
-		}
-		//unlife amulet
 		if(event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
-			int unlifeId = ModDaemon.instance.amuletUnlife.shiftedIndex;
-			if(player.getHealth() <= event.ammount){
+			//fire amulets
+			if(event.source.fireDamage()){
+				if(player.inventory.hasItem(ModDaemon.instance.amuletInferno.shiftedIndex)
+						&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_INFERNO, 0, 0)) {
+					player.extinguish();
+					event.ammount = 0;
+				} else if(player.inventory.hasItem(ModDaemon.instance.amuletBlaze.shiftedIndex)
+						&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_BLAZE, 0, 0)) {
+					player.extinguish();
+					event.ammount = Math.max(event.ammount - 2, 0);
+				} else if(player.inventory.hasItem(ModDaemon.instance.amuletFire.shiftedIndex)
+						&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_FIRE, 0, 0)) {
+					event.ammount = Math.max(event.ammount - 1, 1);
+				}
+			}
+			//unlife amulet
+			else if(player.getHealth() <= event.ammount){
+				int unlifeId = ModDaemon.instance.amuletUnlife.shiftedIndex;
 				if(DaemonEnergy.drainEnergy(player, ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH) &&
@@ -42,6 +45,13 @@ public class EventHandler {
 					event.setCanceled(true);
 				}
 			}
+			//miner amulet
+			else if("inWall".equals(event.source.getDamageType())) {}//negate
+			else if("drown".equals(event.source.getDamageType())) {}//negate
+			else if("fall".equals(event.source.getDamageType())) {}//reduce by 25%
+			else if("explosion".equals(event.source.getDamageType())) {}//reduce by 25%
+			//shield ring
+			//TODO reduce by 50%
 		}
 	}
 

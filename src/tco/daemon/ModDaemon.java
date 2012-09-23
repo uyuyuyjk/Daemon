@@ -85,6 +85,7 @@ public class ModDaemon {
 	public Item daemonBrazier;
 
 	public Item matrixContained;
+	public Item twistedSeed;
 	public Item birdCannnon;
 	public Item arrowUnstable;
 
@@ -186,6 +187,8 @@ public class ModDaemon {
 		//misc.
 		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContained)
 		.setItemName("matrixContained");
+		twistedSeed = new ItemTwistedSeed(ReferenceConfigs.twistedSeed)
+		.setItemName("twistedSeed");
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
 		.setIconCoord(0, 4).setItemName("birdCannon");
 		arrowUnstable = new ItemArrowUnstable(ReferenceConfigs.arrowUnstable)
