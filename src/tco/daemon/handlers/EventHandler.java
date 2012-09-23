@@ -33,7 +33,8 @@ public class EventHandler {
 		if(event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			int unlifeId = ModDaemon.instance.amuletUnlife.shiftedIndex;
-			if(player.getHealth() <= event.ammount){
+			if(player.getHealth() <= event.ammount &&
+					!"outOfWorld".equals(event.source.getDamageType())){
 				if(DaemonEnergy.drainEnergy(player, ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH,
 						ReferenceConfigs.ENERGY_UNDEATH) &&

@@ -27,10 +27,6 @@ public class CraftingHandler implements ICraftingHandler {
 			de.diseaseEnergy = rand.nextInt(50);
 			de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy;
 			UtilItem.setDaemonEnergy(item, de);
-		} else if(item.getItem() == ModDaemon.instance.shardDark) {
-			if(rand.nextInt(4) != 0){
-				item.stackSize--;
-			}
 		}
 	}
 

@@ -5,6 +5,8 @@ import java.util.List;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.DamageSource;
+import net.minecraft.src.Entity;
+import net.minecraft.src.EntityList;
 import net.minecraft.src.EntityLiving;
 import net.minecraft.src.EntityZombie;
 import net.minecraft.src.Item;
@@ -15,9 +17,9 @@ import tco.daemon.util.UtilItem;
 
 public class TileEntityDaemonAltar extends TileEntityDaemon {
 
-	private boolean active = false;
-	private int timer = 0;
-	private List<EntityLiving> champions = new LinkedList<EntityLiving>();
+	protected boolean active = false;
+	protected int timer = 0;
+	protected List<Entity> champions = new LinkedList<Entity>();
 
 	@Override
 	public void updateMatrix(){
@@ -25,24 +27,20 @@ public class TileEntityDaemonAltar extends TileEntityDaemon {
 		if(!ModDaemon.proxy.isSimulating()){return;}
 		checkActive();
 		if(active) {
-			List<EntityLiving> dead = new LinkedList<EntityLiving>();
-			for(EntityLiving e : champions) {
-				if(e.isDead){
-					dead.add(e);
-					UtilItem.dropItem(worldObj, new ItemStack(Item.goldNugget), xCoord, yCoord, zCoord);
+			timer--;
+			if(timer <= 0) {
+				timer = 0;
+				destroyChampions();
+			} else {
+				removeDead();
+				if(champions.size() == 0) {
+					timer = 0;
+					UtilItem.dropItem(worldObj, new ItemStack(Item.ingotGold), xCoord, yCoord, zCoord);
 				}
-			}
-			champions.removeAll(dead);
-			if(champions.size() < 5 && worldObj.rand.nextInt(champions.size() + 1) == 0) {
-				summonChampion(new EntityZombie(worldObj), 2);
 			}
 		} else {
-			for(EntityLiving e : champions) {
-				if(!e.isDead){
-					e.attackEntityFrom(DamageSource.outOfWorld, 1337);
-				}
-			}
-			champions.clear();
+			timer = 0;
+			destroyChampions();
 		}
 	}
 
@@ -61,14 +59,47 @@ public class TileEntityDaemonAltar extends TileEntityDaemon {
 		}
 		active = true;
 	}
+	
+	public void challenge() {
+		if(timer <= 0) {
+			timer = 30;
+			for(int i = 0; i < 10; i++) {
+				summonChampion(EntityList.createEntityByName("Zombie", worldObj), 2);
+			}
+		}
+	}
 
-	public void summonChampion(EntityLiving entity, int radius){
+	public void summonChampion(Entity entity, int radius){
 		double x = xCoord + (worldObj.rand.nextDouble() - worldObj.rand.nextDouble()) * radius;
 		double y = yCoord + worldObj.rand.nextInt(3);
 		double z = zCoord + (worldObj.rand.nextDouble() - worldObj.rand.nextDouble()) * radius;
 		entity.setLocationAndAngles(x, y, z, worldObj.rand.nextFloat() * 360.0F, 0.0F);
 		champions.add(entity);
 		worldObj.spawnEntityInWorld(entity);
+	}
+	
+	public void removeDead() {
+		List<Entity> dead = new LinkedList<Entity>();
+		for(Entity e : champions) {
+			if(e.isDead){
+				dead.add(e);
+			}
+		}
+		champions.removeAll(dead);
+	}
+
+	public void destroyChampions() {
+		for(Entity e : champions) {
+			if(!e.isDead){
+				e.attackEntityFrom(DamageSource.outOfWorld, 1337);
+			}
+		}
+		champions.clear();
+	}
+
+	public void invalidate() {
+		super.invalidate();
+		destroyChampions();
 	}
 
 

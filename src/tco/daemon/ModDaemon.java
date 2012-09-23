@@ -313,7 +313,7 @@ public class ModDaemon {
 				UtilItem.setDaemonEnergy(stack, de);
 			}
 		});
-		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 1));
+		DecomposerRecipes.addRecipe(blockCursedStone.blockID, 50, new ItemStack(shardDark, 2));
 	}
 
 }
