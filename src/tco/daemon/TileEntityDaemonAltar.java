@@ -7,8 +7,6 @@ import net.minecraft.src.Block;
 import net.minecraft.src.DamageSource;
 import net.minecraft.src.Entity;
 import net.minecraft.src.EntityList;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityZombie;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
@@ -59,7 +57,7 @@ public class TileEntityDaemonAltar extends TileEntityDaemon {
 		}
 		active = true;
 	}
-	
+
 	public void challenge() {
 		if(timer <= 0) {
 			timer = 30;
@@ -77,7 +75,7 @@ public class TileEntityDaemonAltar extends TileEntityDaemon {
 		champions.add(entity);
 		worldObj.spawnEntityInWorld(entity);
 	}
-	
+
 	public void removeDead() {
 		List<Entity> dead = new LinkedList<Entity>();
 		for(Entity e : champions) {
@@ -97,6 +95,7 @@ public class TileEntityDaemonAltar extends TileEntityDaemon {
 		champions.clear();
 	}
 
+	@Override
 	public void invalidate() {
 		super.invalidate();
 		destroyChampions();
