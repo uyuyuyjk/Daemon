@@ -3,6 +3,8 @@
 /temp/*
 /jars/*
 *.jar
+*.bat
+*.sh
 
 #################
 ## Eclipse

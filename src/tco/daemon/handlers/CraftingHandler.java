@@ -22,9 +22,9 @@ public class CraftingHandler implements ICraftingHandler {
 		Random rand = new Random();
 		if(item.getItem() == ModDaemon.instance.crystal) {
 			DaemonEnergy de = UtilItem.getDaemonEnergy(item);
-			de.deathEnergy = rand.nextInt(50);
-			de.decayEnergy = rand.nextInt(50);
-			de.diseaseEnergy = rand.nextInt(50);
+			de.deathEnergy = rand.nextInt(0x4F) - 8;
+			de.decayEnergy = rand.nextInt(0x4F) - 8;
+			de.diseaseEnergy = rand.nextInt(0x4F) - 8;
 			de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy;
 			UtilItem.setDaemonEnergy(item, de);
 		}

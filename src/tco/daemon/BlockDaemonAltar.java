@@ -24,10 +24,16 @@ public class BlockDaemonAltar extends BlockContainer {
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z,
 			EntityPlayer player, int par6, float par7, float par8, float par9) {
+		if(player.isSneaking()) {
+			return false;
+		}
 		TileEntity te = world.getBlockTileEntity(x, y, z);
-		if(ModDaemon.proxy.isSimulating() && te instanceof TileEntityDaemonAltar) {
-			if(player.inventory.consumeInventoryItem(ModDaemon.instance.shardDark.shiftedIndex)){
-				((TileEntityDaemonAltar) te).challenge();
+		if(ModDaemon.proxy.isSimulating()
+				&& te instanceof TileEntityDaemonAltar) {
+			if(player.inventory.hasItem(ModDaemon.instance.shardDark.shiftedIndex)) {
+				if(((TileEntityDaemonAltar) te).challenge()) {
+					player.inventory.consumeInventoryItem(ModDaemon.instance.shardDark.shiftedIndex);
+				}
 			}
 		}
 		return true;

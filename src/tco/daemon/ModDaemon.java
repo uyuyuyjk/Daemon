@@ -134,13 +134,11 @@ public class ModDaemon {
 		GameRegistry.registerCraftingHandler(new CraftingHandler());
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
-
-		proxy.registerRenderInformation();
 	}
 
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
-
+		proxy.registerRenderInformation();
 	}
 
 	@ServerStarting
@@ -191,8 +189,8 @@ public class ModDaemon {
 		//misc.
 		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContained)
 		.setItemName("matrixContained");
-		twistedSeed = new ItemTwistedSeed(ReferenceConfigs.twistedSeed)
-		.setItemName("twistedSeed");
+		twistedSeed = new ItemTwistedSeed(ReferenceConfigs.twistedSeed).setRarity(EnumRarity.epic)
+		.setIconCoord(7, 1).setItemName("twistedSeed");
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
 		.setIconCoord(0, 4).setItemName("birdCannon");
 		arrowUnstable = new ItemArrowUnstable(ReferenceConfigs.arrowUnstable)
@@ -309,9 +307,9 @@ public class ModDaemon {
 			public void handleCraft(ItemStack stack) {
 				Random rand = new Random();
 				DaemonEnergy de = UtilItem.getDaemonEnergy(stack);
-				de.deathEnergy = rand.nextInt(255);
-				de.decayEnergy = rand.nextInt(255);
-				de.diseaseEnergy = rand.nextInt(255);
+				de.deathEnergy = rand.nextInt(0xFF - 0xF) - 0xF;
+				de.decayEnergy = rand.nextInt(0xFF - 0xF) - 0xF;
+				de.diseaseEnergy = rand.nextInt(0xFF - 0xF) - 0xF;
 				de.maxEnergy = de.deathEnergy + de.decayEnergy + de.diseaseEnergy;
 				UtilItem.setDaemonEnergy(stack, de);
 			}

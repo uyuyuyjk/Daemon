@@ -3,6 +3,7 @@ package tco.daemon.handlers;
 import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -15,17 +16,36 @@ import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.util.ReferenceConfigs;
 
 public class EventHandler {
+
+	@ForgeSubscribe
+	public void onLivingAttack(LivingAttackEvent event){
+		//called when an entity is attacked, can cancel the attack
+		if(event.entityLiving instanceof EntityPlayer) {
+			EntityPlayer player = (EntityPlayer) event.entityLiving;
+
+			if(event.source.fireDamage()){
+				//fire amulet
+				if(player.inventory.hasItem(ModDaemon.instance.amuletInferno.shiftedIndex)
+						&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_INFERNO, 0, 0)) {
+					player.extinguish();
+					event.setCanceled(true);
+					return;
+				}
+			}
+			//miner amulet
+			if("inWall".equals(event.source.getDamageType())) {}//negate
+			if("drown".equals(event.source.getDamageType())) {}//negate
+		}
+	}
+
 	@ForgeSubscribe
 	public void onLivingHurt(LivingHurtEvent event) {
+		//called when an entity is damaged, can change damage amt
 		if(event.entityLiving instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.entityLiving;
 			//fire amulets
 			if(event.source.fireDamage()){
-				if(player.inventory.hasItem(ModDaemon.instance.amuletInferno.shiftedIndex)
-						&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_INFERNO, 0, 0)) {
-					player.extinguish();
-					event.ammount = 0;
-				} else if(player.inventory.hasItem(ModDaemon.instance.amuletBlaze.shiftedIndex)
+				if(player.inventory.hasItem(ModDaemon.instance.amuletBlaze.shiftedIndex)
 						&& DaemonEnergy.drainEnergy(player, ReferenceConfigs.DEATH_ENERGY_BLAZE, 0, 0)) {
 					player.extinguish();
 					event.ammount = Math.max(event.ammount - 2, 0);
@@ -35,24 +55,22 @@ public class EventHandler {
 				}
 			}
 			//unlife amulet
-			else if(player.getHealth() <= event.ammount){
-				int unlifeId = ModDaemon.instance.amuletUnlife.shiftedIndex;
+			if(player.inventory.hasItem(ModDaemon.instance.amuletUnlife.shiftedIndex)){
 				if(player.getHealth() <= event.ammount &&
 						!"outOfWorld".equals(event.source.getDamageType())){
-					if(DaemonEnergy.drainEnergy(player, ReferenceConfigs.ENERGY_UNDEATH,
+					if(DaemonEnergy.drainEnergy(player,
 							ReferenceConfigs.ENERGY_UNDEATH,
-							ReferenceConfigs.ENERGY_UNDEATH) &&
-							player.inventory.hasItem(unlifeId)) {
-						player.heal(player.getMaxHealth() / 2);
-						event.setCanceled(true);
+							ReferenceConfigs.ENERGY_UNDEATH,
+							ReferenceConfigs.ENERGY_UNDEATH)) {
+						event.ammount = player.getHealth() - 1;
 					}
 				}
 			}
 			//miner amulet
-			else if("inWall".equals(event.source.getDamageType())) {}//negate
-			else if("drown".equals(event.source.getDamageType())) {}//negate
-			else if("fall".equals(event.source.getDamageType())) {}//reduce by 25%
-			else if("explosion".equals(event.source.getDamageType())) {}//reduce by 25%
+			if("inWall".equals(event.source.getDamageType())) {}//negate
+			if("drown".equals(event.source.getDamageType())) {}//negate
+			if("fall".equals(event.source.getDamageType())) {}//reduce by 25%
+			if("explosion".equals(event.source.getDamageType())) {}//reduce by 25%
 			//shield ring
 			//TODO reduce by 50%
 		}
@@ -73,7 +91,7 @@ public class EventHandler {
 	@ForgeSubscribe
 	public void onLivingSetAttack(LivingSetAttackTargetEvent event) {
 		if(event.entityLiving.isEntityUndead()) {
-			event.entityLiving.setFire(5); //TODO lol
+			event.entityLiving.setFire(10); //TODO lol
 		}
 	}
 

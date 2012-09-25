@@ -58,13 +58,15 @@ public class TileEntityDaemonAltar extends TileEntityDaemon {
 		active = true;
 	}
 
-	public void challenge() {
-		if(timer <= 0) {
+	public boolean challenge() {
+		if(active && timer <= 0) {
 			timer = 30;
 			for(int i = 0; i < 10; i++) {
 				summonChampion(EntityList.createEntityByName("Zombie", worldObj), 2);
 			}
+			return true;
 		}
+		return false;
 	}
 
 	public void summonChampion(Entity entity, int radius){
