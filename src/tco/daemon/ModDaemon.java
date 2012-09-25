@@ -84,6 +84,7 @@ public class ModDaemon {
 	public Item daemonBrazier;
 
 	public Item matrixContained;
+	public Item enderContainment;
 	public Item twistedSeed;
 	public Item birdCannnon;
 	public Item arrowUnstable;
@@ -182,13 +183,15 @@ public class ModDaemon {
 
 	private void loadItems(){
 		//blocks
-		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazier, blockBrazier).setItemName("daemonBrazier")
-				.setTabToDisplayOn(CreativeTabs.tabMisc);
+		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazier, blockBrazier)
+		.setItemName("daemonBrazier").setTabToDisplayOn(CreativeTabs.tabMisc);
 		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 
 		//misc.
 		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContained)
 		.setItemName("matrixContained");
+		enderContainment = new ItemEnderContainment(ReferenceConfigs.enderContainment)
+		.setRarity(EnumRarity.rare).setItemName("enderContainment");
 		twistedSeed = new ItemTwistedSeed(ReferenceConfigs.twistedSeed).setRarity(EnumRarity.epic)
 		.setIconCoord(7, 1).setItemName("twistedSeed");
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)

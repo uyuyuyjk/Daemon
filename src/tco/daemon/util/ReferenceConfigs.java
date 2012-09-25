@@ -75,7 +75,10 @@ public class ReferenceConfigs {
 	//misc.
 	public static @ConfigId int daemonBrazier = 5400;
 
-	public static @ConfigId int matrixContained = 5401, twistedSeed = 5500, birdCannnon = 5402;
+	public static @ConfigId int matrixContained = 5401,
+			enderContainment = 5501,
+			twistedSeed = 5500,
+			birdCannnon = 5402;
 
 	public static @ConfigId int arrowUnstable = 5403;
 
@@ -87,7 +90,7 @@ public class ReferenceConfigs {
 	//amulets
 	public static @ConfigId int amuletFire = 5407,
 			amuletBlaze = 5408,
-			amuletInferno = 5409, //TODO use
+			amuletInferno = 5409,
 			amuletUnlife = 5410;
 
 	//staves
