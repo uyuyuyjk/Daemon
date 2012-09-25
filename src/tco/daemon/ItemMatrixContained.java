@@ -5,6 +5,7 @@ import net.minecraft.src.EnumRarity;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.World;
 import tco.daemon.util.ReferenceTiles;
+import tco.daemon.util.UtilItem;
 
 public class ItemMatrixContained extends ItemDaemon {
 
@@ -16,6 +17,7 @@ public class ItemMatrixContained extends ItemDaemon {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+		UtilItem.setUniqueItem(itemStack, player);
 		player.openGui(ModDaemon.instance, ReferenceTiles.CONTAINED_MATRIX, world, 0, 0, 0);
 		return itemStack;
 	}

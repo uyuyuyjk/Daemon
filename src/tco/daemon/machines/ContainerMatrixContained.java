@@ -13,7 +13,7 @@ public class ContainerMatrixContained extends ContainerDaemon {
 
 	public ContainerMatrixContained(EntityPlayer player) {
 		super(null);
-		inventory = UtilItem.getInventory(player.inventory.getCurrentItem());
+		inventory = UtilItem.getInventory(player, player.inventory.getCurrentItem());
 		for (int i = 0; i < DaemonMatrix.MATRIX_DIM; i++) {
 			for (int j = 0; j < DaemonMatrix.MATRIX_DIM; j++) {
 				addSlotToContainer(new Slot(inventory, 4 * i + j, 71 + 16 * j

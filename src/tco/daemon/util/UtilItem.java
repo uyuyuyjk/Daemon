@@ -3,6 +3,7 @@ package tco.daemon.util;
 import java.util.Random;
 
 import net.minecraft.src.EntityItem;
+import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
@@ -25,6 +26,34 @@ public class UtilItem {
 		return false;
 	}
 
+	//UniqueItem
+	private static final String ID_TAG = "UniqueItem";
+	public static void setUniqueItem(ItemStack stack, EntityPlayer player) {
+		checkTagCompound(stack);
+		NBTTagCompound tagCompound = stack.getTagCompound();
+		if(!tagCompound.hasKey(ID_TAG)) {
+			tagCompound.setString(ID_TAG, player.username + 
+					player.posX + player.posY + player.posZ + Math.random());
+		}
+	}
+
+	public static ItemStack getUniqueItem(int itemId, String uniqueId, IInventory inventory) {
+		for(int i = 0; i < inventory.getSizeInventory(); i++) {
+			ItemStack stack = inventory.getStackInSlot(i);
+			if(stack != null && stack.itemID == itemId && stack.hasTagCompound()) {
+				if(uniqueId.equals(stack.getTagCompound().getString(ID_TAG))) {
+					return stack;
+				}
+			}
+		}
+		return null;	
+	}
+
+	public static ItemStack getUniqueItem(ItemStack reference, IInventory inventory) {
+		checkTagCompound(reference);
+		return getUniqueItem(reference.itemID, reference.getTagCompound().getString(ID_TAG), inventory);
+	}
+
 	//DaemonEnergy
 	public static DaemonEnergy getDaemonEnergy(ItemStack itemStack){
 		checkTagCompound(itemStack);
@@ -38,9 +67,9 @@ public class UtilItem {
 	}
 
 	//InventoryItem
-	public static IInventory getInventory(ItemStack stack){
+	public static IInventory getInventory(EntityPlayer player, ItemStack stack){
 		checkTagCompound(stack);
-		InventoryItem inv = new InventoryItem("inventory", DaemonMatrix.MATRIX_SIZE, stack);
+		InventoryItem inv = new InventoryItem("inventory", DaemonMatrix.MATRIX_SIZE, player, stack);
 		inv.getFromNBT(stack.getTagCompound());
 		return inv;
 	}
