@@ -77,6 +77,7 @@ public class ReferenceConfigs {
 
 	public static @ConfigId int matrixContained = 5401,
 			enderContainment = 5501,
+			enderExtension = 5502,
 			twistedSeed = 5500,
 			birdCannnon = 5402;
 

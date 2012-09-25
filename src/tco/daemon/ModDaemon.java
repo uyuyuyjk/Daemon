@@ -85,6 +85,7 @@ public class ModDaemon {
 
 	public Item matrixContained;
 	public Item enderContainment;
+	public Item enderExtension;
 	public Item twistedSeed;
 	public Item birdCannnon;
 	public Item arrowUnstable;
@@ -192,8 +193,10 @@ public class ModDaemon {
 		.setItemName("matrixContained");
 		enderContainment = new ItemEnderContainment(ReferenceConfigs.enderContainment)
 		.setRarity(EnumRarity.rare).setItemName("enderContainment");
+		enderExtension = new ItemDaemon(ReferenceConfigs.enderExtension)
+		.setRarity(EnumRarity.rare).setItemName("enderExtension");
 		twistedSeed = new ItemTwistedSeed(ReferenceConfigs.twistedSeed).setRarity(EnumRarity.epic)
-		.setIconCoord(7, 1).setItemName("twistedSeed");
+				.setIconCoord(7, 1).setItemName("twistedSeed");
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
 		.setIconCoord(0, 4).setItemName("birdCannon");
 		arrowUnstable = new ItemArrowUnstable(ReferenceConfigs.arrowUnstable)

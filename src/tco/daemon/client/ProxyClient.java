@@ -1,5 +1,6 @@
 package tco.daemon.client;
 
+import net.minecraft.src.Packet250CustomPayload;
 import net.minecraftforge.client.MinecraftForgeClient;
 import tco.daemon.EntityArrowUnstable;
 import tco.daemon.EntityGateway;
@@ -11,7 +12,6 @@ import tco.daemon.client.render.RenderArrowUnstable;
 import tco.daemon.client.render.RenderBrazier;
 import tco.daemon.client.render.RenderGateway;
 import tco.daemon.client.render.TextureFXCrystal;
-import tco.daemon.handlers.PacketDaemon;
 import tco.daemon.util.ReferenceConfigs;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.TextureFXManager;
@@ -47,7 +47,8 @@ public class ProxyClient extends ProxyCommon {
 				new RenderGateway(new ModelGateway()));
 	}
 
-	public void sendToServer(PacketDaemon packet) {
-		PacketDispatcher.sendPacketToServer(packet.writePacket());
+	@Override
+	public void sendToServer(Packet250CustomPayload packet) {
+		PacketDispatcher.sendPacketToServer(packet);
 	}
 }

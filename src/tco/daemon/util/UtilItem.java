@@ -12,7 +12,6 @@ import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.energy.DaemonEnergy;
-import tco.daemon.matrix.DaemonMatrix;
 
 public class UtilItem {
 
@@ -32,7 +31,7 @@ public class UtilItem {
 		checkTagCompound(stack);
 		NBTTagCompound tagCompound = stack.getTagCompound();
 		if(!tagCompound.hasKey(ID_TAG)) {
-			tagCompound.setString(ID_TAG, player.username + 
+			tagCompound.setString(ID_TAG, player.username +
 					player.posX + player.posY + player.posZ + Math.random());
 		}
 	}
@@ -46,7 +45,7 @@ public class UtilItem {
 				}
 			}
 		}
-		return null;	
+		return null;
 	}
 
 	public static ItemStack getUniqueItem(ItemStack reference, IInventory inventory) {
@@ -67,9 +66,9 @@ public class UtilItem {
 	}
 
 	//InventoryItem
-	public static IInventory getInventory(EntityPlayer player, ItemStack stack){
+	public static IInventory getInventory(EntityPlayer player, ItemStack stack, IInventory container, int defaultSize){
 		checkTagCompound(stack);
-		InventoryItem inv = new InventoryItem("inventory", DaemonMatrix.MATRIX_SIZE, player, stack);
+		InventoryItem inv = new InventoryItem("inventory", defaultSize, container, stack);
 		inv.getFromNBT(stack.getTagCompound());
 		return inv;
 	}
