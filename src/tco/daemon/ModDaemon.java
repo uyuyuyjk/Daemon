@@ -185,18 +185,18 @@ public class ModDaemon {
 	private void loadItems(){
 		//blocks
 		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazier, blockBrazier)
-		.setItemName("daemonBrazier").setTabToDisplayOn(CreativeTabs.tabMisc);
-		daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
+		.setIconCoord(12, 9).setItemName("daemonBrazier").setTabToDisplayOn(CreativeTabs.tabMisc);
+		//daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 
 		//misc.
 		matrixContained = new ItemMatrixContained(ReferenceConfigs.matrixContained)
 		.setItemName("matrixContained");
 		enderContainment = new ItemEnderContainment(ReferenceConfigs.enderContainment)
-		.setRarity(EnumRarity.rare).setItemName("enderContainment");
+		.setRarity(EnumRarity.rare).setIconCoord(4, 3).setItemName("enderContainment");
 		enderExtension = new ItemDaemon(ReferenceConfigs.enderExtension)
-		.setRarity(EnumRarity.rare).setItemName("enderExtension");
+		.setRarity(EnumRarity.rare).setIconCoord(5, 3).setItemName("enderExtension");
 		twistedSeed = new ItemTwistedSeed(ReferenceConfigs.twistedSeed).setRarity(EnumRarity.epic)
-				.setIconCoord(7, 1).setItemName("twistedSeed");
+				.setIconCoord(4, 2).setItemName("twistedSeed");
 		birdCannnon = new ItemBirdCannon(ReferenceConfigs.birdCannnon)
 		.setIconCoord(0, 4).setItemName("birdCannon");
 		arrowUnstable = new ItemArrowUnstable(ReferenceConfigs.arrowUnstable)
