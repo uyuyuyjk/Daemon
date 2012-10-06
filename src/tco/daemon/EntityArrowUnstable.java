@@ -148,7 +148,7 @@ public class EntityArrowUnstable extends Entity
 				if (shootingEntity != null && shootingEntity instanceof EntityPlayerMP) {
 					EntityPlayerMP player = (EntityPlayerMP) shootingEntity;
 
-					if (!player.serverForThisPlayer.serverShuttingDown && player.worldObj == worldObj) {
+					if (!player.playerNetServerHandler.connectionClosed && player.worldObj == worldObj) {
 						player.setPositionAndUpdate(posX, posY, posZ);
 						player.fallDistance = 0.0F;
 						player.attackEntityFrom(DamageSource.fall, 5);

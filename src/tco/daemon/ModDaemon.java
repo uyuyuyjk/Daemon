@@ -36,18 +36,37 @@ import net.minecraft.src.ItemReed;
 import net.minecraft.src.ItemStack;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
-import tco.daemon.energy.DaemonEnergy;
-import tco.daemon.energy.DecomposerRecipes;
-import tco.daemon.handlers.CraftingHandler;
-import tco.daemon.handlers.EventHandler;
-import tco.daemon.handlers.GuiHandler;
-import tco.daemon.handlers.PacketHandler;
+import tco.daemon.core.handlers.CraftingHandler;
+import tco.daemon.core.handlers.EventHandler;
+import tco.daemon.core.handlers.GuiHandler;
+import tco.daemon.core.handlers.PacketHandler;
+import tco.daemon.item.ItemAmuletBlaze;
+import tco.daemon.item.ItemAmuletFire;
+import tco.daemon.item.ItemArrowUnstable;
+import tco.daemon.item.ItemBirdCannon;
+import tco.daemon.item.ItemCrystal;
+import tco.daemon.item.ItemDaemon;
+import tco.daemon.item.ItemDagger;
+import tco.daemon.item.ItemDaggerRitual;
+import tco.daemon.item.ItemEnderContainment;
+import tco.daemon.item.ItemMatrixContained;
+import tco.daemon.item.ItemOrb;
+import tco.daemon.item.ItemOrbMold;
+import tco.daemon.item.ItemOrbStable;
+import tco.daemon.item.ItemOrbUnstable;
+import tco.daemon.item.ItemOrbWolf;
+import tco.daemon.item.ItemShard;
+import tco.daemon.item.ItemShardGlass;
+import tco.daemon.item.ItemStaff;
+import tco.daemon.item.ItemTwistedSeed;
 import tco.daemon.machines.BlockBrazier;
 import tco.daemon.machines.BlockDaemonMachine;
 import tco.daemon.machines.ItemBlockDaemonMachine;
 import tco.daemon.util.ReferenceConfigs;
 import tco.daemon.util.ReferenceTiles;
 import tco.daemon.util.UtilItem;
+import tco.daemon.util.energy.DaemonEnergy;
+import tco.daemon.util.energy.DecomposerRecipes;
 import tco.daemon.world.WorldGeneratorDaemonOres;
 import tco.daemon.world.WorldProviderDaemon;
 import cpw.mods.fml.common.Mod;
@@ -185,7 +204,7 @@ public class ModDaemon {
 	private void loadItems(){
 		//blocks
 		daemonBrazier = new ItemReed(ReferenceConfigs.daemonBrazier, blockBrazier)
-		.setIconCoord(12, 9).setItemName("daemonBrazier").setTabToDisplayOn(CreativeTabs.tabMisc);
+		.setIconCoord(12, 9).setItemName("daemonBrazier").setCreativeTab(CreativeTabs.tabMisc);
 		//daemonBrazier.setTextureFile(ReferenceConfigs.TEXTURE_ITEMS);
 
 		//misc.

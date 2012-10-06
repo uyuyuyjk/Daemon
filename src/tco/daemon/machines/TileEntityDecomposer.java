@@ -3,10 +3,10 @@ package tco.daemon.machines;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.NBTTagCompound;
 import net.minecraftforge.common.ForgeDirection;
-import tco.daemon.energy.DaemonEnergy;
-import tco.daemon.energy.DecomposerRecipes;
-import tco.daemon.matrix.DaemonMatrix;
 import tco.daemon.util.UtilItem;
+import tco.daemon.util.energy.DaemonEnergy;
+import tco.daemon.util.energy.DecomposerRecipes;
+import tco.daemon.util.matrix.DaemonMatrix;
 
 public class TileEntityDecomposer extends TileEntityDaemon {
 

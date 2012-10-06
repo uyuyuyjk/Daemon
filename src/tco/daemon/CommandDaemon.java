@@ -6,9 +6,9 @@ import net.minecraft.src.ICommandSender;
 import net.minecraft.src.InventoryPlayer;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.WrongUsageException;
-import tco.daemon.energy.DaemonEnergy;
 import tco.daemon.util.ReferenceConfigs;
 import tco.daemon.util.UtilItem;
+import tco.daemon.util.energy.DaemonEnergy;
 
 public class CommandDaemon extends CommandBase {
 

@@ -4,8 +4,8 @@ import net.minecraft.src.EntityPlayer;
 import net.minecraft.src.IInventory;
 import net.minecraft.src.ItemStack;
 import net.minecraft.src.Slot;
-import tco.daemon.matrix.DaemonMatrix;
 import tco.daemon.util.UtilItem;
+import tco.daemon.util.matrix.DaemonMatrix;
 
 public class ContainerMatrixContained extends ContainerDaemon {
 

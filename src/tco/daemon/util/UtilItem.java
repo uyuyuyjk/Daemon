@@ -11,7 +11,7 @@ import net.minecraft.src.NBTTagCompound;
 import net.minecraft.src.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
-import tco.daemon.energy.DaemonEnergy;
+import tco.daemon.util.energy.DaemonEnergy;
 
 public class UtilItem {
 

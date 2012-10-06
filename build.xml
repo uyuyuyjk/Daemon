@@ -2,7 +2,7 @@
 
 	<property name="version" value="0.1.2a" />
 	<property name="mcp.version" value="72" />
-	<property name="forge.version" value="4.1.1.251" />
+	<property name="forge.version" value="4.1.4.297" />
 	
 	<property name="daemon.dir" value="src" />
 	<property name="jars.dir" value="jars" />

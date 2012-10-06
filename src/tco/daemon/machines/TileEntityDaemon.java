@@ -9,11 +9,11 @@ import net.minecraft.src.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.ISidedInventory;
 import tco.daemon.ModDaemon;
-import tco.daemon.energy.DaemonEnergy;
-import tco.daemon.matrix.DaemonMatrix;
-import tco.daemon.matrix.IMatrixAction;
-import tco.daemon.matrix.IMatrixActivator;
 import tco.daemon.util.UtilItem;
+import tco.daemon.util.energy.DaemonEnergy;
+import tco.daemon.util.matrix.DaemonMatrix;
+import tco.daemon.util.matrix.IMatrixAction;
+import tco.daemon.util.matrix.IMatrixActivator;
 
 public class TileEntityDaemon extends TileEntity implements ISidedInventory {
 

@@ -30,8 +30,8 @@ public class WorldProviderDaemon extends WorldProvider {
 	}
 
 	@Override
-	public String func_80007_l() {
-		return "Daemons' Throne";
+	public String getDimensionName() {
+		return "Daemons Throne";
 	}
 
 }
